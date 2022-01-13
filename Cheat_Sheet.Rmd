@@ -1,0 +1,1240 @@
+---
+title: "Cheat Sheet"
+date: "`r Sys.Date()`"
+author: "Justin Meisenhelter"
+output: 
+  rmdformats::downcute:
+    highlight: tango
+    df_print: paged
+    collapsed: false
+---
+
+# Python  
+
+## Indexing   
+
+### Indexing a String  
+
+`s[start_position:end_position:delta]`
+```{python}
+word = 'abcdefghijk'
+word[-1:-3:-1]
+```
+
+
+### Reversing a string  
+
+```{python}
+word[::-1]
+
+```
+### String Methods  
+
+https://www.w3schools.com/python/python_ref_string.asp
+```{r, eval=FALSE}
+word.upper()
+word.lower()
+word.strip()
+word.replace()
+word.split()
+```
+
+
+## Printing   
+
+### Modulous Operator  
+
+```{python}
+print( "hello, %f!" %2017)
+print( "hello, %i!" %2017)
+print( "hello, %.2f!" %2017)
+print( "hello, %s!" %'2017')
+
+```
+## Functions
+
+```{python}
+def square(x):  
+    return x**2
+```
+
+### Default Arguments
+```{python}
+def polynomial(x, a, b=0, c=0, d=0):  #assigning default values
+    result = a + b * x**1 + c * x**2 + d * x**3
+    return result
+
+```
+## Control Flow  
+
+### Else If  
+
+```{python}
+a=6
+if type(a)==str:
+    print('it is a string')
+else:
+    if a%2==0:
+        print('it is an even number')
+    else:
+        print('it is an odd number')
+```
+```{python}
+if type(a)==str:
+    print('it is a string')
+elif a%2==0:
+    print('it is an even number')
+else:
+    print('it is an odd number')
+```
+### While Loops  
+
+```{python}
+x = 1
+while x <= 10:
+    if x % 2 == 0 and x % 3 != 0:
+        print (x)
+    x = x + 1
+
+```
+### for loops  
+
+```{python}
+for x in range(11):
+    if x % 2 == 0 and x % 3 != 0:
+        print (x)
+```
+## Handling Errors/Exceptions  
+
+Python's **try** and **except** can provide ways to handle exceptions.
+
+Exceptions raised by statements in the body of try are handled by the except statement and execution continues with the body of the except statement.  
+
+```{python}
+def divide(x, y):
+    try:
+        result =  x / y
+    except ZeroDivisionError:
+        result = 'INFINITY'
+    except TypeError:
+        result = divide(float(x), float(y))
+    return result
+```
+## Lists
+
+### Defining Lists
+```{python}
+x=[1,2,3,4,'1','a','hello']
+print(x)
+```
+```{python}
+#create an empty list
+y = list()
+```
+
+### List Methods
+```{python}
+x.index('hello')
+```
+```{python}
+x.append(55)
+```
+
+
+
+
+### List comprehension
+```{python}
+x=[200,400,23,50,1,23,54,66,88,97,20]
+y=[i for i in x if i%2==0]
+y
+```
+Write a list comprehension that takes a list of strings and returns the capitalized version of those strings if they are greater than 2 and fewer than 12 characters in length.
+```{python}
+names=['Barry White','aj','tom','John Foster Wallace',
+       'Billy Bud','Yifan Ghost Song']
+[i.upper() if len(i) > 2 and len(i) <12 else i for i in names]
+```
+
+## Tuple  
+
+Tuples are similar to lists in many ways, except they can't be modified once you've created them.  
+
+Tuples are defined between two parentheses instead of brackets.  
+
+Tuples are iterable but immutable.  
+```{python}
+tup=("hi", True, 1.0, 2)
+tup
+
+```
+## Set  
+
+A set is an unordered sequence of unique values. 
+### Creating an empty set
+```{python}
+z=set() #creating an empty set
+z
+```
+### Set Function
+```{python}
+s={1,2,3,3,3,4}
+t={8,4,6,2}
+s.difference(t)
+s-t
+s.intersection(t)
+s&t
+s.union(t)
+s|t
+s^t
+# all non shared items in set
+```
+## Dictionary  
+
+A dictionary is a set of keys with associated values. The key must be hashable, but the value can be any object. It is also known as a hash map, hash table or set of key-value pairs.  
+```{python}
+thing={}
+thing['key1']='val1'
+thing[2]='val2'
+thing[3]=[3,2,1]
+
+```
+### Dictionary functions
+```{python}
+thing.keys()
+thing.values()
+thing.items()
+```
+### Word Frequency Histogram
+```{python}
+words=['hi','hello','hi','hi','yo','whazzup','hey','hey']
+hist={}
+for i in words:
+    if i in hist:
+        hist[i] += 1
+    else:
+        hist[i] = 1
+hist
+
+```
+## Arrays  
+
+```{python}
+import numpy as np
+nested_lst1 = [[-1,2,1,2],[5,-6,5,6],[7,8,-7,8]]
+nested_lst2 = [[1,2,1,2],[5,6,5,6],[7,8,7,8]]
+multi_ary1 = np.array(nested_lst1)
+multi_ary2 = np.array(nested_lst2)
+higher_dim = np.array([multi_ary1, multi_ary2])
+higher_dim
+```
+### Array Functions
+```{python}
+np.arange(10)
+np.linspace(0,10, 51) #(start, end, no of elements)
+np.ones((3,2)) #(array of ones of dimension 3x2)
+np.zeros((4,3,2)) #array of zeroes of dimension 4x3x2)
+high_x1 = np.array([[1,2,3],[4,5,6]])
+high_x1.shape
+x = np.arange(8)
+x.reshape([2,4], order='F') #reshapes array to 2x4 fills by columns
+```
+## Matrix
+```{python}
+x = np.matrix([3,2])
+print(type(x))
+print(x.shape)
+x
+```
+### Matrix Multiplication  
+
+The type matrix is for linear algebra, in which the matrix multiplication is always **“a row times a column”**:
+
+$$
+(1,2,3) \times \left(
+\begin{array}{c}
+1\\
+2\\
+3\\
+\end{array}
+\right)
+= (1+4+9) = 14
+$$
+### Identity Matrix  
+```{python}
+Id = np.matrix(np.eye(3))
+Id
+```
+### Inverse Matrix
+
+The identity matrix is analogous to the number one.  One is referred to as the multiplicative identity, since any number multiplied by one remains unchanged. A nonzero number has a multiplicative inverse, or reciprocal.  The product of a number and its multiplicative inverse is the multiplicative identity, one. 
+
+**For real scalars:**
+
+- nonzero number: n
+- multiplicative identity: 1
+- multiplicative inverse: $\frac{1}{n}$
+$$n \times 1 = n$$
+
+$$n \times \frac{1}{n}=1$$
+
+The analogy for a square matrix is called an inverse matrix.  A nonsingular square matrix has a multiplicative inverse, or inverse matrix.  The product of a matrix and its inverse matrix (in either order) is the identity matrix. 
+
+**For real-valued square matrices:**
+
+- nonsingular matrix: $M$
+- identity matrix: $\textbf{1}$
+- inverse: $M^{-1}$
+$$M \cdot \textbf{1} = M$$
+
+$$M \cdot M^{-1}=\textbf{1}$$
+
+$$M^{-1} \cdot M=\textbf{1}$$  
+
+- How do you find a tuple of `x`, `y` and `z` satisfying all the equations below?
+$$
+\begin{eqnarray}
+3x +2y -z &= 1\\
+2x -2y +4z &=-2\\
+-x +\frac{1}{2}y- z&= 0
+\end{eqnarray}
+$$
+
+Observe that the equation can be written as:
+
+$$
+\begin{pmatrix}
+3 &2  &-1 \\ 
+2 &-2  &4 \\
+-1&\frac{1}{2}&-1
+\end{pmatrix}
+\times
+\begin{pmatrix}
+x\\y\\z
+\end{pmatrix}
+=
+\begin{pmatrix}
+1\\-2\\0
+\end{pmatrix}
+$$
+
+$$\begin{pmatrix}
+x\\y\\z
+\end{pmatrix}=
+\begin{pmatrix}
+3 &2  &-1 \\ 
+2 &-2  &4 \\
+-1&\frac{1}{2}&-1
+\end{pmatrix}^{-1} \times
+\begin{pmatrix}
+1\\-2\\0
+\end{pmatrix}$$  
+
+
+```{python}
+M = np.matrix([[3, 2, -1],[2, -2, 4],[-1, 0.5, -1]])
+M2 = np.matrix([[1], [-2], [0]])
+M.I * M2
+```
+
+
+
+## Classes  
+
+* `Person` is the **class**
+* `name` and `age` are each an **object attribute**
+* `say` is an **object method**
+```{python}
+class Person():
+    '''This is the documentation of the class person ... here'''
+    
+    def __init__(self,a_name,a_age):#constructor
+        self.name=a_name
+        self.age=a_age
+        
+    def intro(self):
+        print("My name is",self.name,"and I am",self.age,"years old")
+
+```
+## Regular Expressions
+https://learnbyexample.github.io/python-regex-cheatsheet/
+
+
+## Files  
+
+### Opening Files
+```{python, eval=FALSE}
+f = open('fooz.txt', 'r') 
+f.read()
+f.close()
+# reads entire file as a string
+```
+### Reading Files
+```{python, eval = FALSE}
+f = open('fooz.txt', 'r')
+lines=f.readlines()
+print(lines)
+f.close()
+# reads each line as list
+```
+### Iterating Files  
+```{python, eval = FALSE}
+f = open('fooz.txt', 'r')
+for i in f:
+    print(i)
+f.close()
+```
+### Writing files
+```{python, eval = FALSE}
+f.write('this is some text.\nThis is another line.\n')
+f.write('oh snap, more lines.\nIt\'s a line.\n')
+f.close()
+```
+## Random Sampling  
+
+The `numpy.random` submodule provides random-variable generator. Some are listed below:
+
+- `randn(d0, d1, ..., dn)`: Each entry is from the “standard normal” distribution.
+
+- `rand(d0, d1, ..., dn)`: Random array with a given shape where each element is from Uniform [0, 1].
+
+- `randint(low, high, size)`: Random integers ranging from low (inclusive) to high (exclusive).
+
+- `random_integers(low, high, size)`: Random integers between low and high, both inclusive.
+
+- `random_sample(size)`: Random floats in the half-open interval [0.0, 1.0).
+
+- `choice(a[, size, replace, p])`: Generates a random sample from a given 1-D array. By default, `replace=True`.  
+```{python}
+import numpy as np
+np.random.randn(10)
+```
+## Scipy
+```{python, eval=FALSE}
+import numpy as np
+from scipy import stats
+
+from sklearn import datasets
+iris_raw = datasets.load_iris()
+```
+```{python, eval = FALSE}
+iris = iris_raw.data
+iris[0:8,:]
+sepal_len = iris[:,0] # gets first column, sepal length
+sepal_wid = iris[:,1] # gets 2nd column, sepal width
+petal_len = iris[:,2] # gets column 3, petal length
+
+```
+
+## Statistical Functions  
+```{python, eval=FALSE}
+stats.describe(sepal_len)
+np.unique(species, return_counts = True) 
+stats.ttest_1samp(petal_len, 10) # 1 sample t test
+stats.ttest_ind(sepal_len, petal_len) #2 sample t test
+stats.f_oneway(sepal_len, sepal_wid, petal_len) # ANOVA
+
+```
+## Distributions
+
+```{python, eval=FALSE}
+my_binom = stats.binom(6, 0.5) # binomial distribution
+my_binom.rvs(10) # random sampling
+my_binom.pmf(3) # returns likelyhood
+my_norm = stats.norm(3, 1) # normal distribution with mean = 3, stdev = 1
+my_norm.cdf(4) #culmulative density object
+my_norm.pdf(4)) # probability density function
+
+```
+## PANDAS
+
+### Series
+```{python}
+import pandas as pd
+obj = pd.Series(['a', 'b', 'c', 'd'])
+obj
+
+```
+#### Slicing
+```{python}
+obj[0]
+obj.index
+obj.values
+
+```
+#### Convert Dictionary to series
+```{python}
+dict_ = {1: 'a', 2: 'b', 3: 'c', 4: 'd'}
+obj3 = pd.Series(dict_)
+obj3
+obj3.to_dict() # and back to dictionary
+
+```
+### Dataframes
+
+#### Creating a dataframe  
+```{python}
+# From Dictionary
+data = {'commodity': ['Gold', 'Gold', 'Silver', 'Silver'],
+        'year': [2013, 2014, 2014, 2015],
+        'production_Moz': [107.6, 109.7, 868.3, 886.7]} 
+
+
+df = pd.DataFrame(data)
+df
+# from nested list
+df_2=pd.DataFrame([[107.6, 'Gold', 2013],
+                   [109.7, 'Gold', 2014],
+                   [868.3, 'Silver', 2014],
+                   [886.7, 'Silver', 2015]], 
+                    columns=['production_Moz','commodity','year'])
+df_2
+```
+
+#### DF Values
+```{python}
+df.values
+df.index
+df=df.set_index('commodity') # sets index to commodity column
+df=df.reset_index()
+df.columns
+df.index
+
+```
+
+#### DF slicing
+```{python}
+# how to get columns
+df.commodity
+df['commodity']
+df.iloc[1]
+df.loc[:,'commodity'] #row : Col
+df[['commodity']] # returns a df
+df['commodity'][0] # returns comodity column row 0
+df[['commodity', 'year']]
+df.loc[df['commodity'] == 'Gold', :]
+df.loc[:, df.loc[0] == '2013']
+
+```
+#### DF Functions
+```{python, eval = FALSE}
+df.sort_values('value') # column to sort on
+df.concat(df1, df2)
+pd.merge() # df1, df2, how(left, inner), on(column to merge on)
+
+```
+#### Group
+```{python, eval=FALSE}
+df.groupby('colname')
+# groups are iterable
+for item in group:
+  print item
+# make a grouypby dictionary
+group_dict = dict(iter(group))
+group.agg(['count', 'mean', 'min', 'max', 'sum', 'std'])
+```
+
+
+#### Read from file
+```{python, eval = FALSE}
+df=pd.read_csv('foo.csv')
+df
+
+```
+#### DF Null values
+```{python, eval = FALSE}
+df.isnull() # returns t/f dataframe
+np.sum(df.isnull()) # sums nulls per column
+one      2
+two      2
+three    2
+four     1
+dtype: int64
+np.sum(df_miss.isnull(), axis=1) # sums nulls per row
+df.dropna(axis=0, how='any') # drops rows with NA values
+df.fillna(0) # fills NA values
+df['one'].fillna(df_miss['one'].mean()) # fills all NAs in 'one' column with the mean
+df.interpolate() # fills NA values with a linear regression of surrounding values
+```
+## MatplotLib
+```{python, eval = FALSE}
+import matplotlib.pyplot as plt
+x=[5,5,5,10,10,30,30,20,25,40]
+plt.hist(x)
+plt.show()
+values=[1628701 ,2582830, 1432132, 476179 , 2278906]
+labels=['Manhattan','Brooklyn','Bronx','Staten Island', 'Queens']
+plt.pie(values,labels=labels)
+plt.boxplot(x)
+x=[7,8,9,11]
+y=[9,4,6,7]
+plt.bar(x,y);
+plt.barh(x,y);
+plt.scatter(x,y);
+
+```
+### Plotting Functions
+```{python, eval = FALSE}
+
+X=np.linspace(0,4*3.14,101)
+Y=np.sin(X)
+plt.plot(X,Y,'.')
+```
+### Plotting Features
+```{python, eval = FALSE}
+plt.figure(figsize=(12,6)) #figsize must be first declaration
+plt.plot(x,y,'g.-',markersize=20, linewidth=4,alpha=0.4,label='data1')
+plt.plot(x,y2,'.--',color='red',markersize=10,alpha=0.7,linewidth=0.3,label='data2')
+plt.legend(loc=1)
+plt.title('Example Plot')
+plt.xlabel('horizontal axis')
+plt.ylabel('vertical axis')
+plt.xlim(6,12)
+plt.ylim(0,10)
+plt.xticks([6,9,12])
+plt.yticks([0,4,8])
+plt.text(10,2,'some text',color='blue',size=14)
+plt.show()
+```
+
+## Seaborn
+```{python, eval = FALSE}
+import seaborn as sns
+titanic=sns.load_dataset('titanic')
+```
+```{python, eval = FALSE}
+
+sns.countplot(x="deck", data=titanic);
+plt.hist(titanic['deck'].dropna());
+sns.stripplot(x="sex",y="age",data=titanic)
+sns.swarmplot(x="sex",y="age",data=titanic)
+sns.barplot(x="sex",y="survived", data=titanic)
+sns.barplot(x="sex",y="survived", hue='class', data=titanic)
+```
+
+
+
+# R  
+
+## Markdown  
+
+### Formatting  
+For basic formatting for your output HTML document    
+(how to update your YAML Preamble):  
+
+https://bookdown.org/yihui/rmarkdown/html-document.html  
+
+
+### Themes:  
+
+https://www.datadreaming.org/post/r-markdown-theme-gallery/  
+
+
+### Code Chunk   
+
+https://yihui.org/knitr/options/  
+
+
+### Advanced Themes:  
+
+https://cran.r-project.org/web/packages/rmdformats/readme/README.html 
+
+
+### LaTex:  
+
+https://joshua.smcvt.edu/undergradmath/undergradmath.pdf  
+
+
+### HTML   
+
+colors, fonts, etc... (most tags will not work if placed around codechunks, or will not work as expected)  
+
+https://daringfireball.net/projects/markdown/syntax  
+
+## Functions
+```{r}
+cost_per_person <- function(people, bill) {
+  tax = bill * 0.07
+  tip = bill * 0.18
+  total = bill + tax + tip
+  costPP = total / people
+  return(costPP)
+}
+```
+```{r}
+cost_per_person(5, 221.78)
+cost_per_person(4, 221.78)
+```
+### Default Arguments  
+```{r}
+xyz = function(x=1, y, z=1) {
+  return(x * 100 + y * 10 + z)
+}
+```
+
+### Built In Functions
+```{r}
+set.seed(0) # For reproducible results
+x = rnorm(1000, mean=2) # Random sample from a normal distribution
+
+mean(x) # mean of x
+median(x) # median of x
+var(x) # variance of x
+sd(x) # standard deviation of x
+quantile(x, c(0.25, 0.50, 0.75)) # quantiles of x
+sum(x) # sum of x
+```
+
+## Working Directory
+```{r}
+getwd()
+```
+```{r}
+#setwd("C:/Users/cmmaf/Desktop/RDA-50/1/Lecture")
+#setwd("C:/Users/cmmaf/Desktop/RDA-50")
+```
+
+## Reading Files
+```{r}
+#full_path = "C:/Users/cmmaf/Desktop/RDA-50/1/Lecture/data/CPS1988.csv"
+#CPS1988 = read.csv(full_path, header=TRUE)
+
+#relative_path = "data/CPS1988.csv"
+#CPS1988 = read.csv(relative_path, header=TRUE)
+library(AER)
+data("CPS1988")
+
+dim(CPS1988)
+```
+
+## Data Frames
+
+### Useful Methods
+```{r}
+
+head(CPS1988)
+str(CPS1988, vec.len=5)
+head(CPS1988$region)
+```
+
+### Slicing Data Frames
+```{r}
+str(CPS1988, vec.len=1)
+```
+```{r}
+CPS1988$wage[1:8]
+```
+```{r}
+CPS1988[["wage"]][1:8]
+```
+```{r}
+CPS1988["wage"]
+```
+
+```{r}
+CPS1988[c("wage", "education")]
+```
+
+```{r}
+# Use $ to get individual columns out as vectors
+CPS1988$wage[1:6]
+CPS1988$education[1:6]
+```
+
+```{r}
+# We can use brackets as well, however since df's have 2 dimensions df[ROWS, COLUMNS]
+
+# Returns a df, first 10 rows and columns 2 and 4
+CPS1988[1:10, c(2,4)]
+```
+
+```{r}
+CPS1988[1:10, c('education', 'ethnicity')]
+```
+
+
+
+
+
+```{r}
+# All rows but for the educ and exper columns
+CPS1988[c('education', 'experience')]
+#CPS1988[ , c('education', 'experience')]
+```
+
+```{r}
+# If you get only one column, it will be a vector
+class(CPS1988[, 1])
+class(CPS1988[, 1:2])
+```
+```{r}
+CPS1988["wage"]
+```
+
+```{r}
+CPS1988[1]
+```
+
+## Lists
+```{r}
+myVec = 1:10
+```
+```{r}
+myMat = matrix(1:12, ncol=3)
+```
+
+```{r}
+myDf = CPS1988[1:10, ]
+```
+
+```{r}
+myList = list(myVec, myMat, myDf)
+myList
+namedList = list(A=myVec, B=myMat, C=myDf)
+namedList$D = pi
+
+namedList['E'] = exp(1)
+
+namedList
+```
+
+## Control Flow
+
+### IF  
+```{r}
+num = 5
+# Note: %% is the Modulo (remainder) operation
+if (num %% 2 != 0) {
+  cat(num, 'is odd')
+}
+```
+```{r}
+num = 5
+
+if (num %% 2 != 0) {
+  cat(num, 'is odd')
+  # more commands
+} else {
+  cat(num, 'is even')
+  # more commands
+}
+```
+```{r}
+set.seed(0)
+age = sample(0:100, 20, replace=TRUE)
+age
+res = ifelse(age > 70, 
+             'old', 
+             ifelse(age <= 30, 
+                    'young', 
+                    'mid'))
+res
+```
+### FOR
+```{r, eval=FALSE}
+library(readr)
+sign_data = read.csv("TimesSquareSignage.csv", header=TRUE)
+obs = nrow(sign_data)
+for (i in 1:obs) {
+  if (is.na(sign_data$Width[i])) {
+    cat('WARNING: Missing width for sign no.', i, '\n')
+  }
+}
+```
+### While
+```{r, eval = FALSE}
+i = 1
+while (i <= obs) {
+  if (is.na(sign_data$Width[i])) {
+    cat('WARNING: Missing width for sign no.', i, '\n')
+  }
+  i = i + 1
+}
+```
+## Dplyr
+
+### Tibble
+```{r}
+library(dplyr)
+births_df = read.csv("C:/Users/jmeis/RDA_054/Lecture 2/data/births.csv", stringsAsFactors=FALSE)
+bnames_df = read.csv("C:/Users/jmeis/RDA_054/Lecture 2/data/bnames.csv", stringsAsFactors=FALSE)
+births = as_tibble(births_df)
+bnames = as_tibble(bnames_df)
+```
+### Select, Filter, Arrange
+```{r}
+bnames %>%
+  select( year, name, prop) %>%
+  filter( name == 'Justin') %>%
+  arrange(desc(prop)) %>%
+  head(2)
+```
+### Mutate, Transmute, Summarise
+```{r}
+bnames %>%
+  mutate(., newCol = year *2) %>%
+  transmute(newCol = newCol/2) %>%
+  summarise(sum = sum(newCol/n()))
+```
+### Joins
+```{r}
+x = data.frame(
+  name = c("John", "Paul", "George", "Ringo", "Stuart", "Pete"),
+  instrument = c("guitar","bass","guitar","drums","bass","drums"))
+y = data.frame(
+  name = c("John", "Paul", "George", "Ringo", "Brian"),
+  band = c(TRUE, TRUE, TRUE, TRUE, FALSE))
+left_join(x, y, by = "name")
+right_join(x, y, by = "name")
+inner_join(x, y, by = "name")
+full_join(x, y, by="name")
+semi_join(x, y, by = "name")
+anti_join(x, y, by = "name")
+```
+### Group_by
+
+```{r}
+totals = bnames %>%
+  group_by(name) %>%
+  summarise(total = n())
+
+head(totals)
+```
+
+
+
+## Shiny
+
+### Links to resources: 
+HTML Tags
+https://shiny.rstudio.com/articles/tag-glossary.html
+Layout Guide
+https://shiny.rstudio.com/articles/layout-guide.html
+Functions
+https://shiny.rstudio.com/reference/shiny/latest/
+Widgets
+https://shiny.rstudio.com/gallery/widget-gallery.html
+
+### Basic Layout (ui.r)
+```{r, eval=FALSE}
+fluidPage(
+    titlePanel(...),
+    sidebarLayout(
+      sidebarPanel(...),
+      mainPanel(...)
+)
+)
+```
+```{r, eval=FALSE}
+library(shiny)
+library(lubridate)
+
+# Define UI for application that draws a histogram
+
+fluidPage(
+  titlePanel("NYC Flights 2014"),
+  sidebarLayout(
+    sidebarPanel(
+     
+      selectizeInput(inputId = "origin",
+                    label = "Departure airport",
+                     choices = unique(flights$origin)),
+      selectizeInput(inputId = "dest",
+                     label = "Arrival airport",
+                     choices = unique(flights$dest)),
+      selectizeInput(inputId = "month",
+                     label = "Month",
+                     choices = unique(flights$month)
+    ),
+    mainPanel(tabsetPanel(
+      tabPanel('Number of Flights', plotOutput("count")),
+      tabPanel('Average Delay', plotOutput("delay"))
+    ))
+  )
+)
+```
+
+
+### Basic Server (server.r)
+```{r, eval=FALSE}
+function(input, output) {
+}
+```
+```{r, eval=FALSE}
+library(shiny)
+library(dplyr)
+library(ggplot2)
+library(tidyverse)
+
+function(input, output) {
+  output$count <- renderPlot(
+    flights %>%
+      filter(origin == input$origin & dest == input$dest & month == input$month) %>%
+      group_by(carrier) %>%
+      count() %>%
+      ggplot(aes(x = carrier, y = n)) +
+      geom_col(fill = "lightblue") +
+      ggtitle("Number of flights"))
+  output$delay <-renderPlot(
+    flights %>%
+      filter(origin == input$origin & dest == input$dest & month == input$month) %>%
+      group_by(carrier) %>%
+      summarise(mean_arr = mean(arr_delay), mean_del = mean(dep_delay)) %>%
+      gather(key = metric, value = delay, mean_arr, mean_del)  %>%
+      ggplot(aes(x = carrier, y = delay, fill = metric )) +
+      geom_col(position = "dodge2") +
+      ggtitle('Average Delays')
+      
+  )
+  
+  
+}
+```
+### Global .r
+```{r, eval =FALSE}
+#for above example
+library(data.table)
+flights <- fread(file = "./flights14.csv")
+
+```
+
+# Docker
+
+## Images
++ An executable package that includes everything needed to run an application: code, runtime, libraries, environment variable configuration files
++ can build your own 
+
+can find images at https://www.dockerhub.com  
+
+
+## Container
++ a runtime instance of a image - is what the image becomes in memory when executed
++ once you have the image pulled you can start the container from the docker engine
++ containers isolate software from its environment.  
+
+## Commands
+#### list all images  
+docker image ls 
+#### Delete a file
+rm  
+#### continue command on new line
+^
+#### pull an image
+docker pull <docker IMAGE>  
+#### remove image from computer  
+docker image rm -f <IMAGE ID>  
+#### Run a container  
+docker run -it -d --rm ^  
+-p hostPort:containerPort ^  
+-v host-dir:container-dir ^
+(actual example 
+docker run -it --rm ^
+-p 8890:8888 ^
+-v %cd%:/home/ubuntu/Workspace ^
+nycdsa/linux-toolkits) cd is the current directory
+<docker IMAGE>  
+bash  
+#### Options
+-it runs a container in interactive processes.  
+-d (optional) runs a container in the background in detached mode.  
+--rm (optional) removes the container when it exits or when the daemon exits.   
+-p hostPort:containerPort (optional) forwards a container᾿s port to the host.   
+-v host-dir:container-dir (optional) mounts a host directory into a container directory so files can be shared between them.   
+bash (optional) starts the command line of the container in the terminal.Depending how the image was built, you may or may not need it. 
+#### Inspect running elements
+docker ps  
+#### Inspect stopped containers
+docker ps -a
+#### Stop a container
+exit
+#### remove a stopped container
+docker container rm <CONTAINER ID>  
+only need to specify enough characters of the container to uniquely identify it  
+#### Restart and Log back into container
+docker restart <container id> 
+docker exec -it <container id> bash
+
+# General Windows Terminal 
+## Commands
+
+#### Echo
+echo prints
+#### Change Directory
+cd
+#### list files and directories
+dir  
+
+# Linux  
+
+## Commands 
+date (gets date)
+ssh (loginto remote server)
+scp (copy from or to a remote machine)
+wget or curl (download a webpage)
+
+#### Command help  
+command --help
+
+#### Show entire file system  
+ls <directory to list> 
+
+#### Change directories
+cd <pathname>  
+cd or cd ~ changes to home directory  
+cd .. changes to parent folder  
+
+#### Make DIrectory
+mkdir <directory name>
+mkdir -p ~/examples/multiple/levels/down  
+(-p makes multiple nested directories regardless of weather parts of the specified path exist)
+
+#### Copy file or Folder
+cp [-r] <source> <destination>  
+-r argument means recursively for copying folders  
+copy a file into home directory; note the .  
+$ cp /etc/magic .  
+copy a file into home directory with a new name  
+$ cp /etc/hosts nethosts  
+$ ls  
+
+#### Move or rename files  
+mv <source> <Destination>
+
+#### Move curser and keyboard shortcuts
+ctrl + a (begginging of line)  
+crtl + e (end of line)  
+crtl + u (delete line)
+Tab (auto-complete) 
+
+#### remove files
+rm
+rmdir or rm -r (removes empty folders)  
+
+#### Quick create file
+touch <filename>
+
+#### I/O redirection
+> create
+>> append
+
+#### Print Files or show contents
+cat <filename>
+head <filename>  
+less <filename>
+Scroll up/down one line at a time with arrow keys.  
+Use the space bar to scroll through a screen at a time.  
+Use the / key to search for a term: /apple  
+Press h to see a quick list of other options.  
+Press q to exit less.  
+
+#### download file
+wget <url>
+
+#### file permissions 
+ls - l (long format) to show permissions
+The permissions are broken into 4 sections. For example: drwxr-xr--
+1. d: ‘-’ -> file, ‘d’ -> directory, ‘l’ -> link
+2. rwx: permissions for the owner
+3. r-x: permissions for members of the group owning the file
+4. r-x: permissions for other users
+Where ‘r’-> read, ‘w’-> write/delete, ‘x’-> execute, ‘-’-> no permission
+
+
+#### Show command line format
+echo $PS1  (PS1-4 exist)
+
+#### change command prompt  
+export PS1 = "\u \t:$"   
+will change prompt to user name and time followed by ":$"
+
+#### Clear screen
+crtl + L  
+
+#### Stop process
+crtl + C   
+
+#### Stop Program
+crtl + D  
+
+#### print working dirrectory
+pwd
+
+#### Relative Path
+./  (is current directory)
+
+#### Parent Directory
+../  
+
+#### home directory
+~  
+
+#### show where a file is
+which <filename>  
+
+#### change permission
+write = 2  
+execute = 1  
+read = 4  
+chmod 744  
+owner will be given 7 permission (sum of 4 + 1 + 2)  
+group will be given 4 permission (sum of 3 + 1)  
+other users will be given permission 4 (sum of 3 +1) 
+
+#### Text Processing
+grep - Search through a given file using a string  
+grep <word> <file1> [<file2]>
+wc - Count lines and words 
+outputs lines/words/characters
+sort - Sort all lines in file 
+  sort -k9 (key)(column 9 (counts from 1))
+  sort -k5 -n (sorts 5th column which contains numbers)
+
+
+# VI  
+## commands  
+
+#### Open vi
+vi <filename>  
+will open filename or create it if it doesnt exist  
+
+#### insert mode
+I 
+a - insert after cursor  
+i - insert before cursor  
+o - insert a new line below  
+O - insert a new line above  
+ESC - exit insert mode  
+
+#### command mode
+esc  
+
+x - delete one character  
+dw - delete one word  
+dd - delete the line  
+D - delete the rest of the line  
+u - undo the last action  
+
+#### exit VI
+ZZ save file and exit(capital letters)  
+:wq (save and quit)  
+:w save without exiting  
+:q! exit without saving  
+
+# Git
+
+## Commands
+### Config
+git config --global user.name "name"
+git config --global user.email email@email
+
+# Resources
+Books for free:  Data Science at the Command line  
+https://datascienceatthecommandline.com/  
+Practical Statistics for Data Science
+https://largepdf.net/practical-statistics-for-data-scientists-50-essential-concepts-using-r-and-python/  
+Bayesian Methods for hackers
+https://freecomputerbooks.com/Bayesian-Methods-for-Hackers.html
+
+
+
+
