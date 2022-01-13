@@ -7,7 +7,7 @@
 
         <meta name="author" content="Justin Meisenhelter" />
     
-        <meta name="date" content="2021-12-22" />
+        <meta name="date" content="2022-01-13" />
     
     <title>Cheat Sheet</title>
 
@@ -157,6 +157,30 @@
             <li><a href="#dplyr">Dplyr</a></li>
             <li><a href="#shiny">Shiny</a></li>
             </ul></li>
+            <li><a href="#docker">Docker</a>
+            <ul>
+            <li><a href="#images">Images</a></li>
+            <li><a href="#container">Container</a></li>
+            <li><a href="#commands">Commands</a></li>
+            </ul></li>
+            <li><a href="#general-windows-terminal">General Windows Terminal</a>
+            <ul>
+            <li><a href="#commands-1">Commands</a></li>
+            </ul></li>
+            <li><a href="#linux">Linux</a>
+            <ul>
+            <li><a href="#commands-2">Commands</a></li>
+            </ul></li>
+            <li><a href="#vi">VI</a>
+            <ul>
+            <li><a href="#commands-3">commands</a></li>
+            </ul></li>
+            <li><a href="#git">Git</a>
+            <ul>
+            <li><a href="#workflow">workflow</a></li>
+            <li><a href="#commands-4">Commands</a></li>
+            </ul></li>
+            <li><a href="#resources">Resources</a></li>
             </ul>
           </div>
           <div data-position="sidebar:post-end" class="InjectedComponents"><div class="dark-theme-toggler"><div class="toggle "><div class="toggle-track"><div class="toggle-track-check"><img src="data:image/png;base64,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" role="presentation" style="pointer-events: none;" width="16" height="16"></div> <div class="toggle-track-x"><img src="data:image/png;base64,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" role="presentation" style="pointer-events: none;" width="16" height="16"></div></div> <div class="toggle-thumb"></div></div> <input type="checkbox" aria-label="Switch between Dark and Default theme" class="toggler-screen-reader-only"></div></div>
@@ -171,7 +195,7 @@
       <p class="authors">
            <span class="glyphicon glyphicon-user"></span> Justin Meisenhelter
       </p>
-         <p class="date"><span class="glyphicon glyphicon-calendar"></span> 2021-12-22</p>
+         <p class="date"><span class="glyphicon glyphicon-calendar"></span> 2022-01-13</p>
            
 
    
@@ -592,8 +616,8 @@ f.close()</code></pre>
 </ul>
 <pre class="python"><code>import numpy as np
 np.random.randn(10)</code></pre>
-<pre><code>## array([-1.26704164,  0.85147206, -0.92536959, -0.4679881 , -1.53780607,
-##        -0.05378485,  0.31216287, -1.20555196,  1.13347964, -0.10357042])</code></pre>
+<pre><code>## array([ 0.62918971,  1.67711792, -2.19449512,  0.9742203 , -0.32285815,
+##         0.96231646, -0.62333118, -0.3708929 ,  0.28179438,  0.93835108])</code></pre>
 </div>
 <div id="scipy" class="section level2">
 <h2>Scipy</h2>
@@ -917,7 +941,7 @@ mean(x) # mean of x</code></pre>
 <div id="working-directory" class="section level2">
 <h2>Working Directory</h2>
 <pre class="r"><code>getwd()</code></pre>
-<pre><code>## [1] &quot;C:/Users/jmeis/Desktop/Python&quot;</code></pre>
+<pre><code>## [1] &quot;C:/Users/jmeis/NYC_DSA/CheatSheet&quot;</code></pre>
 <pre class="r"><code>#setwd(&quot;C:/Users/cmmaf/Desktop/RDA-50/1/Lecture&quot;)
 #setwd(&quot;C:/Users/cmmaf/Desktop/RDA-50&quot;)</code></pre>
 </div>
@@ -1350,6 +1374,394 @@ library(data.table)
 flights &lt;- fread(file = &quot;./flights14.csv&quot;)</code></pre>
 </div>
 </div>
+</div>
+<div id="docker" class="section level1">
+<h1>Docker</h1>
+<div id="images" class="section level2">
+<h2>Images</h2>
+<ul>
+<li>An executable package that includes everything needed to run an application: code, runtime, libraries, environment variable configuration files</li>
+<li>can build your own</li>
+</ul>
+<p>can find images at <a href="https://www.dockerhub.com" class="uri">https://www.dockerhub.com</a></p>
+</div>
+<div id="container" class="section level2">
+<h2>Container</h2>
+<ul>
+<li>a runtime instance of a image - is what the image becomes in memory when executed</li>
+<li>once you have the image pulled you can start the container from the docker engine</li>
+<li>containers isolate software from its environment.</li>
+</ul>
+</div>
+<div id="commands" class="section level2">
+<h2>Commands</h2>
+<div id="list-all-images" class="section level3">
+<h3><em>List all images</em></h3>
+<p>docker image ls</p>
+</div>
+<div id="delete-a-file" class="section level3">
+<h3><em>Delete a file</em></h3>
+<p>rm</p>
+</div>
+<div id="continue-command-on-new-line" class="section level3">
+<h3><em>Continue command on new line</em></h3>
+<p>^</p>
+</div>
+<div id="pull-an-image" class="section level3">
+<h3><em>Pull an image</em></h3>
+<p>docker pull <docker IMAGE></p>
+</div>
+<div id="remove-image-from-computer" class="section level3">
+<h3><em>Remove image from computer</em></h3>
+<p>docker image rm -f <IMAGE ID></p>
+</div>
+<div id="run-a-container" class="section level3">
+<h3><em>Run a container</em></h3>
+<p>docker run -it -d –rm ^<br />
+-p hostPort:containerPort ^<br />
+-v host-dir:container-dir ^<br />
+(actual example<br />
+docker run -it –rm ^<br />
+-p 8890:8888 ^<br />
+-v %cd%:/home/ubuntu/Workspace ^<br />
+nycdsa/linux-toolkits) cd is the current directory<br />
+<docker IMAGE><br />
+bash</p>
+</div>
+<div id="options" class="section level3">
+<h3><em>Options</em></h3>
+<p>-it runs a container in interactive processes.<br />
+-d (optional) runs a container in the background in detached mode.<br />
+–rm (optional) removes the container when it exits or when the daemon exits.<br />
+-p hostPort:containerPort (optional) forwards a container᾿s port to the host.<br />
+-v host-dir:container-dir (optional) mounts a host directory into a container directory so files can be shared between them.<br />
+bash (optional) starts the command line of the container in the terminal.Depending how the image was built, you may or may not need it.</p>
+</div>
+<div id="inspect-running-elements" class="section level3">
+<h3><em>Inspect running elements</em></h3>
+<p>docker ps</p>
+</div>
+<div id="inspect-stopped-containers" class="section level3">
+<h3><em>Inspect stopped containers</em></h3>
+<p>docker ps -a</p>
+</div>
+<div id="stop-a-container" class="section level3">
+<h3><em>Stop a container</em></h3>
+<p>exit</p>
+</div>
+<div id="remove-a-stopped-container" class="section level3">
+<h3><em>Remove a stopped container</em></h3>
+<p>docker container rm <CONTAINER ID></p>
+<p>only need to specify enough characters of the container to uniquely identify it</p>
+</div>
+<div id="restart-and-log-back-into-container" class="section level3">
+<h3><em>Restart and Log back into container</em></h3>
+<p>docker restart <container id></p>
+<p>docker exec -it <container id> bash</p>
+</div>
+</div>
+</div>
+<div id="general-windows-terminal" class="section level1">
+<h1>General Windows Terminal</h1>
+<div id="commands-1" class="section level2">
+<h2>Commands</h2>
+<div id="echo" class="section level3">
+<h3><em>Echo</em></h3>
+<p>echo prints<br />
+### <em>Change Directory</em><br />
+cd<br />
+### <em>list files and directories</em><br />
+dir</p>
+</div>
+</div>
+</div>
+<div id="linux" class="section level1">
+<h1>Linux</h1>
+<div id="commands-2" class="section level2">
+<h2>Commands</h2>
+<p>date (gets date)</p>
+<p>ssh (loginto remote server)</p>
+<p>scp (copy from or to a remote machine)</p>
+<p>wget or curl (download a webpage)</p>
+<div id="command-help" class="section level3">
+<h3><em>Command help</em></h3>
+<p>command –help</p>
+</div>
+<div id="show-entire-file-system" class="section level3">
+<h3><em>Show entire file system</em></h3>
+<p>ls <directory to list></p>
+</div>
+<div id="change-directories" class="section level3">
+<h3><em>Change directories</em></h3>
+<p>cd <pathname></p>
+<p>cd or cd ~ changes to home directory</p>
+<p>cd .. changes to parent folder</p>
+</div>
+<div id="make-directory" class="section level3">
+<h3><em>Make DIrectory</em></h3>
+<p>mkdir <directory name></p>
+<p>mkdir -p ~/examples/multiple/levels/down</p>
+<p>(-p makes multiple nested directories regardless of weather parts of the specified path exist)</p>
+</div>
+<div id="copy-file-or-folder" class="section level3">
+<h3><em>Copy file or Folder</em></h3>
+<p>cp [-r] <source> <destination></p>
+<p>-r argument means recursively for copying folders</p>
+<p>copy a file into home directory; note the .<br />
+$ cp /etc/magic .<br />
+copy a file into home directory with a new name<br />
+$ cp /etc/hosts nethosts<br />
+$ ls</p>
+</div>
+<div id="move-or-rename-files" class="section level3">
+<h3><em>Move or rename files</em></h3>
+<p>mv <source> <Destination></p>
+</div>
+<div id="move-curser-and-keyboard-shortcuts" class="section level3">
+<h3><em>Move curser and keyboard shortcuts</em></h3>
+<p>ctrl + a (begginging of line)<br />
+crtl + e (end of line)<br />
+crtl + u (delete line) Tab (auto-complete)</p>
+</div>
+<div id="remove-files" class="section level3">
+<h3><em>Remove files</em></h3>
+<p>rm rmdir or rm -r (removes empty folders)</p>
+</div>
+<div id="quick-create-file" class="section level3">
+<h3><em>Quick create file</em></h3>
+<p>touch <filename></p>
+</div>
+<div id="io-redirection" class="section level3">
+<h3><em>I/O redirection</em></h3>
+<p>&gt; create<br />
+&gt;&gt; append</p>
+</div>
+<div id="print-files-or-show-contents" class="section level3">
+<h3><em>Print Files or show contents</em></h3>
+<p>cat <filename> head <filename><br />
+less <filename> Scroll up/down one line at a time with arrow keys.<br />
+Use the space bar to scroll through a screen at a time.<br />
+Use the / key to search for a term: /apple<br />
+Press h to see a quick list of other options.<br />
+Press q to exit less.</p>
+</div>
+<div id="download-file" class="section level3">
+<h3><em>Download file</em></h3>
+<p>wget <url></p>
+</div>
+<div id="file-permissions" class="section level3">
+<h3><em>File permissions</em></h3>
+<p>ls - l (long format) to show permissions</p>
+<p>The permissions are broken into 4 sections. For example: drwxr-xr–</p>
+<ol style="list-style-type: decimal">
+<li><p>d: ‘-’ -&gt; file, ‘d’ -&gt; directory, ‘l’ -&gt; link</p></li>
+<li><p>rwx: permissions for the owner</p></li>
+<li><p>r-x: permissions for members of the group owning the file</p></li>
+<li><p>r-x: permissions for other users</p></li>
+</ol>
+<p>Where ‘r’-&gt; read, ‘w’-&gt; write/delete, ‘x’-&gt; execute, ‘-’-&gt; no permission</p>
+</div>
+<div id="show-command-line-format" class="section level3">
+<h3><em>Show command line format</em></h3>
+<p>echo $PS1 (PS1-4 exist)</p>
+</div>
+<div id="change-command-prompt" class="section level3">
+<h3><em>change command prompt</em></h3>
+<p>export PS1 = “\u \t:$”</p>
+<p>will change prompt to user name and time followed by &quot;:$&quot;</p>
+</div>
+<div id="clear-screen" class="section level3">
+<h3><em>Clear screen</em></h3>
+<p>crtl + L</p>
+</div>
+<div id="stop-process" class="section level3">
+<h3><em>Stop process</em></h3>
+<p>crtl + C</p>
+</div>
+<div id="stop-program" class="section level3">
+<h3><em>Stop Program</em></h3>
+<p>crtl + D</p>
+</div>
+<div id="print-working-dirrectory" class="section level3">
+<h3><em>print working dirrectory</em></h3>
+<p>pwd</p>
+</div>
+<div id="relative-path" class="section level3">
+<h3><em>Relative Path</em></h3>
+<p>./ (is current directory)</p>
+</div>
+<div id="parent-directory" class="section level3">
+<h3><em>Parent Directory</em></h3>
+<p>../</p>
+</div>
+<div id="home-directory" class="section level3">
+<h3><em>home directory</em></h3>
+<p>~</p>
+</div>
+<div id="show-where-a-file-is" class="section level3">
+<h3><em>show where a file is</em></h3>
+<p>which <filename></p>
+</div>
+<div id="change-permission" class="section level3">
+<h3><em>change permission</em></h3>
+<p>write = 2</p>
+<p>execute = 1</p>
+<p>read = 4</p>
+<p>chmod 744</p>
+<p>owner will be given 7 permission (sum of 4 + 1 + 2)</p>
+<p>group will be given 4 permission (sum of 3 + 1)</p>
+<p>other users will be given permission 4 (sum of 3 +1)</p>
+</div>
+<div id="text-processing" class="section level3">
+<h3><em>Text Processing</em></h3>
+<p>grep - Search through a given file using a string</p>
+<p>grep <word> <file1> [&lt;file2]&gt;</p>
+<p>wc - Count lines and words</p>
+<p>outputs lines/words/characters</p>
+<p>sort - Sort all lines in file</p>
+<p>sort -k9 (key)(column 9 (counts from 1))</p>
+<p>sort -k5 -n (sorts 5th column which contains numbers)</p>
+</div>
+</div>
+</div>
+<div id="vi" class="section level1">
+<h1>VI</h1>
+<div id="commands-3" class="section level2">
+<h2>commands</h2>
+<div id="open-vi" class="section level3">
+<h3><em>Open vi</em></h3>
+<p>vi <filename><br />
+will open filename or create it if it doesnt exist</p>
+</div>
+<div id="insert-mode" class="section level3">
+<h3><em>insert mode</em></h3>
+<p>I</p>
+<p>a - insert after cursor</p>
+<p>i - insert before cursor</p>
+<p>o - insert a new line below</p>
+<p>O - insert a new line above</p>
+<p>ESC - exit insert mode</p>
+</div>
+<div id="command-mode" class="section level3">
+<h3><em>command mode</em></h3>
+<p>esc</p>
+<p>x - delete one character<br />
+dw - delete one word<br />
+dd - delete the line<br />
+D - delete the rest of the line<br />
+u - undo the last action</p>
+</div>
+<div id="exit-vi" class="section level3">
+<h3><em>exit VI</em></h3>
+<p>ZZ save file and exit(capital letters)<br />
+:wq (save and quit)<br />
+:w save without exiting<br />
+:q! exit without saving</p>
+</div>
+</div>
+</div>
+<div id="git" class="section level1">
+<h1>Git</h1>
+<div id="workflow" class="section level2">
+<h2>workflow</h2>
+<p>-git init<br />
+or<br />
+-git clone<br />
+write code<br />
+-git add <file><br />
+<file> is now in staging area<br />
+-git commit<br />
+commit changes and opens editor to add a comment<br />
+write code<br />
+-git add <file><br />
+-git commit -m “messasge” revert changed git checkout <hash> or &lt;head~ID&gt;<br />
+brings us to a detached head state<br />
+-git checkout master (or main)<br />
+reattaches head<br />
+for checkouts that could cause conflicts<br />
+-git revert <hashID><br />
+resolve conflicts<br />
+-git add .<br />
+-git commit -m “message”<br />
+prepare to push to github<br />
+change wd out of project repo<br />
+create repo on github<br />
+copy repo URL from ‘code’ button<br />
+-git clone <git hub url><br />
+-git push</p>
+</div>
+<div id="commands-4" class="section level2">
+<h2>Commands</h2>
+<div id="git-init" class="section level3">
+<h3><em>git init</em></h3>
+<p>convert an existing, unversioned project to a Git repository or initialize a new empty repository.</p>
+</div>
+<div id="git-clone" class="section level3">
+<h3><em>git clone</em></h3>
+<p>copies an existing Git repository</p>
+</div>
+<div id="git-status" class="section level3">
+<h3><em>git status</em></h3>
+<p>show status of all tracked and untracked files</p>
+</div>
+<div id="git-log" class="section level3">
+<h3><em>git log</em></h3>
+<p>full status of git commands –stat includes a brief summary<br />
+–oneline (condense each commit to a single line)<br />
+–graph –decorate To include branches and the ref names:</p>
+</div>
+<div id="git-reflog" class="section level3">
+<h3><em>git reflog</em></h3>
+<p>get complete history in repo</p>
+</div>
+<div id="git-add" class="section level3">
+<h3><em>git add <file> </em></h3>
+<p>starts tracking <file><br />
+git add . (adds all files)</p>
+</div>
+<div id="git-commit" class="section level3">
+<h3><em>git commit</em></h3>
+<p>commit changes<br />
+-m “message”<br />
+-a does the add as well as commit</p>
+</div>
+<div id="git-show" class="section level3">
+<h3><em>git show</em></h3>
+<p>see changes that were made to tracked files<br />
+git show <commit hash> to see textual differences<br />
+git show HEAD reference to the currently checked-out commit/branch.<br />
+git show HEAD~2 shows the second commit message</p>
+</div>
+<div id="git-checkout" class="section level3">
+<h3><em>git checkout – <file> </em></h3>
+<p>discard changes in working directory<br />
+git checkout HEAD~2</p>
+</div>
+<div id="git-diff" class="section level3">
+<h3><em>git diff</em></h3>
+<p>To see what you’ve changed but not yet staged</p>
+</div>
+<div id="git-restore-staged" class="section level3">
+<h3><em>git restore –staged <file> </em></h3>
+<p>to unstage <file></p>
+</div>
+<div id="git-reset" class="section level3">
+<h3><em>git reset <hash ID></em></h3>
+<p>permanetly reverts code to hash ID</p>
+</div>
+<div id="config" class="section level3">
+<h3><em>Config </em></h3>
+<p>git config –global user.name “name”<br />
+git config –global user.email <a href="mailto:email@email" class="email">email@email</a></p>
+</div>
+</div>
+</div>
+<div id="resources" class="section level1">
+<h1>Resources</h1>
+<p>Books for free: Data Science at the Command line<br />
+<a href="https://datascienceatthecommandline.com/" class="uri">https://datascienceatthecommandline.com/</a><br />
+Practical Statistics for Data Science <a href="https://largepdf.net/practical-statistics-for-data-scientists-50-essential-concepts-using-r-and-python/" class="uri">https://largepdf.net/practical-statistics-for-data-scientists-50-essential-concepts-using-r-and-python/</a><br />
+Bayesian Methods for hackers <a href="https://freecomputerbooks.com/Bayesian-Methods-for-Hackers.html" class="uri">https://freecomputerbooks.com/Bayesian-Methods-for-Hackers.html</a></p>
 </div>
 </div>
 

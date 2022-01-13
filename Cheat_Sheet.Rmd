@@ -1013,111 +1013,154 @@ can find images at https://www.dockerhub.com
 + containers isolate software from its environment.  
 
 ## Commands
-#### list all images  
-docker image ls 
-#### Delete a file
-rm  
-#### continue command on new line
-^
-#### pull an image
-docker pull <docker IMAGE>  
-#### remove image from computer  
-docker image rm -f <IMAGE ID>  
-#### Run a container  
+### _List all images_   
+docker image ls  
+
+### _Delete a file_  
+
+rm   
+
+### _Continue command on new line_  
+
+^  
+
+### _Pull an image_  
+
+docker pull <docker IMAGE>   
+
+### _Remove image from computer_  
+
+docker image rm -f <IMAGE ID>   
+
+### _Run a container_  
+
 docker run -it -d --rm ^  
 -p hostPort:containerPort ^  
--v host-dir:container-dir ^
-(actual example 
-docker run -it --rm ^
--p 8890:8888 ^
--v %cd%:/home/ubuntu/Workspace ^
-nycdsa/linux-toolkits) cd is the current directory
+-v host-dir:container-dir ^  
+(actual example  
+docker run -it --rm ^  
+-p 8890:8888 ^  
+-v %cd%:/home/ubuntu/Workspace ^  
+nycdsa/linux-toolkits) cd is the current directory  
 <docker IMAGE>  
-bash  
-#### Options
+bash   
+
+### _Options_  
+
 -it runs a container in interactive processes.  
 -d (optional) runs a container in the background in detached mode.  
 --rm (optional) removes the container when it exits or when the daemon exits.   
 -p hostPort:containerPort (optional) forwards a container᾿s port to the host.   
 -v host-dir:container-dir (optional) mounts a host directory into a container directory so files can be shared between them.   
-bash (optional) starts the command line of the container in the terminal.Depending how the image was built, you may or may not need it. 
-#### Inspect running elements
+bash (optional) starts the command line of the container in the terminal.Depending how the image was built, you may or may not need it.   
+
+### _Inspect running elements_  
+
 docker ps  
-#### Inspect stopped containers
-docker ps -a
-#### Stop a container
-exit
-#### remove a stopped container
-docker container rm <CONTAINER ID>  
+
+### _Inspect stopped containers_  
+
+docker ps -a  
+
+### _Stop a container_  
+
+exit  
+
+### _Remove a stopped container_  
+
+docker container rm <CONTAINER ID>    
+
 only need to specify enough characters of the container to uniquely identify it  
-#### Restart and Log back into container
-docker restart <container id> 
-docker exec -it <container id> bash
+
+### _Restart and Log back into container_  
+
+docker restart <container id>   
+
+docker exec -it <container id> bash  
+
 
 # General Windows Terminal 
 ## Commands
 
-#### Echo
-echo prints
-#### Change Directory
-cd
-#### list files and directories
+### _Echo_
+echo prints  
+### _Change Directory_  
+cd  
+### _list files and directories_  
 dir  
 
-# Linux  
+# Linux   
 
-## Commands 
-date (gets date)
-ssh (loginto remote server)
-scp (copy from or to a remote machine)
-wget or curl (download a webpage)
+## Commands  
+date (gets date)  
 
-#### Command help  
-command --help
+ssh (loginto remote server)  
 
-#### Show entire file system  
-ls <directory to list> 
+scp (copy from or to a remote machine)  
 
-#### Change directories
+wget or curl (download a webpage)  
+
+
+### _Command help_  
+
+command --help  
+
+### _Show entire file system_  
+
+ls <directory to list>   
+
+
+### _Change directories_  
+
 cd <pathname>  
+
 cd or cd ~ changes to home directory  
+
 cd .. changes to parent folder  
 
-#### Make DIrectory
-mkdir <directory name>
-mkdir -p ~/examples/multiple/levels/down  
-(-p makes multiple nested directories regardless of weather parts of the specified path exist)
 
-#### Copy file or Folder
+### _Make DIrectory_  
+
+mkdir <directory name>  
+
+mkdir -p ~/examples/multiple/levels/down  
+
+(-p makes multiple nested directories regardless of weather parts of the specified path exist)  
+
+
+### _Copy file or Folder_  
+
 cp [-r] <source> <destination>  
+
 -r argument means recursively for copying folders  
+
 copy a file into home directory; note the .  
 $ cp /etc/magic .  
 copy a file into home directory with a new name  
 $ cp /etc/hosts nethosts  
 $ ls  
 
-#### Move or rename files  
+### _Move or rename files_  
 mv <source> <Destination>
 
-#### Move curser and keyboard shortcuts
+### _Move curser and keyboard shortcuts_
 ctrl + a (begginging of line)  
 crtl + e (end of line)  
 crtl + u (delete line)
 Tab (auto-complete) 
 
-#### remove files
+### _Remove files_
 rm
 rmdir or rm -r (removes empty folders)  
 
-#### Quick create file
+### _Quick create file_
 touch <filename>
 
-#### I/O redirection
-> create
->> append
+### _I/O redirection_
+\> create  
+\>\> append
 
-#### Print Files or show contents
+### _Print Files or show contents_
 cat <filename>
 head <filename>  
 less <filename>
@@ -1127,85 +1170,114 @@ Use the / key to search for a term: /apple
 Press h to see a quick list of other options.  
 Press q to exit less.  
 
-#### download file
+### _Download file_
 wget <url>
 
-#### file permissions 
-ls - l (long format) to show permissions
-The permissions are broken into 4 sections. For example: drwxr-xr--
-1. d: ‘-’ -> file, ‘d’ -> directory, ‘l’ -> link
-2. rwx: permissions for the owner
-3. r-x: permissions for members of the group owning the file
-4. r-x: permissions for other users
-Where ‘r’-> read, ‘w’-> write/delete, ‘x’-> execute, ‘-’-> no permission
+### _File permissions_ 
+ls - l (long format) to show permissions  
+
+The permissions are broken into 4 sections. For example: drwxr-xr--  
+
+1. d: ‘-’ -> file, ‘d’ -> directory, ‘l’ -> link  
+
+2. rwx: permissions for the owner  
+
+3. r-x: permissions for members of the group owning the file  
+
+4. r-x: permissions for other users  
+
+Where ‘r’-> read, ‘w’-> write/delete, ‘x’-> execute, ‘-’-> no permission  
 
 
-#### Show command line format
+
+### _Show command line format_
 echo $PS1  (PS1-4 exist)
 
-#### change command prompt  
-export PS1 = "\u \t:$"   
-will change prompt to user name and time followed by ":$"
+### _change command prompt_  
+export PS1 = "\\u \\t:$"   
 
-#### Clear screen
+will change prompt to user name and time followed by \"\:\$\"  
+
+
+### _Clear screen_
 crtl + L  
 
-#### Stop process
+### _Stop process_
 crtl + C   
 
-#### Stop Program
+### _Stop Program_
 crtl + D  
 
-#### print working dirrectory
+### _print working dirrectory_
 pwd
 
-#### Relative Path
+### _Relative Path_
 ./  (is current directory)
 
-#### Parent Directory
+### _Parent Directory_
 ../  
 
-#### home directory
+### _home directory_
 ~  
 
-#### show where a file is
+### _show where a file is_
 which <filename>  
 
-#### change permission
+### _change permission_
 write = 2  
+
 execute = 1  
+
 read = 4  
+
 chmod 744  
-owner will be given 7 permission (sum of 4 + 1 + 2)  
+
+owner will be given 7 permission (sum of 4 + 1 + 2) 
+
 group will be given 4 permission (sum of 3 + 1)  
+
 other users will be given permission 4 (sum of 3 +1) 
 
-#### Text Processing
+
+### _Text Processing_
 grep - Search through a given file using a string  
-grep <word> <file1> [<file2]>
-wc - Count lines and words 
-outputs lines/words/characters
-sort - Sort all lines in file 
-  sort -k9 (key)(column 9 (counts from 1))
-  sort -k5 -n (sorts 5th column which contains numbers)
+
+grep <word> <file1> [<file2]>  
+
+wc - Count lines and words  
+
+outputs lines/words/characters  
+
+sort - Sort all lines in file  
+
+  sort -k9 (key)(column 9 (counts from 1))  
+  
+  sort -k5 -n (sorts 5th column which contains numbers)  
+  
 
 
 # VI  
 ## commands  
 
-#### Open vi
+### _Open vi_
 vi <filename>  
 will open filename or create it if it doesnt exist  
 
-#### insert mode
-I 
-a - insert after cursor  
-i - insert before cursor  
-o - insert a new line below  
-O - insert a new line above  
-ESC - exit insert mode  
+### _insert mode_
+I  
 
-#### command mode
+a - insert after cursor  
+
+i - insert before cursor  
+
+o - insert a new line below  
+
+O - insert a new line above  
+
+ESC - exit insert mode 
+
+
+### _command mode_
 esc  
 
 x - delete one character  
@@ -1214,18 +1286,97 @@ dd - delete the line
 D - delete the rest of the line  
 u - undo the last action  
 
-#### exit VI
+### _exit VI_
 ZZ save file and exit(capital letters)  
 :wq (save and quit)  
 :w save without exiting  
 :q! exit without saving  
 
 # Git
+## workflow  
+-git init  
+or  
+-git clone  
+write code  
+-git add <file>  
+<file> is now in staging area  
+-git commit  
+commit changes and opens editor to add a comment  
+write code  
+-git add <file>  
+-git commit -m "messasge" 
+revert changed git checkout <hash> or <head~ID>  
+brings us to a detached head state  
+-git checkout master (or main)  
+reattaches head  
+for checkouts that could cause conflicts  
+-git revert <hashID>  
+resolve conflicts  
+-git add .  
+-git commit -m "message"  
+prepare to push to github  
+change wd out of project repo  
+create repo on github  
+copy repo URL from 'code' button  
+-git clone <git hub url>  
+-git push  
 
-## Commands
-### Config
-git config --global user.name "name"
-git config --global user.email email@email
+
+
+
+## Commands  
+###  _git init_ 
+convert an existing, unversioned project to a Git repository or initialize a new empty repository.  
+
+###  _git clone_  
+copies an existing Git repository  
+
+###  _git status_ 
+show status of all tracked and untracked files 
+
+###  _git log_  
+full status of git commands
+--stat includes a brief summary  
+--oneline (condense each commit to a single line)    
+--graph --decorate To include branches and the ref names:  
+
+###  _git reflog_ 
+get complete history in repo  
+
+###  _git add <file> _ 
+
+starts tracking <file>  
+git add . (adds all files)  
+
+###  _git commit_ 
+commit changes  
+-m "message"  
+-a  does the add as well as commit  
+
+###  _git show_ 
+see changes that were made to tracked files  
+git show <commit hash> to see textual differences   
+git show HEAD reference to the currently checked-out commit/branch.  
+git show HEAD~2 shows the second commit message  
+
+###  _git checkout -- <file> _  
+discard changes in working directory  
+git checkout HEAD~2  
+
+###  _git diff_  
+To see what you’ve changed but not yet staged 
+
+###  _git restore --staged <file>  _ 
+to unstage <file>  
+
+###  _git reset <hash ID>_ 
+permanetly reverts code to hash ID
+
+###  _Config _  
+git config --global user.name "name"  
+git config --global user.email email@email  
+
+
 
 # Resources
 Books for free:  Data Science at the Command line  
