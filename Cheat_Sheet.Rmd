@@ -998,6 +998,185 @@ flights <- fread(file = "./flights14.csv")
 
 ```
 
+# SQL  
+
+## comments  
+\-\- Sytanx for single line comments  
+/** multiline comment **/  
+
+## _Commands_
+
+### _SHOW \<DATABASES\> or SHOW \<database, or table\>;_
+shows all databases on server, or shows DB or table
+
+### _USE \<database\>_ 
+will append database. to every table reference for example:  
+`USE movies_db;`
+is the same as   
+`FROM movies_db.tables;`  
+
+### _SELECT \<rows\>_
+selects all rows  
+
+### _FROM \<database\>_  
+noun of the select querry  
+
+### _WHERE ..._   
+indicates the condition or conditions that rows must
+satisfy to be selected.  
+```
+SELECT movie_title,
+budget
+FROM movies
+WHERE budget > 1000000000;
+
+```
+
+### _GROUP BY ..._  
+
+### _HAVING ..._  
+
+### _ORDER BY ..._   
+
+### _LIMIT ..._  
+```
+SELECT column_names  
+FROM tabel_names  
+LIMIT \<offset\> \<count\>;  
+```
+### _AS ..._  
+
+### _CASE WHEN \<condition\> THEN \<result\> ELSE \<result\> END_ 
+```
+SELECT movie_title,   
+CASE   
+       WHEN title_year > 2014 THEN 'new' 
+       WHEN title_year BETWEEN 2012 AND 2014 THEN 'new-ish'   
+ELSE 'old'  
+END AS movie_age  
+FROM movies;  
+```
+### _DESCRIBE \<object\>_  
+
+### _Column Alias_
+Select <column name> AS <column alias name>
+
+##  Mathmatical Operators
+\+  
+\-  
+\*  
+/  
+Round()  
+
+## Comparison Operator  
+= , equal to  
+\> , Greater than  
+\< , less than  
+\>= , greater than or equal to  
+\<= , less than or equal to  
+\<\> , \!= , not equal to  
+
+## Logical Operators
+### _AND_  
+Evaluates two conditions and
+returns True if both are true.  
+
+### _OR_  
+
+Evaluates two conditions and
+returns True if at least one is
+true.   
+
+### _BETWEEN...AND... _  
+
+Tests value against an inclusive
+range of values. 
+```
+SELECT movie_title,  
+title_year BETWEEN 2010 AND 2012 AS year_range  
+FROM movies;  
+```
+### _IN_  
+Tests value against a list of
+values and returns True if value
+matches at least one in the list. 
+```
+SELECT movie_title, 
+title_year IN (2010, 2012, 2014) AS year_range,  
+country IN ('USA', 'UK') AS country_range  
+FROM movies;  
+```
+
+### _IS NULL_  
+Tests value to see if it is null.
+Return True if null.  
+
+### _NOT_   
+Reverts False to True, and True
+to False.    
+
+## String Manipulation  
+
+### _Wildcard Comparisons_  
+_LIKE_ operator in combo with wildcards are used for pattern matching  
+\% used to define any number of missing characters before and after a pattern  
+\_ wildcard used to substitute for a single character or space  
+example:  
+Return True if the country name starts with a 'U' else return false  
+SELECT country LIKE 'U%'  
+FROM MOVIES;  
+Return True if country starts with 'U' and ends with 'A' an has one or more spaces in between  
+SELECT country LIKE 'U_A'  
+FROM MOVIES;  
+
+### _Functions_  
+_LOWER()_, _LCASE()_ Return string in lowercase  
+_UPPER()_, _UCASE()_ Return string in uppercase  
+_CHAR_LENGTH()_ Return number of characters in a
+string  
+_LEFT(, n)_ Return the leftmost number of
+characters specied by n  
+_RIGHT(, n)_ Return the rightmost number of
+characters specied by n  
+_SUBSTR(, m, n)_
+Return the number of characters
+specied by n starting from the
+m-th position of the string  
+_LTRIM()_ Return the string with leading
+spaces removed  
+_RTRIM()_ Return the string with trailing
+spaces removed  
+_TRIM()_ Return the string with leading
+and trailing spaces removed  
+_REPLACE('s', 's1', 's2')_
+Replaces all the occurrences of a
+ within a string with a new
+substring  
+
+### _Concatenation_  
+CONCAT ( \<col name\>, \<col name\>,...)  
+
+## Date Manipulation  
+
+### Functions
+_CURRENT_DATE()_ Return current date.  
+_CURRENT_TIME()_ Return current time.  
+_DATE()_ Extract the date part of a date or
+datetime expression.  
+_DAY()_, _DAYOFMONTH()_ Return the day of the month (1-
+31)  
+_DAYOFWEEK()_ Return the weekday index of a
+date or datetime expression.  
+_MONTH()_ Return the month part of a date
+or datetime expression.  
+_YEAR()_ Return the year part of a date or
+datetime expression.  
+_DATE_ADD(date, INTERVAL value add unit)_  
+Adds a time/date interval to a
+date and then returns the date  
+
+
+
 # Docker
 
 ## Images
@@ -1026,11 +1205,11 @@ rm
 
 ### _Pull an image_  
 
-docker pull <docker IMAGE>   
+docker pull \<docker IMAGE\>   
 
 ### _Remove image from computer_  
 
-docker image rm -f <IMAGE ID>   
+docker image rm -f \<IMAGE ID\>   
 
 ### _Run a container_  
 
@@ -1042,7 +1221,7 @@ docker run -it --rm ^
 -p 8890:8888 ^  
 -v %cd%:/home/ubuntu/Workspace ^  
 nycdsa/linux-toolkits) cd is the current directory  
-<docker IMAGE>  
+\<docker IMAGE\>  
 bash   
 
 ### _Options_  

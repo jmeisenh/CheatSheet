@@ -7,7 +7,7 @@
 
         <meta name="author" content="Justin Meisenhelter" />
     
-        <meta name="date" content="2022-01-13" />
+        <meta name="date" content="2022-01-14" />
     
     <title>Cheat Sheet</title>
 
@@ -157,28 +157,38 @@
             <li><a href="#dplyr">Dplyr</a></li>
             <li><a href="#shiny">Shiny</a></li>
             </ul></li>
+            <li><a href="#sql">SQL</a>
+            <ul>
+            <li><a href="#comments">comments</a></li>
+            <li><a href="#commands"><em>Commands</em></a></li>
+            <li><a href="#mathmatical-operators">Mathmatical Operators</a></li>
+            <li><a href="#comparison-operator">Comparison Operator</a></li>
+            <li><a href="#logical-operators">Logical Operators</a></li>
+            <li><a href="#string-manipulation">String Manipulation</a></li>
+            <li><a href="#date-manipulation">Date Manipulation</a></li>
+            </ul></li>
             <li><a href="#docker">Docker</a>
             <ul>
             <li><a href="#images">Images</a></li>
             <li><a href="#container">Container</a></li>
-            <li><a href="#commands">Commands</a></li>
+            <li><a href="#commands-1">Commands</a></li>
             </ul></li>
             <li><a href="#general-windows-terminal">General Windows Terminal</a>
             <ul>
-            <li><a href="#commands-1">Commands</a></li>
+            <li><a href="#commands-2">Commands</a></li>
             </ul></li>
             <li><a href="#linux">Linux</a>
             <ul>
-            <li><a href="#commands-2">Commands</a></li>
+            <li><a href="#commands-3">Commands</a></li>
             </ul></li>
             <li><a href="#vi">VI</a>
             <ul>
-            <li><a href="#commands-3">commands</a></li>
+            <li><a href="#commands-4">commands</a></li>
             </ul></li>
             <li><a href="#git">Git</a>
             <ul>
             <li><a href="#workflow">workflow</a></li>
-            <li><a href="#commands-4">Commands</a></li>
+            <li><a href="#commands-5">Commands</a></li>
             </ul></li>
             <li><a href="#resources">Resources</a></li>
             </ul>
@@ -195,7 +205,7 @@
       <p class="authors">
            <span class="glyphicon glyphicon-user"></span> Justin Meisenhelter
       </p>
-         <p class="date"><span class="glyphicon glyphicon-calendar"></span> 2022-01-13</p>
+         <p class="date"><span class="glyphicon glyphicon-calendar"></span> 2022-01-14</p>
            
 
    
@@ -616,8 +626,8 @@ f.close()</code></pre>
 </ul>
 <pre class="python"><code>import numpy as np
 np.random.randn(10)</code></pre>
-<pre><code>## array([ 0.62918971,  1.67711792, -2.19449512,  0.9742203 , -0.32285815,
-##         0.96231646, -0.62333118, -0.3708929 ,  0.28179438,  0.93835108])</code></pre>
+<pre><code>## array([-0.64110638, -1.25085722,  1.72410211,  0.50679323,  1.20167864,
+##        -1.45395719,  0.03608027,  0.20282315,  0.46321122, -1.03222696])</code></pre>
 </div>
 <div id="scipy" class="section level2">
 <h2>Scipy</h2>
@@ -1375,6 +1385,178 @@ flights &lt;- fread(file = &quot;./flights14.csv&quot;)</code></pre>
 </div>
 </div>
 </div>
+<div id="sql" class="section level1">
+<h1>SQL</h1>
+<div id="comments" class="section level2">
+<h2>comments</h2>
+<p>-- Sytanx for single line comments<br />
+/** multiline comment **/</p>
+</div>
+<div id="commands" class="section level2">
+<h2><em>Commands</em></h2>
+<div id="show-databases-or-show-database-or-table" class="section level3">
+<h3><em>SHOW &lt;DATABASES&gt; or SHOW &lt;database, or table&gt;;</em></h3>
+<p>shows all databases on server, or shows DB or table</p>
+</div>
+<div id="use-database" class="section level3">
+<h3><em>USE &lt;database&gt;</em></h3>
+<p>will append database. to every table reference for example:<br />
+<code>USE movies_db;</code> is the same as<br />
+<code>FROM movies_db.tables;</code></p>
+</div>
+<div id="select-rows" class="section level3">
+<h3><em>SELECT &lt;rows&gt;</em></h3>
+<p>selects all rows</p>
+</div>
+<div id="from-database" class="section level3">
+<h3><em>FROM &lt;database&gt;</em></h3>
+<p>noun of the select querry</p>
+</div>
+<div id="where" class="section level3">
+<h3><em>WHERE …</em></h3>
+<p>indicates the condition or conditions that rows must satisfy to be selected.</p>
+<pre><code>SELECT movie_title,
+budget
+FROM movies
+WHERE budget &gt; 1000000000;
+</code></pre>
+</div>
+<div id="group-by" class="section level3">
+<h3><em>GROUP BY …</em></h3>
+</div>
+<div id="having" class="section level3">
+<h3><em>HAVING …</em></h3>
+</div>
+<div id="order-by" class="section level3">
+<h3><em>ORDER BY …</em></h3>
+</div>
+<div id="limit" class="section level3">
+<h3><em>LIMIT …</em></h3>
+<pre><code>SELECT column_names  
+FROM tabel_names  
+LIMIT \&lt;offset\&gt; \&lt;count\&gt;;  </code></pre>
+</div>
+<div id="as" class="section level3">
+<h3><em>AS …</em></h3>
+</div>
+<div id="case-when-condition-then-result-else-result-end" class="section level3">
+<h3><em>CASE WHEN &lt;condition&gt; THEN &lt;result&gt; ELSE &lt;result&gt; END</em></h3>
+<pre><code>SELECT movie_title,   
+CASE   
+       WHEN title_year &gt; 2014 THEN &#39;new&#39; 
+       WHEN title_year BETWEEN 2012 AND 2014 THEN &#39;new-ish&#39;   
+ELSE &#39;old&#39;  
+END AS movie_age  
+FROM movies;  </code></pre>
+</div>
+<div id="describe-object" class="section level3">
+<h3><em>DESCRIBE &lt;object&gt;</em></h3>
+</div>
+<div id="column-alias" class="section level3">
+<h3><em>Column Alias</em></h3>
+<p>Select <column name> AS <column alias name></p>
+</div>
+</div>
+<div id="mathmatical-operators" class="section level2">
+<h2>Mathmatical Operators</h2>
+<p>+<br />
+-<br />
+*<br />
+/<br />
+Round()</p>
+</div>
+<div id="comparison-operator" class="section level2">
+<h2>Comparison Operator</h2>
+<p>= , equal to<br />
+&gt; , Greater than<br />
+&lt; , less than<br />
+&gt;= , greater than or equal to<br />
+&lt;= , less than or equal to<br />
+&lt;&gt; , != , not equal to</p>
+</div>
+<div id="logical-operators" class="section level2">
+<h2>Logical Operators</h2>
+<div id="and" class="section level3">
+<h3><em>AND</em></h3>
+<p>Evaluates two conditions and returns True if both are true.</p>
+</div>
+<div id="or" class="section level3">
+<h3><em>OR</em></h3>
+<p>Evaluates two conditions and returns True if at least one is true.</p>
+</div>
+<div id="betweenand" class="section level3">
+<h3><em>BETWEEN…AND… </em></h3>
+<p>Tests value against an inclusive range of values.</p>
+<pre><code>SELECT movie_title,  
+title_year BETWEEN 2010 AND 2012 AS year_range  
+FROM movies;  </code></pre>
+</div>
+<div id="in" class="section level3">
+<h3><em>IN</em></h3>
+<p>Tests value against a list of values and returns True if value matches at least one in the list.</p>
+<pre><code>SELECT movie_title, 
+title_year IN (2010, 2012, 2014) AS year_range,  
+country IN (&#39;USA&#39;, &#39;UK&#39;) AS country_range  
+FROM movies;  </code></pre>
+</div>
+<div id="is-null" class="section level3">
+<h3><em>IS NULL</em></h3>
+<p>Tests value to see if it is null. Return True if null.</p>
+</div>
+<div id="not" class="section level3">
+<h3><em>NOT</em></h3>
+<p>Reverts False to True, and True to False.</p>
+</div>
+</div>
+<div id="string-manipulation" class="section level2">
+<h2>String Manipulation</h2>
+<div id="wildcard-comparisons" class="section level3">
+<h3><em>Wildcard Comparisons</em></h3>
+<p><em>LIKE</em> operator in combo with wildcards are used for pattern matching<br />
+% used to define any number of missing characters before and after a pattern<br />
+_ wildcard used to substitute for a single character or space<br />
+example:<br />
+Return True if the country name starts with a ‘U’ else return false<br />
+SELECT country LIKE ‘U%’<br />
+FROM MOVIES;<br />
+Return True if country starts with ‘U’ and ends with ‘A’ an has one or more spaces in between<br />
+SELECT country LIKE ‘U_A’<br />
+FROM MOVIES;</p>
+</div>
+<div id="functions-2" class="section level3">
+<h3><em>Functions</em></h3>
+<p><em>LOWER()</em>, <em>LCASE()</em> Return string in lowercase<br />
+<em>UPPER()</em>, <em>UCASE()</em> Return string in uppercase<br />
+<em>CHAR_LENGTH()</em> Return number of characters in a string<br />
+<em>LEFT(, n)</em> Return the leftmost number of characters specied by n<br />
+<em>RIGHT(, n)</em> Return the rightmost number of characters specied by n<br />
+<em>SUBSTR(, m, n)</em> Return the number of characters specied by n starting from the m-th position of the string<br />
+<em>LTRIM()</em> Return the string with leading spaces removed<br />
+<em>RTRIM()</em> Return the string with trailing spaces removed<br />
+<em>TRIM()</em> Return the string with leading and trailing spaces removed<br />
+<em>REPLACE(‘s’, ‘s1’, ‘s2’)</em> Replaces all the occurrences of a within a string with a new substring</p>
+</div>
+<div id="concatenation" class="section level3">
+<h3><em>Concatenation</em></h3>
+<p>CONCAT ( &lt;col name&gt;, &lt;col name&gt;,…)</p>
+</div>
+</div>
+<div id="date-manipulation" class="section level2">
+<h2>Date Manipulation</h2>
+<div id="functions-3" class="section level3">
+<h3>Functions</h3>
+<p><em>CURRENT_DATE()</em> Return current date.<br />
+<em>CURRENT_TIME()</em> Return current time.<br />
+<em>DATE()</em> Extract the date part of a date or datetime expression.<br />
+<em>DAY()</em>, <em>DAYOFMONTH()</em> Return the day of the month (1- 31)<br />
+<em>DAYOFWEEK()</em> Return the weekday index of a date or datetime expression.<br />
+<em>MONTH()</em> Return the month part of a date or datetime expression.<br />
+<em>YEAR()</em> Return the year part of a date or datetime expression.<br />
+<em>DATE_ADD(date, INTERVAL value add unit)</em><br />
+Adds a time/date interval to a date and then returns the date</p>
+</div>
+</div>
+</div>
 <div id="docker" class="section level1">
 <h1>Docker</h1>
 <div id="images" class="section level2">
@@ -1393,7 +1575,7 @@ flights &lt;- fread(file = &quot;./flights14.csv&quot;)</code></pre>
 <li>containers isolate software from its environment.</li>
 </ul>
 </div>
-<div id="commands" class="section level2">
+<div id="commands-1" class="section level2">
 <h2>Commands</h2>
 <div id="list-all-images" class="section level3">
 <h3><em>List all images</em></h3>
@@ -1409,11 +1591,11 @@ flights &lt;- fread(file = &quot;./flights14.csv&quot;)</code></pre>
 </div>
 <div id="pull-an-image" class="section level3">
 <h3><em>Pull an image</em></h3>
-<p>docker pull <docker IMAGE></p>
+<p>docker pull &lt;docker IMAGE&gt;</p>
 </div>
 <div id="remove-image-from-computer" class="section level3">
 <h3><em>Remove image from computer</em></h3>
-<p>docker image rm -f <IMAGE ID></p>
+<p>docker image rm -f &lt;IMAGE ID&gt;</p>
 </div>
 <div id="run-a-container" class="section level3">
 <h3><em>Run a container</em></h3>
@@ -1425,7 +1607,7 @@ docker run -it –rm ^<br />
 -p 8890:8888 ^<br />
 -v %cd%:/home/ubuntu/Workspace ^<br />
 nycdsa/linux-toolkits) cd is the current directory<br />
-<docker IMAGE><br />
+&lt;docker IMAGE&gt;<br />
 bash</p>
 </div>
 <div id="options" class="section level3">
@@ -1463,7 +1645,7 @@ bash (optional) starts the command line of the container in the terminal.Dependi
 </div>
 <div id="general-windows-terminal" class="section level1">
 <h1>General Windows Terminal</h1>
-<div id="commands-1" class="section level2">
+<div id="commands-2" class="section level2">
 <h2>Commands</h2>
 <div id="echo" class="section level3">
 <h3><em>Echo</em></h3>
@@ -1477,7 +1659,7 @@ dir</p>
 </div>
 <div id="linux" class="section level1">
 <h1>Linux</h1>
-<div id="commands-2" class="section level2">
+<div id="commands-3" class="section level2">
 <h2>Commands</h2>
 <p>date (gets date)</p>
 <p>ssh (loginto remote server)</p>
@@ -1626,7 +1808,7 @@ Press q to exit less.</p>
 </div>
 <div id="vi" class="section level1">
 <h1>VI</h1>
-<div id="commands-3" class="section level2">
+<div id="commands-4" class="section level2">
 <h2>commands</h2>
 <div id="open-vi" class="section level3">
 <h3><em>Open vi</em></h3>
@@ -1690,7 +1872,7 @@ copy repo URL from ‘code’ button<br />
 -git clone <git hub url><br />
 -git push</p>
 </div>
-<div id="commands-4" class="section level2">
+<div id="commands-5" class="section level2">
 <h2>Commands</h2>
 <div id="git-init" class="section level3">
 <h3><em>git init</em></h3>
