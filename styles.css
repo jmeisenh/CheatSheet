@@ -1,0 +1,132 @@
+/* h1{
+    color: chartreuse;
+    font-size: 4rem;
+} */
+/* h2{
+    color: yellowgreen;
+    font-size: 2rem;
+} */
+/*  */
+/* CSS Rule */
+/* selectors */
+/* declaration block */
+/* property + value */
+
+/* type (element) selectors */
+h1{
+    color: red;
+}
+h2{
+    color: green;
+}
+p{
+    color: grey;
+}
+body{
+    font-size: 1rem;
+}
+/* grouping */
+h1,h2{
+    font-weight: 100;
+}
+/* ids */
+#heading{
+    color: ivory;
+    background: black;
+}
+#first{
+    background-color: indigo;
+    font-size: 3rem;
+}
+/* class selectors */
+.green{
+    color: green;
+}
+.red{
+    color: red;
+    background-color: grey;
+}
+.lowercase{
+    text-transform: lowercase;
+}
+/* DIV and SPAN */
+div{
+    color: purple;
+    background-color: blueviolet;
+}
+span{
+    text-transform: uppercase;
+}
+/* universal selector */
+*{
+    background-color: ivory;
+}
+/* RGBA 0-1 Opacity/Transparancey */
+#fifth{
+    color: rgb(45,10, 34);
+    background: rgba(0, 0, 0, .25);
+}
+/* HEX values #RRGGBB */
+/* for working color schemes try https://coolors.co/ */
+#sixth{
+    color: #f234ad;
+    background: #222;
+}
+/* font-size, width, height, pixels */
+#seventh{
+    font-size: 30px;
+    width: 200px;
+    height: 300px;
+    background: blue;
+}
+/* Percent Values Relative */
+#eigth{
+    width: 50%;
+    height: 50%;background: red;
+}
+.outer{
+    width: 200px;
+    height: 200px;
+    background: blueviolet;
+}
+.inner{
+    width: 50%;
+    height: 50%;
+    background: red;
+}
+/* em- values Relative depends on parent
+1em = 16px default browser style
+1em base value 
+em values depend on broswer font size settings
+and parent style*/
+.ten{
+    font-size: 10px;
+}
+.relative{
+    font-size: 2em;
+
+}
+.absolute{
+    font-size: 32px;
+}
+/* rem- values Relative depends on root
+1em = 16px default browser style
+1em base value 
+em values depend on broswer font size settings and default font size setting in 'html' style*/
+.tenone{
+    font-size: 60px;
+}
+.relativetwo{
+    font-size: 2em;
+
+}
+.absolutetwo{
+    font-size: 32px;
+}
+/* vh - height percent of screen
+   vw - width  percent of screen */
+.banner{
+    width: 50vw;
+    height: 50vh;
+    background: red;
+}

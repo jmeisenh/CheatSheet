@@ -7,7 +7,7 @@
 
         <meta name="author" content="Justin Meisenhelter" />
     
-        <meta name="date" content="2022-01-14" />
+        <meta name="date" content="2022-01-16" />
     
     <title>Cheat Sheet</title>
 
@@ -157,6 +157,19 @@
             <li><a href="#dplyr">Dplyr</a></li>
             <li><a href="#shiny">Shiny</a></li>
             </ul></li>
+            <li><a href="#html-1">HTML</a>
+            <ul>
+            <li><a href="#workflow">Workflow</a></li>
+            <li><a href="#parts-of-html-document">Parts of HTML Document</a></li>
+            <li><a href="#headers-and-paragraphs-and-divs">Headers and Paragraphs and divs</a></li>
+            <li><a href="#insert-an-image">Insert an image</a></li>
+            </ul></li>
+            <li><a href="#css">CSS</a>
+            <ul>
+            <li><a href="#inline-css">Inline CSS</a></li>
+            <li><a href="#internal-css">Internal CSS</a></li>
+            <li><a href="#external-css">External CSS</a></li>
+            </ul></li>
             <li><a href="#sql">SQL</a>
             <ul>
             <li><a href="#comments">comments</a></li>
@@ -187,7 +200,7 @@
             </ul></li>
             <li><a href="#git">Git</a>
             <ul>
-            <li><a href="#workflow">workflow</a></li>
+            <li><a href="#workflow-1">workflow</a></li>
             <li><a href="#commands-5">Commands</a></li>
             </ul></li>
             <li><a href="#resources">Resources</a></li>
@@ -205,7 +218,7 @@
       <p class="authors">
            <span class="glyphicon glyphicon-user"></span> Justin Meisenhelter
       </p>
-         <p class="date"><span class="glyphicon glyphicon-calendar"></span> 2022-01-14</p>
+         <p class="date"><span class="glyphicon glyphicon-calendar"></span> 2022-01-16</p>
            
 
    
@@ -626,8 +639,8 @@ f.close()</code></pre>
 </ul>
 <pre class="python"><code>import numpy as np
 np.random.randn(10)</code></pre>
-<pre><code>## array([-0.64110638, -1.25085722,  1.72410211,  0.50679323,  1.20167864,
-##        -1.45395719,  0.03608027,  0.20282315,  0.46321122, -1.03222696])</code></pre>
+<pre><code>## array([ 1.01436045,  0.00918674,  0.09639339,  0.00782328, -0.15511457,
+##         0.11885255, -1.07469049, -1.54992951,  2.11335475,  0.85743456])</code></pre>
 </div>
 <div id="scipy" class="section level2">
 <h2>Scipy</h2>
@@ -1385,6 +1398,97 @@ flights &lt;- fread(file = &quot;./flights14.csv&quot;)</code></pre>
 </div>
 </div>
 </div>
+<div id="html-1" class="section level1">
+<h1>HTML</h1>
+<div id="workflow" class="section level2">
+<h2>Workflow</h2>
+<p>Start new document index.html with !DOCTYPE</p>
+</div>
+<div id="parts-of-html-document" class="section level2">
+<h2>Parts of HTML Document</h2>
+<p>&lt;title&gt; &lt;/title&gt; &lt;head&gt; &lt;/head&gt;<br />
+contains technical info about meta structure of doc<br />
+&lt;body&gt; &lt;/body&gt;<br />
+content goes here Lorem# is number of lorem ipsum words to create</p>
+</div>
+<div id="headers-and-paragraphs-and-divs" class="section level2">
+<h2>Headers and Paragraphs and divs</h2>
+<p>&lt;h1&gt; &lt;/h1&gt;<br />
+&lt;p&gt; &lt;/p&gt;<br />
+&lt;div&gt; &lt;/div&gt;</p>
+</div>
+<div id="insert-an-image" class="section level2">
+<h2>Insert an image</h2>
+<p>&lt;a href=“about.html”&gt;About&lt;/a&gt;</p>
+</div>
+</div>
+<div id="css" class="section level1">
+<h1>CSS</h1>
+<p>for external css create a style.css page</p>
+<div id="inline-css" class="section level2">
+<h2>Inline CSS</h2>
+<p>&lt;h1 style=“color: olive;font-size: 3rem;”&gt;hello world&lt;/h1&gt;</p>
+</div>
+<div id="internal-css" class="section level2">
+<h2>Internal CSS</h2>
+<p>&lt;style&gt; h1{<br />
+color:blue;<br />
+font-size: 3rem;<br />
+}<br />
+will change the apperance of all &lt;h1&gt; elments<br />
+will will with spans, body, divs, paragraphs, etc… &lt;/style&gt;</p>
+</div>
+<div id="external-css" class="section level2">
+<h2>External CSS</h2>
+<div id="element-selectors-and-grouping" class="section level3">
+<h3>Element selectors and grouping</h3>
+<p>h1,h2{<br />
+color: red;<br />
+}<br />
+### IDs<br />
+/#heading{<br />
+background:black;<br />
+}<br />
+&lt;h1 id=“heading”&gt;lorem ipsum &lt;/h1&gt;</p>
+</div>
+<div id="class-selectors" class="section level3">
+<h3>Class Selectors</h3>
+<p>.green{<br />
+color:green;<br />
+}<br />
+&lt;h3 class=“green”&gt;I’m green&lt;/h3&gt;</p>
+</div>
+<div id="universal-selector" class="section level3">
+<h3>Universal Selector</h3>
+<p>*{<br />
+background-color:ivory<br />
+}<br />
+Universal selector will be the top level css style, unless overwritten by subsequent styles</p>
+</div>
+<div id="rgba-0-1-opacitytransparency" class="section level3">
+<h3>RGBA 0-1 Opacity/Transparency</h3>
+<p>#&lt;tag&gt;{<br />
+background:rgba(0,0,0,.25)<br />
+&lt;(r value, g value, b value, opacity)&gt;<br />
+}</p>
+</div>
+<div id="font-size-width-height-pixels" class="section level3">
+<h3>Font size, width, height, pixels</h3>
+<p>{<br />
+font-size: 30px;<br />
+width: 200px;<br />
+height: 300px;<br />
+}</p>
+</div>
+<div id="percent-value-relative" class="section level3">
+<h3>Percent Value Relative</h3>
+<p>{<br />
+width: 50%;<br />
+height: 50%;<br />
+}</p>
+</div>
+</div>
+</div>
 <div id="sql" class="section level1">
 <h1>SQL</h1>
 <div id="comments" class="section level2">
@@ -1844,7 +1948,7 @@ u - undo the last action</p>
 </div>
 <div id="git" class="section level1">
 <h1>Git</h1>
-<div id="workflow" class="section level2">
+<div id="workflow-1" class="section level2">
 <h2>workflow</h2>
 <p>-git init<br />
 or<br />

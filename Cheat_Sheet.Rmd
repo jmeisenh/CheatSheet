@@ -997,6 +997,84 @@ library(data.table)
 flights <- fread(file = "./flights14.csv")
 
 ```
+# HTML  
+
+## Workflow
+Start new document index.html with !DOCTYPE
+
+## Parts of HTML Document  
+\<title\> \<\/title\>
+\<head\> \<\/head\>  
+contains technical info about meta structure of doc  
+\<body\> \<\/body\>  
+content goes here 
+Lorem# is number of lorem ipsum words to create
+
+## Headers and Paragraphs and divs  
+\<h1\> \<\/h1\>   
+\<p\> \<\/p\>  
+\<div\> \<\/div\> 
+
+## Insert an image  
+\<a href="about.html"\>About\<\/a\>
+
+# CSS  
+for external css create a style.css page  
+
+## Inline CSS  
+\<h1 style="color: olive;font-size: 3rem;"\>hello world\<\/h1\>
+
+## Internal CSS
+\<style\>
+h1{  
+  color:blue;  
+  font-size: 3rem;  
+}  
+will change the apperance of all \<h1\> elments  
+will will with spans, body, divs, paragraphs, etc...
+\<\/style\>
+
+## External CSS  
+### Element selectors and grouping  
+h1,h2{  
+  color: red;  
+}  
+### IDs  
+/#heading{  
+  background:black;  
+}  
+\<h1 id="heading"\>lorem ipsum \<\/h1\>  
+
+### Class Selectors 
+.green{  
+  color:green;  
+}  
+\<h3 class="green"\>I'm green\<\/h3\>  
+
+### Universal Selector  
+*{  
+  background-color:ivory  
+}  
+Universal selector will be the top level css style, unless overwritten by subsequent styles  
+
+### RGBA 0-1 Opacity/Transparency
+\#\<tag\>{  
+  background:rgba(0,0,0,.25)  
+  \<(r value, g value, b value, opacity)\>  
+}  
+
+### Font size, width, height, pixels
+{  
+font-size: 30px;  
+width: 200px;  
+height: 300px;  
+}  
+
+### Percent Value Relative  
+{  
+width: 50%;  
+height: 50%;  
+}  
 
 # SQL  
 
