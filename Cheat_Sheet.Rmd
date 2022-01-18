@@ -1110,12 +1110,6 @@ WHERE budget > 1000000000;
 
 ```
 
-### _GROUP BY ..._  
-
-### _HAVING ..._  
-
-### _ORDER BY ..._   
-
 ### _LIMIT ..._  
 ```
 SELECT column_names  
@@ -1123,6 +1117,7 @@ FROM tabel_names
 LIMIT \<offset\> \<count\>;  
 ```
 ### _AS ..._  
+see column alias
 
 ### _CASE WHEN \<condition\> THEN \<result\> ELSE \<result\> END_ 
 ```
@@ -1135,6 +1130,7 @@ END AS movie_age
 FROM movies;  
 ```
 ### _DESCRIBE \<object\>_  
+shows column names and values
 
 ### _Column Alias_
 Select <column name> AS <column alias name>
@@ -1201,13 +1197,16 @@ _LIKE_ operator in combo with wildcards are used for pattern matching
 \_ wildcard used to substitute for a single character or space  
 example:  
 Return True if the country name starts with a 'U' else return false  
+```
 SELECT country LIKE 'U%'  
 FROM MOVIES;  
+```
 Return True if country starts with 'U' and ends with 'A' an has one or more spaces in between  
+```
 SELECT country LIKE 'U_A'  
 FROM MOVIES;  
-
-### _Functions_  
+```
+## _Functions_  
 _LOWER()_, _LCASE()_ Return string in lowercase  
 _UPPER()_, _UCASE()_ Return string in uppercase  
 _CHAR_LENGTH()_ Return number of characters in a
@@ -1230,6 +1229,361 @@ _REPLACE('s', 's1', 's2')_
 Replaces all the occurrences of a
  within a string with a new
 substring  
+_COUNT_
+```
+SELECT count (*)   
+from \<table name\>;  
+```
+counts all rows 
+```
+SELECT COUNT(column name)  
+from movies;  
+```
+_SUM_
+```
+SELECT SUM(title_year IS NULL)  
+FROM movies;  
+```
+counts number of null values in title year column  
+_AVG_
+```
+Select AVG(title_year IS NULL)   
+FROM movies;  
+```
+will give the ratio of null values  
+_DISTINCT_  
+```
+SELECT COUNT(DISTINCT country)  
+FROM movies;  
+```
+_MAX_  
+Return the maximum value  
+_MIN_  
+Return the minimum value  
+_STD_  
+Return the population standard deviation    
+
+_VARIANCE_  
+Return the population variance  
+
+_HAVING_  
+used to filter according to result of aggregation 
+```
+SELECT country, COUNT(DISTINCT director_name)  
+FROM movies  
+GROUP BY country  
+HAVING COUNT(DISTINCT director_name) > 5;  
+```
+_UNION_  
+```
+SELECT movie_title, title_year, director_name  
+FROM movies  
+WHERE title_year = 1972  
+UNION  
+SELECT movie_title, title_year, director_name  
+FROM movies  
+WHERE title_year = 1942;  
+```
+_UNION_ALL_  
+keeps duplicate records in a union  
+
+_JOIN_  
+by default is inner_join 
+```
+SELECT expression [, expression ...]  
+FROM table1 JOIN table2  
+ON condition-involving-table1-to-table2;  
+```
+```
+SELECT *  
+FROM directors JOIN actors  
+ON directors.name = actors.name; 
+```
+_LEFT OUTER JOIN_  
+select all records from left table and only records on right table that match  
+```
+SELECT * FROM movies LEFT OUTER JOIN directors  
+ON movies.director_name = directors.name;  
+```
+_FULL OUTER JOIN_  
+There is no full outer join command  
+```
+SELECT * FROM movies LEFT OUTER JOIN directors  
+ON movies.director_name = directors.name  
+UNION  
+SELECT * FROM movies RIGHT OUTER JOIN directors  
+ON movies.director_name = directors.name;  
+```
+_Exclusion Join_  
+Let's say we want to look at directors who are NOT actors. These will be
+directors who do not fall in the actors table. 
+```
+SELECT * FROM directors LEFT OUTER JOIN actors  
+ON directors.name = actors.name  
+WHERE actors.name IS NULL;  
+```
+## GROUP BY  
+```
+SELECT country, AVG(imdb_score)  
+FROM movies  
+GROUP BY country;  
+```
+show the average imdb score for each country  
+```
+SELECT country, COUNT(DISTINCT director_name)  
+FROM movies  
+GROUP BY country;  
+```
+shows number of directors in each country  
+
+WHERE key word is used before group by  
+HAVING is used after group by  
+
+### _Multiple GROUP BYs_
+```
+SELECT country, title_year, COUNT(*)  
+FROM movies  
+GROUP BY country, title_year;  
+gives the number of movies in each country per year 
+```
+## ORDER BY  
+```
+SELECT country  
+FROM movies  
+ORDER BY country;  
+```
+or 
+```
+SELECT country, language  
+FROM movies  
+ORDER BY country, language DESC;  
+```
+
+## Order of Evaluation
+1 FROM  
+2 WHERE  
+3 GROUP BY  
+4 HAVING  
+5 SELECT  
+
+## Subqueries  
++ A subquery is a SQL statement that has another SQL query embedded in the WHERE or the HAVING clause.  
++ The syntax for a subquery when the embedded SQL statement is part of the WHERE condition is as follows:  
+```
+SELECT expressions  
+FROM tables  
+WHERE conditions [Comparison Operators]  
+(SELECT expressions  
+FROM tables  
+WHERE conditions);  
+```
++ [Comparison Operators] could be equality operators such as =, \>, \<, \>\=, and \<\=. It can also be a text operator such as "LIKE".  
++ The second select clause is considered as the "inner query," while the rst select clause is considered as the "outer query."  
+
+Example: we want to find the highest avaerage rating  from greouped genres 
+```
+SELECT MAX(average.avg_rating)
+FROM (
+    SELECT AVG(imdb_score) AS avg_rating
+    FROM movies
+    GROUP BY genres
+) AS average;
+```
+### _ALL_  
+Compares a value to ervery value from the result table  
+example: the following query returns all of the action movies that have a
+higher IMDB score than the best fantasy movie:  
+```
+SELECT *
+FROM movies
+WHERE genres = 'Action'
+AND imdb_score > ALL
+    (SELECT imdb_score
+    FROM movies
+    WHERE genres = 'Fantasy');
+
+```
+
+### _EXISTS_  
+The EXISTS operator checks if the row from the subquery matches any row in the outer query. If there’s no data matched, the EXISTS operator returns FALSE.  
+The following query returns all the movies that are directed by director who are born after 01/01/1980.  
+```
+SELECT movie_title
+FROM movies
+WHERE EXISTS (SELECT *
+    FROM directors
+    WHERE directors.name = movies.director_name
+    AND birthday > '1980-01-01')
+
+```
+## _Windows Functions_
+
+### _RANK()_OVER
+```
+SELECT
+    gross, RANK() OVER (ORDER BY gross)
+    FROM movies
+    WHERE gross IS NOT NULL;
+```
+### _Cutting with NTILE()_
+A very common analytical method is to cut numeric values into a few categories.NTILE could help us to do so:  
+```
+SELECT
+gross,
+NTILE(5) OVER (ORDER BY gross DESC) AS tier
+  FROM movies
+  WHERE gross IS NOT NULL;
+```
+breaks into 5 teirs  
+
+### _Cumulative Sums_
+```
+SELECT gross,
+RANK() OVER (ORDER BY gross) AS _rank,
+SUM(gross) OVER (ORDER BY gross) AS cum_sum,
+AVG(gross) OVER (ORDER BY gross) AS cum_avg
+FROM movies
+WHERE gross IS NOT NULL;
+```
+
+### _Lag and rolling values_
+
+```
+SELECT
+    gross,
+  AVG(gross) OVER (ORDER BY gross) AS cum_avg,
+  AVG(gross) OVER (
+    ORDER BY gross
+        ROWS BETWEEN 2 PRECEDING AND CURRENT ROW
+      ) AS moving_avg
+FROM movies
+WHERE gross IS NOT NULL;
+```
+the moving average takes the average of the current row ans the 2 previous  
+
+```
+SELECT
+    gross,
+  LAG(gross) OVER(ORDER BY gross) AS delay,
+  gross - LAG(gross) OVER(ORDER BY gross) AS diff,
+  (gross - LAG(gross) OVER(ORDER BY gross))/gross AS rate
+FROM movies
+WHERE gross IS NOT NULL;
+```
+_LAG_ function will generate the previous rows value
+LAG(\<column\>, # to lag) defaults to 1
+
+## Aggregating based on PARTITION  
+Rank facebook likes by tier
+```
+SELECT tier, movie_title,
+    RANK() OVER
+    (PARTITION BY tier ORDER BY movie_facebook_likes DESC)
+FROM (
+    SELECT
+      movie_title, num_critic_for_reviews,
+      movie_facebook_likes, budget,
+      gross, NTILE(5) OVER (ORDER BY gross DESC) AS tier
+FROM movies
+WHERE gross IS NOT NULL
+) Q;
+```
+
+
+## Example Exercises  
++ Find the average lost of the movies which actually lost money for each country.
+```
+SELECT country, AVG(gross - budget)
+FROM movies
+WHERE (gross - budget) < 0
+GROUP BY country;  
+```
+
++ Find the average lost of the movies for each country whose movies lost money on average.  
+```
+SELECT country, AVG(gross - budget)  
+FROM movies  
+GROUP BY country  
+HAVING AVG(gross - budget) > 0;  
+```
++ Show the languages and the count of the movies in which each language is spoken. Order the result by the count.  
+```
+select language,  
+	count(*)  
+from movies  
+group by language  
+order by count(*) desc;  
+```
++ Find how many records are in each of the tables of the previous example from performing both UNION and UNION ALL on the actors and directors tables.  
+```
+SELECT COUNT(*) FROM (  
+SELECT name, birthday FROM actors  
+UNION  
+SELECT name, birthday FROM directors
+) AS union_table;  
+```
++ Exercise: How many people are both directors and actors in the dataset?  
+```
+select count(*) as DirectorActors  
+from actors  
+join directors  
+on (directors.name = actors.name  
+directors.birthday = actors.birthday) and;  
+\-\- to filter out null values causing incorrect matches   
+(directors.birthday = actors.birthday OR  
+directors.birthday is NULL AND  
+actors.birthday is NULL);  
+```
+
++ Find the number of directors who are not also in the actors table  
+```
+select * from directors left outer join actors  
+on directors.name = actors.name  
+where actors.name is null;  
+```
++ find the number of actors who are not in the directors table  
+```
+select * from actors left outer join directors  
+on actors.name = directors.name  
+where directors.name is null;  
+```
++ the number of people who are both directors and actors.  
+```
+select * from actors inner join directors  
+on actors.name = directors.name  
+```
++ Find all the directors who's facebook_likes are in the top 10 facebook_likes from directors table.  
+
+```
+SELECT name, facebook_likes
+FROM directors
+WHERE facebook_likes >= (
+    SELECT facebook_likes
+    FROM directors
+    ORDER BY facebook_likes DESC
+    LIMIT 1 OFFSET 9 -- n-1 here for the top n.
+)
+ORDER BY facebook_likes DESC;
+```
++ Find the average facebook likes and critics reviews for each of 5 tiers of profitability of the movies DB  
+```
+SELECT tier,
+    AVG(num_critic_for_reviews) AS avg_critics,
+    AVG(movie_facebook_likes) AS avg_flikes
+FROM (
+    SELECT
+        movie_title, num_critic_for_reviews,
+        movie_facebook_likes, budget,
+        gross, NTILE(5) OVER (ORDER BY gross DESC) AS tier
+    FROM movies
+    WHERE gross IS NOT NULL
+) Q
+GROUP BY Q.tier;
+```
+
+
+
+
 
 ### _Concatenation_  
 CONCAT ( \<col name\>, \<col name\>,...)  

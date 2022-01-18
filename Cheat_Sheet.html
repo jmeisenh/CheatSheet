@@ -7,7 +7,7 @@
 
         <meta name="author" content="Justin Meisenhelter" />
     
-        <meta name="date" content="2022-01-16" />
+        <meta name="date" content="2022-01-18" />
     
     <title>Cheat Sheet</title>
 
@@ -178,6 +178,14 @@
             <li><a href="#comparison-operator">Comparison Operator</a></li>
             <li><a href="#logical-operators">Logical Operators</a></li>
             <li><a href="#string-manipulation">String Manipulation</a></li>
+            <li><a href="#functions-2"><em>Functions</em></a></li>
+            <li><a href="#group-by">GROUP BY</a></li>
+            <li><a href="#order-by">ORDER BY</a></li>
+            <li><a href="#order-of-evaluation">Order of Evaluation</a></li>
+            <li><a href="#subqueries">Subqueries</a></li>
+            <li><a href="#windows-functions"><em>Windows Functions</em></a></li>
+            <li><a href="#aggregating-based-on-partition">Aggregating based on PARTITION</a></li>
+            <li><a href="#example-exercises">Example Exercises</a></li>
             <li><a href="#date-manipulation">Date Manipulation</a></li>
             </ul></li>
             <li><a href="#docker">Docker</a>
@@ -218,7 +226,7 @@
       <p class="authors">
            <span class="glyphicon glyphicon-user"></span> Justin Meisenhelter
       </p>
-         <p class="date"><span class="glyphicon glyphicon-calendar"></span> 2022-01-16</p>
+         <p class="date"><span class="glyphicon glyphicon-calendar"></span> 2022-01-18</p>
            
 
    
@@ -639,8 +647,8 @@ f.close()</code></pre>
 </ul>
 <pre class="python"><code>import numpy as np
 np.random.randn(10)</code></pre>
-<pre><code>## array([ 1.01436045,  0.00918674,  0.09639339,  0.00782328, -0.15511457,
-##         0.11885255, -1.07469049, -1.54992951,  2.11335475,  0.85743456])</code></pre>
+<pre><code>## array([ 2.62091807,  0.05198721, -0.16464585, -1.33672408, -0.69397188,
+##         0.64144076,  0.37318752, -0.63613604,  0.25248996,  0.19536515])</code></pre>
 </div>
 <div id="scipy" class="section level2">
 <h2>Scipy</h2>
@@ -1525,15 +1533,6 @@ FROM movies
 WHERE budget &gt; 1000000000;
 </code></pre>
 </div>
-<div id="group-by" class="section level3">
-<h3><em>GROUP BY …</em></h3>
-</div>
-<div id="having" class="section level3">
-<h3><em>HAVING …</em></h3>
-</div>
-<div id="order-by" class="section level3">
-<h3><em>ORDER BY …</em></h3>
-</div>
 <div id="limit" class="section level3">
 <h3><em>LIMIT …</em></h3>
 <pre><code>SELECT column_names  
@@ -1542,6 +1541,7 @@ LIMIT \&lt;offset\&gt; \&lt;count\&gt;;  </code></pre>
 </div>
 <div id="as" class="section level3">
 <h3><em>AS …</em></h3>
+<p>see column alias</p>
 </div>
 <div id="case-when-condition-then-result-else-result-end" class="section level3">
 <h3><em>CASE WHEN &lt;condition&gt; THEN &lt;result&gt; ELSE &lt;result&gt; END</em></h3>
@@ -1555,6 +1555,7 @@ FROM movies;  </code></pre>
 </div>
 <div id="describe-object" class="section level3">
 <h3><em>DESCRIBE &lt;object&gt;</em></h3>
+<p>shows column names and values</p>
 </div>
 <div id="column-alias" class="section level3">
 <h3><em>Column Alias</em></h3>
@@ -1620,15 +1621,16 @@ FROM movies;  </code></pre>
 % used to define any number of missing characters before and after a pattern<br />
 _ wildcard used to substitute for a single character or space<br />
 example:<br />
-Return True if the country name starts with a ‘U’ else return false<br />
-SELECT country LIKE ‘U%’<br />
-FROM MOVIES;<br />
-Return True if country starts with ‘U’ and ends with ‘A’ an has one or more spaces in between<br />
-SELECT country LIKE ‘U_A’<br />
-FROM MOVIES;</p>
+Return True if the country name starts with a ‘U’ else return false</p>
+<pre><code>SELECT country LIKE &#39;U%&#39;  
+FROM MOVIES;  </code></pre>
+<p>Return True if country starts with ‘U’ and ends with ‘A’ an has one or more spaces in between</p>
+<pre><code>SELECT country LIKE &#39;U_A&#39;  
+FROM MOVIES;  </code></pre>
 </div>
-<div id="functions-2" class="section level3">
-<h3><em>Functions</em></h3>
+</div>
+<div id="functions-2" class="section level2">
+<h2><em>Functions</em></h2>
 <p><em>LOWER()</em>, <em>LCASE()</em> Return string in lowercase<br />
 <em>UPPER()</em>, <em>UCASE()</em> Return string in uppercase<br />
 <em>CHAR_LENGTH()</em> Return number of characters in a string<br />
@@ -1638,8 +1640,324 @@ FROM MOVIES;</p>
 <em>LTRIM()</em> Return the string with leading spaces removed<br />
 <em>RTRIM()</em> Return the string with trailing spaces removed<br />
 <em>TRIM()</em> Return the string with leading and trailing spaces removed<br />
-<em>REPLACE(‘s’, ‘s1’, ‘s2’)</em> Replaces all the occurrences of a within a string with a new substring</p>
+<em>REPLACE(‘s’, ‘s1’, ‘s2’)</em> Replaces all the occurrences of a within a string with a new substring<br />
+<em>COUNT</em></p>
+<pre><code>SELECT count (*)   
+from \&lt;table name\&gt;;  </code></pre>
+<p>counts all rows</p>
+<pre><code>SELECT COUNT(column name)  
+from movies;  </code></pre>
+<p><em>SUM</em></p>
+<pre><code>SELECT SUM(title_year IS NULL)  
+FROM movies;  </code></pre>
+<p>counts number of null values in title year column<br />
+<em>AVG</em></p>
+<pre><code>Select AVG(title_year IS NULL)   
+FROM movies;  </code></pre>
+<p>will give the ratio of null values<br />
+<em>DISTINCT</em></p>
+<pre><code>SELECT COUNT(DISTINCT country)  
+FROM movies;  </code></pre>
+<p><em>MAX</em><br />
+Return the maximum value<br />
+<em>MIN</em><br />
+Return the minimum value<br />
+<em>STD</em><br />
+Return the population standard deviation</p>
+<p><em>VARIANCE</em><br />
+Return the population variance</p>
+<p><em>HAVING</em><br />
+used to filter according to result of aggregation</p>
+<pre><code>SELECT country, COUNT(DISTINCT director_name)  
+FROM movies  
+GROUP BY country  
+HAVING COUNT(DISTINCT director_name) &gt; 5;  </code></pre>
+<p><em>UNION</em></p>
+<pre><code>SELECT movie_title, title_year, director_name  
+FROM movies  
+WHERE title_year = 1972  
+UNION  
+SELECT movie_title, title_year, director_name  
+FROM movies  
+WHERE title_year = 1942;  </code></pre>
+<p><em>UNION_ALL</em><br />
+keeps duplicate records in a union</p>
+<p><em>JOIN</em><br />
+by default is inner_join</p>
+<pre><code>SELECT expression [, expression ...]  
+FROM table1 JOIN table2  
+ON condition-involving-table1-to-table2;  </code></pre>
+<pre><code>SELECT *  
+FROM directors JOIN actors  
+ON directors.name = actors.name; </code></pre>
+<p><em>LEFT OUTER JOIN</em><br />
+select all records from left table and only records on right table that match</p>
+<pre><code>SELECT * FROM movies LEFT OUTER JOIN directors  
+ON movies.director_name = directors.name;  </code></pre>
+<p><em>FULL OUTER JOIN</em><br />
+There is no full outer join command</p>
+<pre><code>SELECT * FROM movies LEFT OUTER JOIN directors  
+ON movies.director_name = directors.name  
+UNION  
+SELECT * FROM movies RIGHT OUTER JOIN directors  
+ON movies.director_name = directors.name;  </code></pre>
+<p><em>Exclusion Join</em><br />
+Let’s say we want to look at directors who are NOT actors. These will be directors who do not fall in the actors table.</p>
+<pre><code>SELECT * FROM directors LEFT OUTER JOIN actors  
+ON directors.name = actors.name  
+WHERE actors.name IS NULL;  </code></pre>
 </div>
+<div id="group-by" class="section level2">
+<h2>GROUP BY</h2>
+<pre><code>SELECT country, AVG(imdb_score)  
+FROM movies  
+GROUP BY country;  </code></pre>
+<p>show the average imdb score for each country</p>
+<pre><code>SELECT country, COUNT(DISTINCT director_name)  
+FROM movies  
+GROUP BY country;  </code></pre>
+<p>shows number of directors in each country</p>
+<p>WHERE key word is used before group by<br />
+HAVING is used after group by</p>
+<div id="multiple-group-bys" class="section level3">
+<h3><em>Multiple GROUP BYs</em></h3>
+<pre><code>SELECT country, title_year, COUNT(*)  
+FROM movies  
+GROUP BY country, title_year;  
+gives the number of movies in each country per year </code></pre>
+</div>
+</div>
+<div id="order-by" class="section level2">
+<h2>ORDER BY</h2>
+<pre><code>SELECT country  
+FROM movies  
+ORDER BY country;  </code></pre>
+<p>or</p>
+<pre><code>SELECT country, language  
+FROM movies  
+ORDER BY country, language DESC;  </code></pre>
+</div>
+<div id="order-of-evaluation" class="section level2">
+<h2>Order of Evaluation</h2>
+<p>1 FROM<br />
+2 WHERE<br />
+3 GROUP BY<br />
+4 HAVING<br />
+5 SELECT</p>
+</div>
+<div id="subqueries" class="section level2">
+<h2>Subqueries</h2>
+<ul>
+<li>A subquery is a SQL statement that has another SQL query embedded in the WHERE or the HAVING clause.<br />
+</li>
+<li>The syntax for a subquery when the embedded SQL statement is part of the WHERE condition is as follows:<br />
+</li>
+</ul>
+<pre><code>SELECT expressions  
+FROM tables  
+WHERE conditions [Comparison Operators]  
+(SELECT expressions  
+FROM tables  
+WHERE conditions);  </code></pre>
+<ul>
+<li>[Comparison Operators] could be equality operators such as =, &gt;, &lt;, &gt;=, and &lt;=. It can also be a text operator such as “LIKE”.<br />
+</li>
+<li>The second select clause is considered as the “inner query,” while the rst select clause is considered as the “outer query.”</li>
+</ul>
+<p>Example: we want to find the highest avaerage rating from greouped genres</p>
+<pre><code>SELECT MAX(average.avg_rating)
+FROM (
+    SELECT AVG(imdb_score) AS avg_rating
+    FROM movies
+    GROUP BY genres
+) AS average;</code></pre>
+<div id="all" class="section level3">
+<h3><em>ALL</em></h3>
+<p>Compares a value to ervery value from the result table<br />
+example: the following query returns all of the action movies that have a higher IMDB score than the best fantasy movie:</p>
+<pre><code>SELECT *
+FROM movies
+WHERE genres = &#39;Action&#39;
+AND imdb_score &gt; ALL
+    (SELECT imdb_score
+    FROM movies
+    WHERE genres = &#39;Fantasy&#39;);
+</code></pre>
+</div>
+<div id="exists" class="section level3">
+<h3><em>EXISTS</em></h3>
+<p>The EXISTS operator checks if the row from the subquery matches any row in the outer query. If there’s no data matched, the EXISTS operator returns FALSE.<br />
+The following query returns all the movies that are directed by director who are born after 01/01/1980.</p>
+<pre><code>SELECT movie_title
+FROM movies
+WHERE EXISTS (SELECT *
+    FROM directors
+    WHERE directors.name = movies.director_name
+    AND birthday &gt; &#39;1980-01-01&#39;)
+</code></pre>
+</div>
+</div>
+<div id="windows-functions" class="section level2">
+<h2><em>Windows Functions</em></h2>
+<div id="rank_over" class="section level3">
+<h3>_RANK()_OVER</h3>
+<pre><code>SELECT
+    gross, RANK() OVER (ORDER BY gross)
+    FROM movies
+    WHERE gross IS NOT NULL;</code></pre>
+</div>
+<div id="cutting-with-ntile" class="section level3">
+<h3><em>Cutting with NTILE()</em></h3>
+<p>A very common analytical method is to cut numeric values into a few categories.NTILE could help us to do so:</p>
+<pre><code>SELECT
+gross,
+NTILE(5) OVER (ORDER BY gross DESC) AS tier
+  FROM movies
+  WHERE gross IS NOT NULL;</code></pre>
+<p>breaks into 5 teirs</p>
+</div>
+<div id="cumulative-sums" class="section level3">
+<h3><em>Cumulative Sums</em></h3>
+<pre><code>SELECT gross,
+RANK() OVER (ORDER BY gross) AS _rank,
+SUM(gross) OVER (ORDER BY gross) AS cum_sum,
+AVG(gross) OVER (ORDER BY gross) AS cum_avg
+FROM movies
+WHERE gross IS NOT NULL;</code></pre>
+</div>
+<div id="lag-and-rolling-values" class="section level3">
+<h3><em>Lag and rolling values</em></h3>
+<pre><code>SELECT
+    gross,
+  AVG(gross) OVER (ORDER BY gross) AS cum_avg,
+  AVG(gross) OVER (
+    ORDER BY gross
+        ROWS BETWEEN 2 PRECEDING AND CURRENT ROW
+      ) AS moving_avg
+FROM movies
+WHERE gross IS NOT NULL;</code></pre>
+<p>the moving average takes the average of the current row ans the 2 previous</p>
+<pre><code>SELECT
+    gross,
+  LAG(gross) OVER(ORDER BY gross) AS delay,
+  gross - LAG(gross) OVER(ORDER BY gross) AS diff,
+  (gross - LAG(gross) OVER(ORDER BY gross))/gross AS rate
+FROM movies
+WHERE gross IS NOT NULL;</code></pre>
+<p><em>LAG</em> function will generate the previous rows value LAG(&lt;column&gt;, # to lag) defaults to 1</p>
+</div>
+</div>
+<div id="aggregating-based-on-partition" class="section level2">
+<h2>Aggregating based on PARTITION</h2>
+<p>Rank facebook likes by tier</p>
+<pre><code>SELECT tier, movie_title,
+    RANK() OVER
+    (PARTITION BY tier ORDER BY movie_facebook_likes DESC)
+FROM (
+    SELECT
+      movie_title, num_critic_for_reviews,
+      movie_facebook_likes, budget,
+      gross, NTILE(5) OVER (ORDER BY gross DESC) AS tier
+FROM movies
+WHERE gross IS NOT NULL
+) Q;</code></pre>
+</div>
+<div id="example-exercises" class="section level2">
+<h2>Example Exercises</h2>
+<ul>
+<li>Find the average lost of the movies which actually lost money for each country.</li>
+</ul>
+<pre><code>SELECT country, AVG(gross - budget)
+FROM movies
+WHERE (gross - budget) &lt; 0
+GROUP BY country;  </code></pre>
+<ul>
+<li>Find the average lost of the movies for each country whose movies lost money on average.<br />
+</li>
+</ul>
+<pre><code>SELECT country, AVG(gross - budget)  
+FROM movies  
+GROUP BY country  
+HAVING AVG(gross - budget) &gt; 0;  </code></pre>
+<ul>
+<li>Show the languages and the count of the movies in which each language is spoken. Order the result by the count.<br />
+</li>
+</ul>
+<pre><code>select language,  
+    count(*)  
+from movies  
+group by language  
+order by count(*) desc;  </code></pre>
+<ul>
+<li>Find how many records are in each of the tables of the previous example from performing both UNION and UNION ALL on the actors and directors tables.<br />
+</li>
+</ul>
+<pre><code>SELECT COUNT(*) FROM (  
+SELECT name, birthday FROM actors  
+UNION  
+SELECT name, birthday FROM directors
+) AS union_table;  </code></pre>
+<ul>
+<li>Exercise: How many people are both directors and actors in the dataset?<br />
+</li>
+</ul>
+<pre><code>select count(*) as DirectorActors  
+from actors  
+join directors  
+on (directors.name = actors.name  
+directors.birthday = actors.birthday) and;  
+\-\- to filter out null values causing incorrect matches   
+(directors.birthday = actors.birthday OR  
+directors.birthday is NULL AND  
+actors.birthday is NULL);  </code></pre>
+<ul>
+<li>Find the number of directors who are not also in the actors table<br />
+</li>
+</ul>
+<pre><code>select * from directors left outer join actors  
+on directors.name = actors.name  
+where actors.name is null;  </code></pre>
+<ul>
+<li>find the number of actors who are not in the directors table<br />
+</li>
+</ul>
+<pre><code>select * from actors left outer join directors  
+on actors.name = directors.name  
+where directors.name is null;  </code></pre>
+<ul>
+<li>the number of people who are both directors and actors.<br />
+</li>
+</ul>
+<pre><code>select * from actors inner join directors  
+on actors.name = directors.name  </code></pre>
+<ul>
+<li>Find all the directors who’s facebook_likes are in the top 10 facebook_likes from directors table.</li>
+</ul>
+<pre><code>SELECT name, facebook_likes
+FROM directors
+WHERE facebook_likes &gt;= (
+    SELECT facebook_likes
+    FROM directors
+    ORDER BY facebook_likes DESC
+    LIMIT 1 OFFSET 9 -- n-1 here for the top n.
+)
+ORDER BY facebook_likes DESC;</code></pre>
+<ul>
+<li>Find the average facebook likes and critics reviews for each of 5 tiers of profitability of the movies DB<br />
+</li>
+</ul>
+<pre><code>SELECT tier,
+    AVG(num_critic_for_reviews) AS avg_critics,
+    AVG(movie_facebook_likes) AS avg_flikes
+FROM (
+    SELECT
+        movie_title, num_critic_for_reviews,
+        movie_facebook_likes, budget,
+        gross, NTILE(5) OVER (ORDER BY gross DESC) AS tier
+    FROM movies
+    WHERE gross IS NOT NULL
+) Q
+GROUP BY Q.tier;</code></pre>
 <div id="concatenation" class="section level3">
 <h3><em>Concatenation</em></h3>
 <p>CONCAT ( &lt;col name&gt;, &lt;col name&gt;,…)</p>
