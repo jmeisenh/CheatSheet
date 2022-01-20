@@ -1418,7 +1418,7 @@ WHERE EXISTS (SELECT *
 ```
 ## _Windows Functions_
 
-### _RANK()_OVER
+### _RANK() OVER_
 ```
 SELECT
     gross, RANK() OVER (ORDER BY gross)
@@ -1473,7 +1473,7 @@ WHERE gross IS NOT NULL;
 _LAG_ function will generate the previous rows value
 LAG(\<column\>, # to lag) defaults to 1
 
-## Aggregating based on PARTITION  
+## PARTITION  
 Rank facebook likes by tier
 ```
 SELECT tier, movie_title,
@@ -1488,6 +1488,128 @@ FROM movies
 WHERE gross IS NOT NULL
 ) Q;
 ```
+## Data Manipulation  
+
+## CREATE TABLE  
+```
+CREATE TABLE table_name (
+column_name column_type [options],
+...
+)
+```
+example  
+```
+CREATE TABLE actors (
+biography VARCHAR(6000),
+birthday DATE DEFAULT NULL,
+deathday DATE DEFAULT NULL,
+gender INT DEFAULT NULL,
+name VARCHAR(255),
+place_of_birth VARCHAR(255),
+facebook_likes INT DEFAULT NULL
+);
+```
+for more options/flags  
+https://dev.mysql.com/doc/refman/5.7/en/create-table.html  
+
+### _INSERT_  
+```
+INSERT INTO table_name
+(column_name_1, column_name_2, ...)
+VALUES
+(value_row1_col1, value_row1_col2, ...),
+(value_row2_col1, value_row2_col2, ...),
+...
+;
+```
+```
+INSERT INTO actors
+(birthday,deathday,gender,name,place_of_birth,facebook_likes)
+VALUES
+("1942-08-17",NULL,0,"Roshan Seth","Patna, Bihar, India",61.0);
+```
+
+### _UPDATE_  
+```
+UPDATE table_name SET column_name = new_value
+[WHERE where_condition];
+```
+set SQL into safe updates mode first
+`SET SQL_SAFE_UPDATES = 0;`
+
+```
+UPDATE actors SET facebook_likes = 68
+WHERE name = "Roshan Seth";
+```
+
+### _DELETE_  
+```
+DELETE FROM tbl_name
+[WHERE where_condition];
+```
+
+### _TRUNCATE_  
+to empty a table  
+```
+TRUNCATE TABLE table_name;
+```
+
+### _DROP_  
+to fully remove a table  
+```
+DROP TABLE table name;
+```
+
+## SQL Command Line Prompt  
+in command line  
+`mysql -u<username(no space)> -p<password>`
+
+## LOAD data  
+from my SQL command line  
+```
+LOAD DATA LOCAL INFILE file_name
+INTO TABLE table_name
+FIELDS TERMINATED BY string_1 ENCLOSED BY string_2
+LINES TERMINATED BY string_3
+IGNORE int LINES
+;
+```
+
+## Data Integrity  
+
+### _Primary Key_
+```
+CREATE TABLE actors (
+biography varchar(6000),
+birthday date DEFAULT NULL,
+deathday date DEFAULT NULL,
+gender int DEFAULT NULL,
+name varchar(255),
+place_of_birth varchar(255),
+facebook_likes int DEFAULT NULL,
+PRIMARY KEY (name)
+);
+```
+
+### _Foreign key_
+```
+ALTER TABLE child_table
+ADD CONSTRAINT constraint_name
+FOREIGN KEY index_col_name
+REFERENCES parent_table(index_col_name);
+```
+```
+ALTER TABLE movies
+ADD CONSTRAINT FK_ActorMovie
+FOREIGN KEY (actor_1_name) REFERENCES actors(name);
+```
+
+### _CASCADE_ or _SET NULL_
+When you try to delete or change a record that is a primary or foreign key in a table must set cascade
+ON DELETE CASCADE will change all child records 
+ON DELETE SET NULL - will set null in all child records
+
+
 
 
 ## Example Exercises  

@@ -7,7 +7,7 @@
 
         <meta name="author" content="Justin Meisenhelter" />
     
-        <meta name="date" content="2022-01-18" />
+        <meta name="date" content="2022-01-20" />
     
     <title>Cheat Sheet</title>
 
@@ -184,7 +184,12 @@
             <li><a href="#order-of-evaluation">Order of Evaluation</a></li>
             <li><a href="#subqueries">Subqueries</a></li>
             <li><a href="#windows-functions"><em>Windows Functions</em></a></li>
-            <li><a href="#aggregating-based-on-partition">Aggregating based on PARTITION</a></li>
+            <li><a href="#partition">PARTITION</a></li>
+            <li><a href="#data-manipulation">Data Manipulation</a></li>
+            <li><a href="#create-table">CREATE TABLE</a></li>
+            <li><a href="#sql-command-line-prompt">SQL Command Line Prompt</a></li>
+            <li><a href="#load-data">LOAD data</a></li>
+            <li><a href="#data-integrity">Data Integrity</a></li>
             <li><a href="#example-exercises">Example Exercises</a></li>
             <li><a href="#date-manipulation">Date Manipulation</a></li>
             </ul></li>
@@ -226,7 +231,7 @@
       <p class="authors">
            <span class="glyphicon glyphicon-user"></span> Justin Meisenhelter
       </p>
-         <p class="date"><span class="glyphicon glyphicon-calendar"></span> 2022-01-18</p>
+         <p class="date"><span class="glyphicon glyphicon-calendar"></span> 2022-01-20</p>
            
 
    
@@ -647,8 +652,8 @@ f.close()</code></pre>
 </ul>
 <pre class="python"><code>import numpy as np
 np.random.randn(10)</code></pre>
-<pre><code>## array([ 2.62091807,  0.05198721, -0.16464585, -1.33672408, -0.69397188,
-##         0.64144076,  0.37318752, -0.63613604,  0.25248996,  0.19536515])</code></pre>
+<pre><code>## array([-2.42759916, -0.4763386 ,  1.36765844,  0.0311585 , -1.0487548 ,
+##         0.90130674,  0.58883491, -0.48621203, -0.13306062,  0.30569569])</code></pre>
 </div>
 <div id="scipy" class="section level2">
 <h2>Scipy</h2>
@@ -1799,8 +1804,8 @@ WHERE EXISTS (SELECT *
 </div>
 <div id="windows-functions" class="section level2">
 <h2><em>Windows Functions</em></h2>
-<div id="rank_over" class="section level3">
-<h3>_RANK()_OVER</h3>
+<div id="rank-over" class="section level3">
+<h3><em>RANK() OVER</em></h3>
 <pre><code>SELECT
     gross, RANK() OVER (ORDER BY gross)
     FROM movies
@@ -1847,8 +1852,8 @@ WHERE gross IS NOT NULL;</code></pre>
 <p><em>LAG</em> function will generate the previous rows value LAG(&lt;column&gt;, # to lag) defaults to 1</p>
 </div>
 </div>
-<div id="aggregating-based-on-partition" class="section level2">
-<h2>Aggregating based on PARTITION</h2>
+<div id="partition" class="section level2">
+<h2>PARTITION</h2>
 <p>Rank facebook likes by tier</p>
 <pre><code>SELECT tier, movie_title,
     RANK() OVER
@@ -1861,6 +1866,110 @@ FROM (
 FROM movies
 WHERE gross IS NOT NULL
 ) Q;</code></pre>
+</div>
+<div id="data-manipulation" class="section level2">
+<h2>Data Manipulation</h2>
+</div>
+<div id="create-table" class="section level2">
+<h2>CREATE TABLE</h2>
+<pre><code>CREATE TABLE table_name (
+column_name column_type [options],
+...
+)</code></pre>
+<p>example</p>
+<pre><code>CREATE TABLE actors (
+biography VARCHAR(6000),
+birthday DATE DEFAULT NULL,
+deathday DATE DEFAULT NULL,
+gender INT DEFAULT NULL,
+name VARCHAR(255),
+place_of_birth VARCHAR(255),
+facebook_likes INT DEFAULT NULL
+);</code></pre>
+<p>for more options/flags<br />
+<a href="https://dev.mysql.com/doc/refman/5.7/en/create-table.html" class="uri">https://dev.mysql.com/doc/refman/5.7/en/create-table.html</a></p>
+<div id="insert" class="section level3">
+<h3><em>INSERT</em></h3>
+<pre><code>INSERT INTO table_name
+(column_name_1, column_name_2, ...)
+VALUES
+(value_row1_col1, value_row1_col2, ...),
+(value_row2_col1, value_row2_col2, ...),
+...
+;</code></pre>
+<pre><code>INSERT INTO actors
+(birthday,deathday,gender,name,place_of_birth,facebook_likes)
+VALUES
+(&quot;1942-08-17&quot;,NULL,0,&quot;Roshan Seth&quot;,&quot;Patna, Bihar, India&quot;,61.0);</code></pre>
+</div>
+<div id="update" class="section level3">
+<h3><em>UPDATE</em></h3>
+<pre><code>UPDATE table_name SET column_name = new_value
+[WHERE where_condition];</code></pre>
+<p>set SQL into safe updates mode first <code>SET SQL_SAFE_UPDATES = 0;</code></p>
+<pre><code>UPDATE actors SET facebook_likes = 68
+WHERE name = &quot;Roshan Seth&quot;;</code></pre>
+</div>
+<div id="delete" class="section level3">
+<h3><em>DELETE</em></h3>
+<pre><code>DELETE FROM tbl_name
+[WHERE where_condition];</code></pre>
+</div>
+<div id="truncate" class="section level3">
+<h3><em>TRUNCATE</em></h3>
+<p>to empty a table</p>
+<pre><code>TRUNCATE TABLE table_name;</code></pre>
+</div>
+<div id="drop" class="section level3">
+<h3><em>DROP</em></h3>
+<p>to fully remove a table</p>
+<pre><code>DROP TABLE table name;</code></pre>
+</div>
+</div>
+<div id="sql-command-line-prompt" class="section level2">
+<h2>SQL Command Line Prompt</h2>
+<p>in command line<br />
+<code>mysql -u&lt;username(no space)&gt; -p&lt;password&gt;</code></p>
+</div>
+<div id="load-data" class="section level2">
+<h2>LOAD data</h2>
+<p>from my SQL command line</p>
+<pre><code>LOAD DATA LOCAL INFILE file_name
+INTO TABLE table_name
+FIELDS TERMINATED BY string_1 ENCLOSED BY string_2
+LINES TERMINATED BY string_3
+IGNORE int LINES
+;</code></pre>
+</div>
+<div id="data-integrity" class="section level2">
+<h2>Data Integrity</h2>
+<div id="primary-key" class="section level3">
+<h3><em>Primary Key</em></h3>
+<pre><code>CREATE TABLE actors (
+biography varchar(6000),
+birthday date DEFAULT NULL,
+deathday date DEFAULT NULL,
+gender int DEFAULT NULL,
+name varchar(255),
+place_of_birth varchar(255),
+facebook_likes int DEFAULT NULL,
+PRIMARY KEY (name)
+);</code></pre>
+</div>
+<div id="foreign-key" class="section level3">
+<h3><em>Foreign key</em></h3>
+<pre><code>ALTER TABLE child_table
+ADD CONSTRAINT constraint_name
+FOREIGN KEY index_col_name
+REFERENCES parent_table(index_col_name);</code></pre>
+<pre><code>ALTER TABLE movies
+ADD CONSTRAINT FK_ActorMovie
+FOREIGN KEY (actor_1_name) REFERENCES actors(name);</code></pre>
+</div>
+<div id="cascade-or-set-null" class="section level3">
+<h3><em>CASCADE</em> or <em>SET NULL</em></h3>
+<p>When you try to delete or change a record that is a primary or foreign key in a table must set cascade ON DELETE CASCADE will change all child records ON DELETE SET NULL - will set null in all child records</p>
+</div>
 </div>
 <div id="example-exercises" class="section level2">
 <h2>Example Exercises</h2>
