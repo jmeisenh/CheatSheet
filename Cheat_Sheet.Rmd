@@ -11,6 +11,52 @@ output:
 
 # Python  
 
+## Syntax  
+to put commands on new line use the backslash \\
+```
+8 * (7 + 6 * 5) \
+      + 4 / 3 ** 2 - 1 
+```
+
+self assignment  
+- `a=a+b` <----> `a+=b`  
+- `a=a-b` <----> `a-=b`  
+- `a=a*b` <----> `a*=b`  
+- `a=a/b` <----> `a/=b`  
+
+import libraries   
+`import math`  
+`from math import sin, cos`  
+assign an alias for the module name    
+`import math as ma`  
+
+## Magic Commands  
+autoreload
+```
+%load_ext autoreload
+%autoreload 2
+```
+
+
+### _Jupyter NB Shortcuts_
+group comment  
+`crtl + /`
+group indent  
+`crtl + [`
+show function documentation  
+`shift + tab inside function`  
+auto-complete  
+`tab`
+
+### Mathmatical Operators  
+```
+print(12 / 3)     # int / int -> float
+print(17 // 3)    # floor division
+print(17.0 // 3)  # return float if one of the values is float 
+print(17 % 3)     # remainder
+print(2 ** 7)     # 2 to the power of 7
+```
+
 ## Indexing   
 
 ### Indexing a String  
@@ -28,6 +74,18 @@ word[-1:-3:-1]
 word[::-1]
 
 ```
+
+### Iterators  
+```
+x = [1,2,5]
+x_iter = iter(x)
+x_iter
+next(x_iter)
+```
+converts a list into an interator object
+the `next` function will return the first object and delete it calling the `next` function an additional time will return the second object and delete it.  
+`x.pop()` will return the last element of a list and delte it
+
 ### String Methods  
 
 https://www.w3schools.com/python/python_ref_string.asp
@@ -37,10 +95,120 @@ word.lower()
 word.strip()
 word.replace()
 word.split()
+word.join()
+word.find()
 ```
 
+### _String Special Characters_  
+\\t \<tab\>  
+\\n \<newline\>  
+r in front of a string makes it a raw string  
+`print(r'C:\some\name')`  
+
+## Functional Operators  
+
+### _map_  
+- You will often want to apply a function to all elements of a list.
+- Suppose a list `L` has elements that are all numbers, and `f` is a function on numbers.  Then `map(f, L)` is the result of applying `f` to every element of `L`.
+- The `map` function returns a map object, which is an **iterator**.  To get the list use the `list` function.
+` map(<function>, <iterable>)` 
+will apply the function to each element of the iterable  
+returns a map object  
+
+```
+L = [4, 9, 16]
+map(math.sqrt, L)
+```
+
+can use lambda functions as well  
+`list(map(lambda val: val**.5, L))`
+will take the square root of all elements of L  
+
+### _filter_  
+
+Filter extracts the elements of a list that satisfy some condition. The condition is given in the form of a boolean function.  
+
+The `filter` function also returns an iterator object.  Use `list` to get the associated list.  
+
+_to call filter we must pass a boolean function, a function that returns true or false_
+
+```
+def non_zero(x):
+    return x != 0
+list(filter(non_zero, [1, 2, 0, -3, 0, -5]))
+```
+will return all non zero elements of the list  
+
+### _Multiple Arguments_
+```
+list(map(lambda x, y: x+y, [1,2,3], [10,20,30]))
+```
+will return the sum of element n of both lists  
+
+### _zip_
+takes two lists of the same length and makes one list containing pairs of the corresponding elements of the two lists  
+```
+a = [1, 2, 3, 4]
+b = [5, 6, 7, 8]
+list(zip(a, b))
+# [(1, 5), (2, 6), (3, 7), (4, 8)]
+```
+```
+list(map(lambda p: p[0]+p[1], zip([1,2,3], [10,20,30])))
+# [11, 22, 33]
+```
+### **The operator module**
+
+If you want to apply a built-in operation like `+` in a map, you can write a `lambda` function - `lambda x, y: x+y` - but there is a simpler way. The operator module defines named versions of the built-in operations, just for use in functions like `map`. For example:  
+```
+from operator import *
+print(list(map(add, [1,2,3], [4, 5, 6])))
+print(list(map(mul, [1,2,3], [4, 5, 6])))
+# [5,7,9]
+# [4, 10, 18]
+```
+
+### _Methods in map calls_
+to call a method in a map call use a lambda function  
+```
+lis = [" abc \n", " def", "ghi   "]
+list(map(lambda s: s.strip(), lis))
+```
+
+or use the class method call
+`list(map(str.strip, lis))`
 
 ## Printing   
+
+### _Format Specifier_  
+- `format_specifier` is a string containing special format symbols, which are used to insert values from the tuple:  
+  - `%s` means inserting a string.  
+  - `%d` means inserting an integer.  
+  - `%f` means inserting a float.  
+```
+print("hello, %f!" % 2017)
+print("hello, %d!" % 2017)
+print("hello, %.2f!" % 2017.1314)
+```
+### _format function_  
+
+```
+print('My name is {0} and I am {1} years old'.format('Mike', 25))
+```
+put index positions in curly brackets then `.format(0,1)  
+```
+print('My name is {name} and I am {age} years old'.format(name='Mike', age=25))
+```
+
+### _fast strings_  
+
+define variables  
+put an f in front of your string and the curly braces around variable names  
+```
+name = justin
+age = 41
+f'my name is {name} and mmy age is {age}
+```
 
 ### Modulous Operator  
 
@@ -58,6 +226,7 @@ def square(x):
     return x**2
 ```
 
+
 ### Default Arguments
 ```{python}
 def polynomial(x, a, b=0, c=0, d=0):  #assigning default values
@@ -65,6 +234,14 @@ def polynomial(x, a, b=0, c=0, d=0):  #assigning default values
     return result
 
 ```
+
+## Lambda Functions  
+```
+Add_two_powers = lambda x: x**2 + x**3
+```
+syntax: `lambda <variables>' : \<return statement\>  
+
+
 ## Control Flow  
 
 ### Else If  
@@ -2027,6 +2204,9 @@ ZZ save file and exit(capital letters)
 
 # Git
 ## workflow  
+
+### _pull repo from remote_
+
 -git init  
 or  
 -git clone  

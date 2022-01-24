@@ -7,7 +7,7 @@
 
         <meta name="author" content="Justin Meisenhelter" />
     
-        <meta name="date" content="2022-01-20" />
+        <meta name="date" content="2022-01-24" />
     
     <title>Cheat Sheet</title>
 
@@ -123,9 +123,13 @@
             <ul>
             <li><a href="#python">Python</a>
             <ul>
+            <li><a href="#syntax">Syntax</a></li>
+            <li><a href="#magic-commands">Magic Commands</a></li>
             <li><a href="#indexing">Indexing</a></li>
+            <li><a href="#functional-operators">Functional Operators</a></li>
             <li><a href="#printing">Printing</a></li>
             <li><a href="#functions">Functions</a></li>
+            <li><a href="#lambda-functions">Lambda Functions</a></li>
             <li><a href="#control-flow">Control Flow</a></li>
             <li><a href="#handling-errorsexceptions">Handling Errors/Exceptions</a></li>
             <li><a href="#lists">Lists</a></li>
@@ -174,7 +178,7 @@
             <ul>
             <li><a href="#comments">comments</a></li>
             <li><a href="#commands"><em>Commands</em></a></li>
-            <li><a href="#mathmatical-operators">Mathmatical Operators</a></li>
+            <li><a href="#mathmatical-operators-1">Mathmatical Operators</a></li>
             <li><a href="#comparison-operator">Comparison Operator</a></li>
             <li><a href="#logical-operators">Logical Operators</a></li>
             <li><a href="#string-manipulation">String Manipulation</a></li>
@@ -231,7 +235,7 @@
       <p class="authors">
            <span class="glyphicon glyphicon-user"></span> Justin Meisenhelter
       </p>
-         <p class="date"><span class="glyphicon glyphicon-calendar"></span> 2022-01-20</p>
+         <p class="date"><span class="glyphicon glyphicon-calendar"></span> 2022-01-24</p>
            
 
    
@@ -241,6 +245,45 @@
 <div class="page-content has-page-title">
 <div id="python" class="section level1">
 <h1>Python</h1>
+<div id="syntax" class="section level2">
+<h2>Syntax</h2>
+<p>to put commands on new line use the backslash \</p>
+<pre><code>8 * (7 + 6 * 5) \
+      + 4 / 3 ** 2 - 1 </code></pre>
+<p>self assignment<br />
+- <code>a=a+b</code> &lt;—-&gt; <code>a+=b</code><br />
+- <code>a=a-b</code> &lt;—-&gt; <code>a-=b</code><br />
+- <code>a=a*b</code> &lt;—-&gt; <code>a*=b</code><br />
+- <code>a=a/b</code> &lt;—-&gt; <code>a/=b</code></p>
+<p>import libraries<br />
+<code>import math</code><br />
+<code>from math import sin, cos</code><br />
+assign an alias for the module name<br />
+<code>import math as ma</code></p>
+</div>
+<div id="magic-commands" class="section level2">
+<h2>Magic Commands</h2>
+<p>autoreload</p>
+<pre><code>%load_ext autoreload
+%autoreload 2</code></pre>
+<div id="jupyter-nb-shortcuts" class="section level3">
+<h3><em>Jupyter NB Shortcuts</em></h3>
+<p>group comment<br />
+<code>crtl + /</code> group indent<br />
+<code>crtl + [</code> show function documentation<br />
+<code>shift + tab inside function</code><br />
+auto-complete<br />
+<code>tab</code></p>
+</div>
+<div id="mathmatical-operators" class="section level3">
+<h3>Mathmatical Operators</h3>
+<pre><code>print(12 / 3)     # int / int -&gt; float
+print(17 // 3)    # floor division
+print(17.0 // 3)  # return float if one of the values is float 
+print(17 % 3)     # remainder
+print(2 ** 7)     # 2 to the power of 7</code></pre>
+</div>
+</div>
 <div id="indexing" class="section level2">
 <h2>Indexing</h2>
 <div id="indexing-a-string" class="section level3">
@@ -255,6 +298,15 @@ word[-1:-3:-1]</code></pre>
 <pre class="python"><code>word[::-1]</code></pre>
 <pre><code>## &#39;kjihgfedcba&#39;</code></pre>
 </div>
+<div id="iterators" class="section level3">
+<h3>Iterators</h3>
+<pre><code>x = [1,2,5]
+x_iter = iter(x)
+x_iter
+next(x_iter)</code></pre>
+<p>converts a list into an interator object the <code>next</code> function will return the first object and delete it calling the <code>next</code> function an additional time will return the second object and delete it.<br />
+<code>x.pop()</code> will return the last element of a list and delte it</p>
+</div>
 <div id="string-methods" class="section level3">
 <h3>String Methods</h3>
 <p><a href="https://www.w3schools.com/python/python_ref_string.asp" class="uri">https://www.w3schools.com/python/python_ref_string.asp</a></p>
@@ -262,11 +314,106 @@ word[-1:-3:-1]</code></pre>
 word.lower()
 word.strip()
 word.replace()
-word.split()</code></pre>
+word.split()
+word.join()
+word.find()</code></pre>
+</div>
+<div id="string-special-characters" class="section level3">
+<h3><em>String Special Characters</em></h3>
+<p>\t &lt;tab&gt;<br />
+\n &lt;newline&gt;<br />
+r in front of a string makes it a raw string<br />
+<code>print(r&#39;C:\some\name&#39;)</code></p>
+</div>
+</div>
+<div id="functional-operators" class="section level2">
+<h2>Functional Operators</h2>
+<div id="map" class="section level3">
+<h3><em>map</em></h3>
+<ul>
+<li>You will often want to apply a function to all elements of a list.</li>
+<li>Suppose a list <code>L</code> has elements that are all numbers, and <code>f</code> is a function on numbers. Then <code>map(f, L)</code> is the result of applying <code>f</code> to every element of <code>L</code>.</li>
+<li>The <code>map</code> function returns a map object, which is an <strong>iterator</strong>. To get the list use the <code>list</code> function. <code>map(&lt;function&gt;, &lt;iterable&gt;)</code> will apply the function to each element of the iterable<br />
+returns a map object</li>
+</ul>
+<pre><code>L = [4, 9, 16]
+map(math.sqrt, L)</code></pre>
+<p>can use lambda functions as well<br />
+<code>list(map(lambda val: val**.5, L))</code> will take the square root of all elements of L</p>
+</div>
+<div id="filter" class="section level3">
+<h3><em>filter</em></h3>
+<p>Filter extracts the elements of a list that satisfy some condition. The condition is given in the form of a boolean function.</p>
+<p>The <code>filter</code> function also returns an iterator object. Use <code>list</code> to get the associated list.</p>
+<p><em>to call filter we must pass a boolean function, a function that returns true or false</em></p>
+<pre><code>def non_zero(x):
+    return x != 0
+list(filter(non_zero, [1, 2, 0, -3, 0, -5]))</code></pre>
+<p>will return all non zero elements of the list</p>
+</div>
+<div id="multiple-arguments" class="section level3">
+<h3><em>Multiple Arguments</em></h3>
+<pre><code>list(map(lambda x, y: x+y, [1,2,3], [10,20,30]))</code></pre>
+<p>will return the sum of element n of both lists</p>
+</div>
+<div id="zip" class="section level3">
+<h3><em>zip</em></h3>
+<p>takes two lists of the same length and makes one list containing pairs of the corresponding elements of the two lists</p>
+<pre><code>a = [1, 2, 3, 4]
+b = [5, 6, 7, 8]
+list(zip(a, b))
+# [(1, 5), (2, 6), (3, 7), (4, 8)]</code></pre>
+<pre><code>list(map(lambda p: p[0]+p[1], zip([1,2,3], [10,20,30])))
+# [11, 22, 33]</code></pre>
+</div>
+<div id="the-operator-module" class="section level3">
+<h3><strong>The operator module</strong></h3>
+<p>If you want to apply a built-in operation like <code>+</code> in a map, you can write a <code>lambda</code> function - <code>lambda x, y: x+y</code> - but there is a simpler way. The operator module defines named versions of the built-in operations, just for use in functions like <code>map</code>. For example:</p>
+<pre><code>from operator import *
+print(list(map(add, [1,2,3], [4, 5, 6])))
+print(list(map(mul, [1,2,3], [4, 5, 6])))
+# [5,7,9]
+# [4, 10, 18]</code></pre>
+</div>
+<div id="methods-in-map-calls" class="section level3">
+<h3><em>Methods in map calls</em></h3>
+<p>to call a method in a map call use a lambda function</p>
+<pre><code>lis = [&quot; abc \n&quot;, &quot; def&quot;, &quot;ghi   &quot;]
+list(map(lambda s: s.strip(), lis))</code></pre>
+<p>or use the class method call <code>list(map(str.strip, lis))</code></p>
 </div>
 </div>
 <div id="printing" class="section level2">
 <h2>Printing</h2>
+<div id="format-specifier" class="section level3">
+<h3><em>Format Specifier</em></h3>
+<ul>
+<li><code>format_specifier</code> is a string containing special format symbols, which are used to insert values from the tuple:
+<ul>
+<li><code>%s</code> means inserting a string.<br />
+</li>
+<li><code>%d</code> means inserting an integer.<br />
+</li>
+<li><code>%f</code> means inserting a float.<br />
+</li>
+</ul>
+<pre><code>print(&quot;hello, %f!&quot; % 2017)
+print(&quot;hello, %d!&quot; % 2017)
+print(&quot;hello, %.2f!&quot; % 2017.1314)</code></pre>
+<h3 id="format-function"><em>format function</em></h3></li>
+</ul>
+<pre><code>print(&#39;My name is {0} and I am {1} years old&#39;.format(&#39;Mike&#39;, 25))</code></pre>
+<p>put index positions in curly brackets then `.format(0,1)</p>
+<pre><code>print(&#39;My name is {name} and I am {age} years old&#39;.format(name=&#39;Mike&#39;, age=25))</code></pre>
+</div>
+<div id="fast-strings" class="section level3">
+<h3><em>fast strings</em></h3>
+<p>define variables<br />
+put an f in front of your string and the curly braces around variable names</p>
+<pre><code>name = justin
+age = 41
+f&#39;my name is {name} and mmy age is {age}</code></pre>
+</div>
 <div id="modulous-operator" class="section level3">
 <h3>Modulous Operator</h3>
 <pre class="python"><code>print( &quot;hello, %f!&quot; %2017)</code></pre>
@@ -289,6 +436,11 @@ word.split()</code></pre>
     result = a + b * x**1 + c * x**2 + d * x**3
     return result</code></pre>
 </div>
+</div>
+<div id="lambda-functions" class="section level2">
+<h2>Lambda Functions</h2>
+<pre><code>Add_two_powers = lambda x: x**2 + x**3</code></pre>
+<p>syntax: `lambda <variables>’ : &lt;return statement&gt;</p>
 </div>
 <div id="control-flow" class="section level2">
 <h2>Control Flow</h2>
@@ -652,8 +804,8 @@ f.close()</code></pre>
 </ul>
 <pre class="python"><code>import numpy as np
 np.random.randn(10)</code></pre>
-<pre><code>## array([-2.42759916, -0.4763386 ,  1.36765844,  0.0311585 , -1.0487548 ,
-##         0.90130674,  0.58883491, -0.48621203, -0.13306062,  0.30569569])</code></pre>
+<pre><code>## array([ 0.44367567, -0.62926218,  1.63924407,  0.32572165, -0.4075845 ,
+##         0.59861114, -0.70009875,  0.66701166, -1.51177953,  0.16893178])</code></pre>
 </div>
 <div id="scipy" class="section level2">
 <h2>Scipy</h2>
@@ -1567,7 +1719,7 @@ FROM movies;  </code></pre>
 <p>Select <column name> AS <column alias name></p>
 </div>
 </div>
-<div id="mathmatical-operators" class="section level2">
+<div id="mathmatical-operators-1" class="section level2">
 <h2>Mathmatical Operators</h2>
 <p>+<br />
 -<br />
@@ -2377,6 +2529,8 @@ u - undo the last action</p>
 <h1>Git</h1>
 <div id="workflow-1" class="section level2">
 <h2>workflow</h2>
+<div id="pull-repo-from-remote" class="section level3">
+<h3><em>pull repo from remote</em></h3>
 <p>-git init<br />
 or<br />
 -git clone<br />
@@ -2402,6 +2556,7 @@ create repo on github<br />
 copy repo URL from ‘code’ button<br />
 -git clone <git hub url><br />
 -git push</p>
+</div>
 </div>
 <div id="commands-5" class="section level2">
 <h2>Commands</h2>
