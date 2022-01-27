@@ -84,7 +84,14 @@ next(x_iter)
 ```
 converts a list into an interator object
 the `next` function will return the first object and delete it calling the `next` function an additional time will return the second object and delete it.  
-`x.pop()` will return the last element of a list and delte it
+`x.pop()` will return the last element of a list and delte it  
+
+### _enumerate_  
+the enumerate() function takes an iterable and outputs a tuple pair of each elemenet and its index
+```{python}
+words = [0,2,4,6,8]
+list(enumerate(words))
+```
 
 ### String Methods  
 
@@ -240,7 +247,15 @@ def polynomial(x, a, b=0, c=0, d=0):  #assigning default values
 Add_two_powers = lambda x: x**2 + x**3
 ```
 syntax: `lambda <variables>' : \<return statement\>  
+Lambda functions can contain if else statements
+```
 
+Firstelt = lambda L: None if L==[] else L[0]
+L1=[]
+L2=[1,2,3]
+print(Firstelt(L1))
+print(Firstelt(L2))
+```
 
 ## Control Flow  
 
@@ -274,6 +289,23 @@ while x <= 10:
     x = x + 1
 
 ```
+break and continue
+```{python}
+L = [10, -10, 20, -20, 30, -30, 40, -40, 50, -50, 60, -60]
+
+sum_ = 0
+for x in L:
+    if x < 0:
+# continue will skip the rest of the code and return to the opening loop
+        continue
+    sum_ = sum_ + x
+    if sum_ > 100:
+# break the outermost loop
+        break
+        
+sum_
+
+```
 ### for loops  
 
 ```{python}
@@ -281,6 +313,23 @@ for x in range(11):
     if x % 2 == 0 and x % 3 != 0:
         print (x)
 ```
+multiple iterables
+```
+words = ['a', 'b', 'c', 'd', 'e']
+for i, e in enumerate(words):
+    print(i, e)
+```
+the enumerated list is unpacked and matched to the two indices
+
+## Unpacking  
+```{python}
+def square_all(x, y):
+    return x**2, y**2
+x, y = square_all(2,3)
+x, y
+```
+will assign the first output value to x and the second output value to y
+
 ## Handling Errors/Exceptions  
 
 Python's **try** and **except** can provide ways to handle exceptions.
@@ -316,11 +365,65 @@ x.index('hello')
 ```{python}
 x.append(55)
 ```
+```{python}
+x.extend([1,2,3])
+# will add all elements in the list to the object x
+```
+```{python}
+x.insert(2,'d')
+# inserts 'd' into the index of 2
+```
+### _List Sorting_  
+```{python}
+staff =[['Lucy','A',9], ['John','B',3], ['Peter','A',6]]
+sorted(staff, key = lambda x: x[1]) # key is the sort metric
+```
+```{python}
+staff =[['Lucy','A',9], ['John','B',3], ['Peter','A',6]]
+sorted(staff, key = lambda x: x[2]+len(x[0]))  # key is the sort metric
+# will sort by length of name
+```
 
+### _Exersices_
+Write a function to switch the ith and jth items in a list.
+```
+def switch_item(L, i, j):
+    ... function body goes here ...
 
-
+my_list = ['first', 'second', 'third', 'fourth']
+switch_item(my_list, 1, -1)
+my_list ---> ['first', 'fourth', 'third', 'second']
+```
+```{python}
+def switch_item(L, i, j):
+    temp = L[i]
+    L[i] = L[j]
+    L[j] = temp
+    return L
+my_list = ['first', 'second', 'third', 'fourth']
+switch_item(my_list, 1, -1)
+```
+  
 
 ### List comprehension
+the format of a list comprehension
+```
+[ <return expresion> for <element> in <list> if <boolean> ]
+[ x* x for x in [1, 2, 3, 4, 5] if x%2 == 0] #map and filter
+```
+if you need an else statement
+```
+[ <expr1> if <boolean> else <expr2> for <element> in <list> ]
+[ x* x if x%2 == 0 else x+2 for x in [1, 2, 3, 4, 5] ]
+```
+can chain together if elses
+```
+[x* x if x%2 == 0 else x+2 if x <3 else x *5 for x in [1, 2, 3, 4, 5]
+```
+can interact with previous iterations of the comprehension
+```
+x + p for p,x in zip([1,2,3,4,5], [1,2,3,4,5][1:])
+```
 ```{python}
 x=[200,400,23,50,1,23,54,66,88,97,20]
 y=[i for i in x if i%2==0]
@@ -332,7 +435,11 @@ names=['Barry White','aj','tom','John Foster Wallace',
        'Billy Bud','Yifan Ghost Song']
 [i.upper() if len(i) > 2 and len(i) <12 else i for i in names]
 ```
-
+### _Dictionary Comprehension_  
+```{python}
+dict_list = ['a', 'b', 'd', 'z']
+{ letter:ord(letter) for letter in dict_list }
+```
 ## Tuple  
 
 Tuples are similar to lists in many ways, except they can't be modified once you've created them.  
@@ -345,6 +452,7 @@ tup=("hi", True, 1.0, 2)
 tup
 
 ```
+
 ## Set  
 
 A set is an unordered sequence of unique values. 
@@ -376,11 +484,18 @@ thing[2]='val2'
 thing[3]=[3,2,1]
 
 ```
+Can construct a dictionary from a list or set of tuples  
+```
+dict([('sape', 4139), ('guido', 4127), ('jack', 4098)])
+```
+
 ### Dictionary functions
 ```{python}
 thing.keys()
 thing.values()
 thing.items()
+thing.get('weight')
+# thing.get(<key>, <value>) if key does not exist it will return the input value
 ```
 ### Word Frequency Histogram
 ```{python}
@@ -394,6 +509,14 @@ for i in words:
 hist
 
 ```
+## Counter
+```{python}
+from collections import Counter, defaultdict
+sentence = "this is a sentence and it has a bunch of letters and I want to count a few things"
+my_counter = Counter(sentence)
+my_counter
+```
+
 ## Arrays  
 
 ```{python}
@@ -539,12 +662,24 @@ https://learnbyexample.github.io/python-regex-cheatsheet/
 
 ## Files  
 
+### _Read file as text_
+```
+!type <name of file>
+```
+
+### _pickle files_
+
+
 ### Opening Files
 ```{python, eval=FALSE}
 f = open('fooz.txt', 'r') 
 f.read()
 f.close()
 # reads entire file as a string
+# 'r' opens files for reading
+# 'a' opens file for appending
+# 'w' opens file for overwriting
+# 'r+' read and append
 ```
 ### Reading Files
 ```{python, eval = FALSE}
@@ -561,12 +696,27 @@ for i in f:
     print(i)
 f.close()
 ```
+```
+# lets capitalize everything in our file
+text = ''.join(list(map(lamba s: s.upper(), lines)))
+print(text)
+```
+Write a function to strip the new line characters out of a file
+```
+def e_to_a(filename):
+    f = open(filename, 'r')
+    lines = f.readlines()
+    lines = list(map(lambda x: x.strip(), lines))
+    f.close()
+    return lines
+```
 ### Writing files
 ```{python, eval = FALSE}
 f.write('this is some text.\nThis is another line.\n')
 f.write('oh snap, more lines.\nIt\'s a line.\n')
 f.close()
 ```
+
 ## Random Sampling  
 
 The `numpy.random` submodule provides random-variable generator. Some are listed below:
@@ -1735,6 +1885,18 @@ TRUNCATE TABLE table_name;
 to fully remove a table  
 ```
 DROP TABLE table name;
+```
+
+## Create Temporary Table
+```
+select
+  select list
+into
+  # temporary table name (name must start with hashtag)
+from
+  table_name
+where
+  criteria
 ```
 
 ## SQL Command Line Prompt  

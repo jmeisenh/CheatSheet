@@ -7,7 +7,7 @@
 
         <meta name="author" content="Justin Meisenhelter" />
     
-        <meta name="date" content="2022-01-24" />
+        <meta name="date" content="2022-01-27" />
     
     <title>Cheat Sheet</title>
 
@@ -131,11 +131,13 @@
             <li><a href="#functions">Functions</a></li>
             <li><a href="#lambda-functions">Lambda Functions</a></li>
             <li><a href="#control-flow">Control Flow</a></li>
+            <li><a href="#unpacking">Unpacking</a></li>
             <li><a href="#handling-errorsexceptions">Handling Errors/Exceptions</a></li>
             <li><a href="#lists">Lists</a></li>
             <li><a href="#tuple">Tuple</a></li>
             <li><a href="#set">Set</a></li>
             <li><a href="#dictionary">Dictionary</a></li>
+            <li><a href="#counter">Counter</a></li>
             <li><a href="#arrays">Arrays</a></li>
             <li><a href="#matrix">Matrix</a></li>
             <li><a href="#classes">Classes</a></li>
@@ -191,6 +193,7 @@
             <li><a href="#partition">PARTITION</a></li>
             <li><a href="#data-manipulation">Data Manipulation</a></li>
             <li><a href="#create-table">CREATE TABLE</a></li>
+            <li><a href="#create-temporary-table">Create Temporary Table</a></li>
             <li><a href="#sql-command-line-prompt">SQL Command Line Prompt</a></li>
             <li><a href="#load-data">LOAD data</a></li>
             <li><a href="#data-integrity">Data Integrity</a></li>
@@ -235,7 +238,7 @@
       <p class="authors">
            <span class="glyphicon glyphicon-user"></span> Justin Meisenhelter
       </p>
-         <p class="date"><span class="glyphicon glyphicon-calendar"></span> 2022-01-24</p>
+         <p class="date"><span class="glyphicon glyphicon-calendar"></span> 2022-01-27</p>
            
 
    
@@ -306,6 +309,13 @@ x_iter
 next(x_iter)</code></pre>
 <p>converts a list into an interator object the <code>next</code> function will return the first object and delete it calling the <code>next</code> function an additional time will return the second object and delete it.<br />
 <code>x.pop()</code> will return the last element of a list and delte it</p>
+</div>
+<div id="enumerate" class="section level3">
+<h3><em>enumerate</em></h3>
+<p>the enumerate() function takes an iterable and outputs a tuple pair of each elemenet and its index</p>
+<pre class="python"><code>words = [0,2,4,6,8]
+list(enumerate(words))</code></pre>
+<pre><code>## [(0, 0), (1, 2), (2, 4), (3, 6), (4, 8)]</code></pre>
 </div>
 <div id="string-methods" class="section level3">
 <h3>String Methods</h3>
@@ -440,7 +450,14 @@ f&#39;my name is {name} and mmy age is {age}</code></pre>
 <div id="lambda-functions" class="section level2">
 <h2>Lambda Functions</h2>
 <pre><code>Add_two_powers = lambda x: x**2 + x**3</code></pre>
-<p>syntax: `lambda <variables>’ : &lt;return statement&gt;</p>
+<p>syntax: `lambda <variables>’ : &lt;return statement&gt;<br />
+Lambda functions can contain if else statements</p>
+<pre><code>
+Firstelt = lambda L: None if L==[] else L[0]
+L1=[]
+L2=[1,2,3]
+print(Firstelt(L1))
+print(Firstelt(L2))</code></pre>
 </div>
 <div id="control-flow" class="section level2">
 <h2>Control Flow</h2>
@@ -474,6 +491,21 @@ while x &lt;= 10:
 ## 4
 ## 8
 ## 10</code></pre>
+<p>break and continue</p>
+<pre class="python"><code>L = [10, -10, 20, -20, 30, -30, 40, -40, 50, -50, 60, -60]
+
+sum_ = 0
+for x in L:
+    if x &lt; 0:
+# continue will skip the rest of the code and return to the opening loop
+        continue
+    sum_ = sum_ + x
+    if sum_ &gt; 100:
+# break the outermost loop
+        break
+        
+sum_</code></pre>
+<pre><code>## 150</code></pre>
 </div>
 <div id="for-loops" class="section level3">
 <h3>for loops</h3>
@@ -484,7 +516,21 @@ while x &lt;= 10:
 ## 4
 ## 8
 ## 10</code></pre>
+<p>multiple iterables</p>
+<pre><code>words = [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39;]
+for i, e in enumerate(words):
+    print(i, e)</code></pre>
+<p>the enumerated list is unpacked and matched to the two indices</p>
 </div>
+</div>
+<div id="unpacking" class="section level2">
+<h2>Unpacking</h2>
+<pre class="python"><code>def square_all(x, y):
+    return x**2, y**2
+x, y = square_all(2,3)
+x, y</code></pre>
+<pre><code>## (4, 9)</code></pre>
+<p>will assign the first output value to x and the second output value to y</p>
 </div>
 <div id="handling-errorsexceptions" class="section level2">
 <h2>Handling Errors/Exceptions</h2>
@@ -514,9 +560,51 @@ y = list()</code></pre>
 <pre class="python"><code>x.index(&#39;hello&#39;)</code></pre>
 <pre><code>## 6</code></pre>
 <pre class="python"><code>x.append(55)</code></pre>
+<pre class="python"><code>x.extend([1,2,3])
+# will add all elements in the list to the object x</code></pre>
+<pre class="python"><code>x.insert(2,&#39;d&#39;)
+# inserts &#39;d&#39; into the index of 2</code></pre>
+</div>
+<div id="list-sorting" class="section level3">
+<h3><em>List Sorting</em></h3>
+<pre class="python"><code>staff =[[&#39;Lucy&#39;,&#39;A&#39;,9], [&#39;John&#39;,&#39;B&#39;,3], [&#39;Peter&#39;,&#39;A&#39;,6]]
+sorted(staff, key = lambda x: x[1]) # key is the sort metric</code></pre>
+<pre><code>## [[&#39;Lucy&#39;, &#39;A&#39;, 9], [&#39;Peter&#39;, &#39;A&#39;, 6], [&#39;John&#39;, &#39;B&#39;, 3]]</code></pre>
+<pre class="python"><code>staff =[[&#39;Lucy&#39;,&#39;A&#39;,9], [&#39;John&#39;,&#39;B&#39;,3], [&#39;Peter&#39;,&#39;A&#39;,6]]
+sorted(staff, key = lambda x: x[2]+len(x[0]))  # key is the sort metric
+# will sort by length of name</code></pre>
+<pre><code>## [[&#39;John&#39;, &#39;B&#39;, 3], [&#39;Peter&#39;, &#39;A&#39;, 6], [&#39;Lucy&#39;, &#39;A&#39;, 9]]</code></pre>
+</div>
+<div id="exersices" class="section level3">
+<h3><em>Exersices</em></h3>
+<p>Write a function to switch the ith and jth items in a list.</p>
+<pre><code>def switch_item(L, i, j):
+    ... function body goes here ...
+
+my_list = [&#39;first&#39;, &#39;second&#39;, &#39;third&#39;, &#39;fourth&#39;]
+switch_item(my_list, 1, -1)
+my_list ---&gt; [&#39;first&#39;, &#39;fourth&#39;, &#39;third&#39;, &#39;second&#39;]</code></pre>
+<pre class="python"><code>def switch_item(L, i, j):
+    temp = L[i]
+    L[i] = L[j]
+    L[j] = temp
+    return L
+my_list = [&#39;first&#39;, &#39;second&#39;, &#39;third&#39;, &#39;fourth&#39;]
+switch_item(my_list, 1, -1)</code></pre>
+<pre><code>## [&#39;first&#39;, &#39;fourth&#39;, &#39;third&#39;, &#39;second&#39;]</code></pre>
 </div>
 <div id="list-comprehension" class="section level3">
 <h3>List comprehension</h3>
+<p>the format of a list comprehension</p>
+<pre><code>[ &lt;return expresion&gt; for &lt;element&gt; in &lt;list&gt; if &lt;boolean&gt; ]
+[ x* x for x in [1, 2, 3, 4, 5] if x%2 == 0] #map and filter</code></pre>
+<p>if you need an else statement</p>
+<pre><code>[ &lt;expr1&gt; if &lt;boolean&gt; else &lt;expr2&gt; for &lt;element&gt; in &lt;list&gt; ]
+[ x* x if x%2 == 0 else x+2 for x in [1, 2, 3, 4, 5] ]</code></pre>
+<p>can chain together if elses</p>
+<pre><code>[x* x if x%2 == 0 else x+2 if x &lt;3 else x *5 for x in [1, 2, 3, 4, 5]</code></pre>
+<p>can interact with previous iterations of the comprehension</p>
+<pre><code>x + p for p,x in zip([1,2,3,4,5], [1,2,3,4,5][1:])</code></pre>
 <pre class="python"><code>x=[200,400,23,50,1,23,54,66,88,97,20]
 y=[i for i in x if i%2==0]
 y</code></pre>
@@ -526,6 +614,12 @@ y</code></pre>
        &#39;Billy Bud&#39;,&#39;Yifan Ghost Song&#39;]
 [i.upper() if len(i) &gt; 2 and len(i) &lt;12 else i for i in names]</code></pre>
 <pre><code>## [&#39;BARRY WHITE&#39;, &#39;aj&#39;, &#39;TOM&#39;, &#39;John Foster Wallace&#39;, &#39;BILLY BUD&#39;, &#39;Yifan Ghost Song&#39;]</code></pre>
+</div>
+<div id="dictionary-comprehension" class="section level3">
+<h3><em>Dictionary Comprehension</em></h3>
+<pre class="python"><code>dict_list = [&#39;a&#39;, &#39;b&#39;, &#39;d&#39;, &#39;z&#39;]
+{ letter:ord(letter) for letter in dict_list }</code></pre>
+<pre><code>## {&#39;a&#39;: 97, &#39;b&#39;: 98, &#39;d&#39;: 100, &#39;z&#39;: 122}</code></pre>
 </div>
 </div>
 <div id="tuple" class="section level2">
@@ -571,6 +665,8 @@ s.difference(t)</code></pre>
 thing[&#39;key1&#39;]=&#39;val1&#39;
 thing[2]=&#39;val2&#39;
 thing[3]=[3,2,1]</code></pre>
+<p>Can construct a dictionary from a list or set of tuples</p>
+<pre><code>dict([(&#39;sape&#39;, 4139), (&#39;guido&#39;, 4127), (&#39;jack&#39;, 4098)])</code></pre>
 <div id="dictionary-functions" class="section level3">
 <h3>Dictionary functions</h3>
 <pre class="python"><code>thing.keys()</code></pre>
@@ -579,6 +675,8 @@ thing[3]=[3,2,1]</code></pre>
 <pre><code>## dict_values([&#39;val1&#39;, &#39;val2&#39;, [3, 2, 1]])</code></pre>
 <pre class="python"><code>thing.items()</code></pre>
 <pre><code>## dict_items([(&#39;key1&#39;, &#39;val1&#39;), (2, &#39;val2&#39;), (3, [3, 2, 1])])</code></pre>
+<pre class="python"><code>thing.get(&#39;weight&#39;)
+# thing.get(&lt;key&gt;, &lt;value&gt;) if key does not exist it will return the input value</code></pre>
 </div>
 <div id="word-frequency-histogram" class="section level3">
 <h3>Word Frequency Histogram</h3>
@@ -592,6 +690,14 @@ for i in words:
 hist</code></pre>
 <pre><code>## {&#39;hi&#39;: 3, &#39;hello&#39;: 1, &#39;yo&#39;: 1, &#39;whazzup&#39;: 1, &#39;hey&#39;: 2}</code></pre>
 </div>
+</div>
+<div id="counter" class="section level2">
+<h2>Counter</h2>
+<pre class="python"><code>from collections import Counter, defaultdict
+sentence = &quot;this is a sentence and it has a bunch of letters and I want to count a few things&quot;
+my_counter = Counter(sentence)
+my_counter</code></pre>
+<pre><code>## Counter({&#39; &#39;: 18, &#39;t&#39;: 9, &#39;n&#39;: 8, &#39;a&#39;: 7, &#39;s&#39;: 6, &#39;e&#39;: 6, &#39;h&#39;: 4, &#39;i&#39;: 4, &#39;c&#39;: 3, &#39;o&#39;: 3, &#39;d&#39;: 2, &#39;u&#39;: 2, &#39;f&#39;: 2, &#39;w&#39;: 2, &#39;b&#39;: 1, &#39;l&#39;: 1, &#39;r&#39;: 1, &#39;I&#39;: 1, &#39;g&#39;: 1})</code></pre>
 </div>
 <div id="arrays" class="section level2">
 <h2>Arrays</h2>
@@ -762,12 +868,23 @@ M.I * M2</code></pre>
 </div>
 <div id="files" class="section level2">
 <h2>Files</h2>
+<div id="read-file-as-text" class="section level3">
+<h3><em>Read file as text</em></h3>
+<pre><code>!type &lt;name of file&gt;</code></pre>
+</div>
+<div id="pickle-files" class="section level3">
+<h3><em>pickle files</em></h3>
+</div>
 <div id="opening-files" class="section level3">
 <h3>Opening Files</h3>
 <pre class="python"><code>f = open(&#39;fooz.txt&#39;, &#39;r&#39;) 
 f.read()
 f.close()
-# reads entire file as a string</code></pre>
+# reads entire file as a string
+# &#39;r&#39; opens files for reading
+# &#39;a&#39; opens file for appending
+# &#39;w&#39; opens file for overwriting
+# &#39;r+&#39; read and append</code></pre>
 </div>
 <div id="reading-files" class="section level3">
 <h3>Reading Files</h3>
@@ -783,6 +900,16 @@ f.close()
 for i in f:
     print(i)
 f.close()</code></pre>
+<pre><code># lets capitalize everything in our file
+text = &#39;&#39;.join(list(map(lamba s: s.upper(), lines)))
+print(text)</code></pre>
+<p>Write a function to strip the new line characters out of a file</p>
+<pre><code>def e_to_a(filename):
+    f = open(filename, &#39;r&#39;)
+    lines = f.readlines()
+    lines = list(map(lambda x: x.strip(), lines))
+    f.close()
+    return lines</code></pre>
 </div>
 <div id="writing-files" class="section level3">
 <h3>Writing files</h3>
@@ -804,8 +931,8 @@ f.close()</code></pre>
 </ul>
 <pre class="python"><code>import numpy as np
 np.random.randn(10)</code></pre>
-<pre><code>## array([ 0.44367567, -0.62926218,  1.63924407,  0.32572165, -0.4075845 ,
-##         0.59861114, -0.70009875,  0.66701166, -1.51177953,  0.16893178])</code></pre>
+<pre><code>## array([-1.98307429,  0.3444386 ,  0.35645232,  1.75048829,  0.44942882,
+##         1.69550616,  0.71019727,  1.32309297,  0.83465371, -2.24520244])</code></pre>
 </div>
 <div id="scipy" class="section level2">
 <h2>Scipy</h2>
@@ -2077,6 +2204,17 @@ WHERE name = &quot;Roshan Seth&quot;;</code></pre>
 <p>to fully remove a table</p>
 <pre><code>DROP TABLE table name;</code></pre>
 </div>
+</div>
+<div id="create-temporary-table" class="section level2">
+<h2>Create Temporary Table</h2>
+<pre><code>select
+  select list
+into
+  # temporary table name (name must start with hashtag)
+from
+  table_name
+where
+  criteria</code></pre>
 </div>
 <div id="sql-command-line-prompt" class="section level2">
 <h2>SQL Command Line Prompt</h2>
