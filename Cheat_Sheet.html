@@ -7,7 +7,7 @@
 
         <meta name="author" content="Justin Meisenhelter" />
     
-        <meta name="date" content="2022-01-27" />
+        <meta name="date" content="2022-02-03" />
     
     <title>Cheat Sheet</title>
 
@@ -138,6 +138,9 @@
             <li><a href="#set">Set</a></li>
             <li><a href="#dictionary">Dictionary</a></li>
             <li><a href="#counter">Counter</a></li>
+            <li><a href="#bitwise-operator">Bitwise Operator</a></li>
+            <li><a href="#recursion">Recursion</a></li>
+            <li><a href="#yield-statement">Yield Statement</a></li>
             <li><a href="#arrays">Arrays</a></li>
             <li><a href="#matrix">Matrix</a></li>
             <li><a href="#classes">Classes</a></li>
@@ -238,7 +241,7 @@
       <p class="authors">
            <span class="glyphicon glyphicon-user"></span> Justin Meisenhelter
       </p>
-         <p class="date"><span class="glyphicon glyphicon-calendar"></span> 2022-01-27</p>
+         <p class="date"><span class="glyphicon glyphicon-calendar"></span> 2022-02-03</p>
            
 
    
@@ -445,6 +448,52 @@ f&#39;my name is {name} and mmy age is {age}</code></pre>
 <pre class="python"><code>def polynomial(x, a, b=0, c=0, d=0):  #assigning default values
     result = a + b * x**1 + c * x**2 + d * x**3
     return result</code></pre>
+<pre><code>def ask_ok(prompt, retries=4, complaint=&#39;Yes or no, please!&#39;):
+    while True:
+        ok = input(prompt)   # In Python 2, it is called raw_input()
+        if ok in [&#39;y&#39;, &#39;ye&#39;, &#39;yes&#39;]:
+            return True
+        if ok in [&#39;n&#39;, &#39;no&#39;, &#39;nop&#39;, &#39;nope&#39;]:
+            return False
+        retries = retries - 1
+        if retries &lt; 0:
+            raise IOError(&#39;Not a good user.&#39;)
+        print(complaint)</code></pre>
+<p>Note It is invalid in Python to put keyword argument in front of positional argument.</p>
+</div>
+<div id="args-and-kwargs" class="section level3">
+<h3><em>*args and **kwargs</em></h3>
+<ul>
+<li>Sometimes your function has a number of input parameters but you don’t want to specify all of them at the definition.<br />
+</li>
+<li>Then you can use <code>args</code> (tuple of arguments) and <code>kwargs</code> (keyword arguments) when you define the function.</li>
+</ul>
+<pre class="python"><code>args = (2,10,2)
+list(range(*args))</code></pre>
+<pre><code>## [2, 4, 6, 8]</code></pre>
+<pre class="python"><code>kwargs = {&#39;arg1&#39;:5, &#39;arg2&#39;:10, &#39;arg3&#39;: -2}
+def some_function(arg1, arg2, arg3):
+  return arg1*arg2/arg3
+some_function(**kwargs)</code></pre>
+<pre><code>## -25.0</code></pre>
+<pre class="python"><code>def register_student(name, *args, **kwargs):
+    print(&quot;-- The student&#39;s name is &quot;, name)
+    print(&quot;-&quot; * 40)
+    print(type(args))
+    for arg in args:
+        print(arg)
+    print(&quot;-&quot; * 40)
+    print(type(kwargs))
+    keys = sorted(kwargs.keys())
+    for kw in keys:
+        print(kw, &quot;:&quot;, kwargs[kw])</code></pre>
+<div id="unzipping-a-list" class="section level4">
+<h4><em>Unzipping a list</em></h4>
+<pre class="python"><code>nested_list = [[1,2,3], [4,5,6], [7,8,9]]
+# nested list is a zipped list
+list(zip(*nested_list))</code></pre>
+<pre><code>## [(1, 4, 7), (2, 5, 8), (3, 6, 9)]</code></pre>
+</div>
 </div>
 </div>
 <div id="lambda-functions" class="section level2">
@@ -699,6 +748,44 @@ my_counter = Counter(sentence)
 my_counter</code></pre>
 <pre><code>## Counter({&#39; &#39;: 18, &#39;t&#39;: 9, &#39;n&#39;: 8, &#39;a&#39;: 7, &#39;s&#39;: 6, &#39;e&#39;: 6, &#39;h&#39;: 4, &#39;i&#39;: 4, &#39;c&#39;: 3, &#39;o&#39;: 3, &#39;d&#39;: 2, &#39;u&#39;: 2, &#39;f&#39;: 2, &#39;w&#39;: 2, &#39;b&#39;: 1, &#39;l&#39;: 1, &#39;r&#39;: 1, &#39;I&#39;: 1, &#39;g&#39;: 1})</code></pre>
 </div>
+<div id="bitwise-operator" class="section level2">
+<h2>Bitwise Operator</h2>
+<p>&amp; and | are and and or respectively</p>
+<pre><code>10 &amp; 1
+# is a simple method for determining if an integer is even</code></pre>
+</div>
+<div id="recursion" class="section level2">
+<h2>Recursion</h2>
+<p>A function which calls itself</p>
+<pre><code>def factorial(num):
+    prod = 1
+    while num &gt; 0:
+        prod *= num
+        num -+ 1
+    return prod
+# for a recursive function we need a base case and a recusive call
+# with recursion
+def factorial_rec(num):
+# base case
+    if num == 0:
+        return 1
+# recursive call
+    return num * facotrial_rec(num-1)
+</code></pre>
+</div>
+<div id="yield-statement" class="section level2">
+<h2>Yield Statement</h2>
+<p>The yield statement is similar to return, however, it won’t return the whole result (say a very large list) at the end of the function but a generator instead.</p>
+<pre><code>def ret(L):
+    res = list(map(lambda x: x ** 2, L))
+    return res
+    
+def gen(L):
+    for i in L:
+        yield i ** 2
+# gives us a generator object</code></pre>
+<p>we now have a generator and can use the <code>next</code> function to return a recursive result</p>
+</div>
 <div id="arrays" class="section level2">
 <h2>Arrays</h2>
 <pre class="python"><code>import numpy as np
@@ -847,6 +934,34 @@ M.I * M2</code></pre>
 </div>
 <div id="classes" class="section level2">
 <h2>Classes</h2>
+<p><em>Attributes and Methods</em></p>
+<ul>
+<li>We’ll go into details in a bit, but here is the syntax to define a simple class:</li>
+</ul>
+<pre><code>class Classname(object):
+    def __init__(self):
+        initialize representation by assigning to variables
+
+    def methodname(self, ...args...):
+        define method; 
+        change representation or return value or both; 
+        use self.var to refer to variable var defined in init.</code></pre>
+<ul>
+<li><p>In <code>__init__</code>, we assign the desired representation to one or more variables, so we just have to decide what their names will be.</p></li>
+<li><p>Once we have this class, we can create instances of it:</p></li>
+</ul>
+<pre><code>newobj = Classname()</code></pre>
+<ul>
+<li>We invoke methods using object notation:</li>
+</ul>
+<pre><code>newobj.methodname(...args...)</code></pre>
+<ul>
+<li>Note that even though we defined the method using ordinary function definition syntax, we must call it using object syntax. That is just because it is defined inside a class.<br />
+</li>
+<li>However, in Python, there is an attribute naming convention to denote private attributes by prefixing the attribute with one or two underscores, e.g:</li>
+</ul>
+<pre class="python"><code>self._coords
+self.__coords</code></pre>
 <ul>
 <li><code>Person</code> is the <strong>class</strong></li>
 <li><code>name</code> and <code>age</code> are each an <strong>object attribute</strong></li>
@@ -861,6 +976,150 @@ M.I * M2</code></pre>
         
     def intro(self):
         print(&quot;My name is&quot;,self.name,&quot;and I am&quot;,self.age,&quot;years old&quot;)</code></pre>
+<div id="special-name-method" class="section level3">
+<h3><em>Special Name method</em></h3>
+<p>use the <code>__str__</code> special method<br />
+and the <code>__add__</code> special method<br />
+second arg in an attribute definition is ussually labeled as <code>other</code></p>
+<pre class="python"><code>class Vector(object):
+    def __init__(self, lis):
+        self.coords = lis
+
+    def length(self):
+        return sum([x**2 for x in self.coords])**.5
+    
+    def __str__(self):
+        return &#39;Vector&#39; + str(self.coords)
+    def __add__(self, other):
+        return Vector(list(map(lambda x, y: x+y, self.coords, other.coords)))
+    
+# Then we print the Vector object:
+vec_1 = Vector([1,2,3])
+print(vec_1)</code></pre>
+<pre><code>## Vector[1, 2, 3]</code></pre>
+<div id="exercise" class="section level4">
+<h4><em>Exercise</em></h4>
+<ul>
+<li>Now our Vector class looks like this:</li>
+</ul>
+<pre><code>class Vector(object):
+    def __init__(self, lis):
+        self.coords = lis
+
+    def length(self):
+        return sum([x**2 for x in self.coords])**.5
+
+    def __add__(self, other):
+        return Vector(map(lambda x, y: x+y,
+                          self.coords, other.coords))
+
+    def __str__(self):
+        return &#39;Vector&#39;+str(self.coords)
+</code></pre>
+<ul>
+<li><p>Add two more methods to the class:<br />
+<code>__eq__(vec)</code>: returns <code>True</code> if this vector equals <code>vec</code>.</p></li>
+<li><p><code>u == v</code> calls <code>u.__eq__(v)</code>.<br />
+</p></li>
+<li><p><code>__mul__(vec)</code>: returns the dot product of this vector and <code>vec</code>. The dot product is defined by: (<code>x</code>, <code>y</code>, …) <code>*</code> (<code>x’</code>, <code>y’</code>, …) = <code>xx’ + yy’ +</code> …<br />
+</p></li>
+<li><p><code>u * v</code> calls <code>u.__mul__(v)</code></p></li>
+<li><p>Then evaluate the following expressions ( equality and <span class="math inline">\(cos(\theta)\)</span>):</p></li>
+</ul>
+<pre class="python"><code>class Vector(object):
+    def __init__(self, lis):
+        self.coords = lis
+
+    def length(self):
+        return sum([x**2 for x in self.coords])**.5
+
+    def __add__(self, other):
+        return Vector(list(map(lambda x, y: x+y, self.coords, other.coords)))
+
+    def __str__(self):
+        return &#39;Vector&#39;+str(self.coords)
+    
+    def __eq__(self, other):
+        return list(self.coords) == list(other.coords)
+        
+    
+    def __mul__(self, other):
+        return sum(list(map(lambda x,y: x*y, self.coords, other.coords)))
+u = Vector([1,1,0])
+v = Vector([0,1,1])
+print(u == v)                      </code></pre>
+<pre><code>## False</code></pre>
+<pre class="python"><code>print((u*v) / (u.length()*v.length()))</code></pre>
+<pre><code>## 0.4999999999999999</code></pre>
+</div>
+</div>
+<div id="inhereitance" class="section level3">
+<h3><em>Inhereitance</em></h3>
+<p>inherited classes do not need an init statement</p>
+<pre class="python"><code>class Book(object):
+    def __init__(self, name, author = None):
+        self.name = name
+        self.author = author
+    
+    def __str__(self):
+        return &#39;&lt;%s&gt; by %s&#39; % (self.name, self.author)
+class EBook(Book):
+    def __init__(self, name, author = None):
+        Book.__init__(self, name, author)</code></pre>
+<p>create a mutating method</p>
+<pre class="python"><code>class Book(object):
+    def __init__(self, name, author = None):
+        self.name = name
+        self.author = author
+    def __str__(self):
+        return &#39;&lt;%s&gt; by %s&#39; %(self.name, self.author)
+    def rename(self, newname):
+        if not isinstance(newname, str):
+            raise TypeError(&#39;please enter a valid str value for new name&#39;)
+        self.name = newname
+
+book_1 = Book(&#39;The little SAS book&#39;, &#39;Lora D. Delwiche&#39;)
+print(&quot;The name of book_1 is originally %s&quot; % book_1)</code></pre>
+<pre><code>## The name of book_1 is originally &lt;The little SAS book&gt; by Lora D. Delwiche</code></pre>
+<pre class="python"><code>book_1.rename(&#39;The SAS book&#39;)
+print(&quot;The name of book_1 is now %s&quot; % book_1)</code></pre>
+<pre><code>## The name of book_1 is now &lt;The SAS book&gt; by Lora D. Delwiche</code></pre>
+</div>
+<div id="class-method" class="section level3">
+<h3><em>Class Method</em></h3>
+<p>uses the class itself as an argument in a method to return some object</p>
+<pre class="python"><code>class Date(object):
+
+    def __init__(self, day = 0, month = 0, year = 0):
+        self.day = day
+        self.month = month
+        self.year = year
+        
+    
+    @classmethod
+    def from_string(cls, date_as_string):
+        &#39;&#39;&#39;
+        This function takes a string as input and returns a Date object.
+        The input string needs to follow the format of &#39;dd-mm-yyyy&#39;
+        &#39;&#39;&#39;
+        day, month, year = list(map(int, date_as_string.split(&#39;-&#39;)))
+        date1 = cls(day, month, year)
+        return date1
+        
+# usage
+date2 = Date.from_string(&#39;23-08-1990&#39;)
+date2.year</code></pre>
+<pre><code>## 1990</code></pre>
+<ul>
+<li>We’ve implemented date string parsing in one place and it’s reusable now.<br />
+</li>
+<li><span class="citation">@classmethod</span> is a special syntax sugar called <a href="https://realpython.com/blog/python/primer-on-python-decorators/">decorator</a> in Python.<br />
+</li>
+<li>Decorator takes a function as an input and returns the modified function as the output. i.e. convert the <code>from_string</code> function to a class method.<br />
+</li>
+<li>cls is an object that holds <strong>class itself</strong>, not an instance of the class. It’s pretty cool because if we inherit our Date class, all children will have from_string defined also.</li>
+</ul>
+</div>
 </div>
 <div id="regular-expressions" class="section level2">
 <h2>Regular Expressions</h2>
@@ -931,8 +1190,8 @@ f.close()</code></pre>
 </ul>
 <pre class="python"><code>import numpy as np
 np.random.randn(10)</code></pre>
-<pre><code>## array([-1.98307429,  0.3444386 ,  0.35645232,  1.75048829,  0.44942882,
-##         1.69550616,  0.71019727,  1.32309297,  0.83465371, -2.24520244])</code></pre>
+<pre><code>## array([ 0.34397177, -0.05522758,  1.82983266, -0.88465263,  0.43553985,
+##        -0.39879311,  1.80281716, -0.00530454, -0.77245751,  1.59214581])</code></pre>
 </div>
 <div id="scipy" class="section level2">
 <h2>Scipy</h2>

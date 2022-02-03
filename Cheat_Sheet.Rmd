@@ -241,6 +241,58 @@ def polynomial(x, a, b=0, c=0, d=0):  #assigning default values
     return result
 
 ```
+```
+def ask_ok(prompt, retries=4, complaint='Yes or no, please!'):
+    while True:
+        ok = input(prompt)   # In Python 2, it is called raw_input()
+        if ok in ['y', 'ye', 'yes']:
+            return True
+        if ok in ['n', 'no', 'nop', 'nope']:
+            return False
+        retries = retries - 1
+        if retries < 0:
+            raise IOError('Not a good user.')
+        print(complaint)
+```
+Note It is invalid in Python to put keyword argument in front of positional argument.  
+
+### _\*args and \*\*kwargs_
+- Sometimes your function has a number of input parameters but you don't want to specify all of them at the definition.   
+- Then you can use `args` (tuple of arguments) and `kwargs` (keyword arguments) when you define the function.  
+
+```{python}
+args = (2,10,2)
+list(range(*args))
+```
+```{python}
+kwargs = {'arg1':5, 'arg2':10, 'arg3': -2}
+def some_function(arg1, arg2, arg3):
+  return arg1*arg2/arg3
+some_function(**kwargs)
+```
+
+```{python}
+def register_student(name, *args, **kwargs):
+    print("-- The student's name is ", name)
+    print("-" * 40)
+    print(type(args))
+    for arg in args:
+        print(arg)
+    print("-" * 40)
+    print(type(kwargs))
+    keys = sorted(kwargs.keys())
+    for kw in keys:
+        print(kw, ":", kwargs[kw])
+```
+
+#### _Unzipping a list_
+```{python}
+nested_list = [[1,2,3], [4,5,6], [7,8,9]]
+# nested list is a zipped list
+list(zip(*nested_list))
+```
+
+
 
 ## Lambda Functions  
 ```
@@ -516,6 +568,47 @@ sentence = "this is a sentence and it has a bunch of letters and I want to count
 my_counter = Counter(sentence)
 my_counter
 ```
+## Bitwise Operator
+\& and \| are and and or respectively
+
+```
+10 & 1
+# is a simple method for determining if an integer is even
+```
+
+## Recursion  
+A function which calls itself  
+```
+def factorial(num):
+    prod = 1
+    while num > 0:
+        prod *= num
+        num -+ 1
+    return prod
+# for a recursive function we need a base case and a recusive call
+# with recursion
+def factorial_rec(num):
+# base case
+    if num == 0:
+        return 1
+# recursive call
+    return num * facotrial_rec(num-1)
+
+```
+## Yield Statement
+The yield statement is similar to return, however, it won’t return the whole result (say a very large list) at the end of the function but a generator instead.  
+```
+def ret(L):
+    res = list(map(lambda x: x ** 2, L))
+    return res
+    
+def gen(L):
+    for i in L:
+        yield i ** 2
+# gives us a generator object
+```
+we now have a generator and can use the `next` function to return a recursive result  
+  
 
 ## Arrays  
 
@@ -641,6 +734,43 @@ M.I * M2
 
 ## Classes  
 
+
+_Attributes and Methods_
+
+- We’ll go into details in a bit, but here is the syntax to define a simple class:  
+
+```
+class Classname(object):
+    def __init__(self):
+        initialize representation by assigning to variables
+
+    def methodname(self, ...args...):
+        define method; 
+        change representation or return value or both; 
+        use self.var to refer to variable var defined in init.
+```
+
+- In `__init__`, we assign the desired representation to one or more variables, so we just have to decide what their names will be.  
+
+- Once we have this class, we can create instances of it:  
+
+```
+newobj = Classname()
+```
+
+- We invoke methods using object notation:  
+
+```
+newobj.methodname(...args...)
+```
+- Note that even though we defined the method using ordinary function definition syntax, we must call it using object syntax.  That is just because it is defined inside a class.  
+- However, in Python, there is an attribute naming convention to denote private attributes by prefixing the attribute with one or two underscores, e.g:
+
+```python
+self._coords
+self.__coords
+```
+
 * `Person` is the **class**
 * `name` and `age` are each an **object attribute**
 * `say` is an **object method**
@@ -656,6 +786,151 @@ class Person():
         print("My name is",self.name,"and I am",self.age,"years old")
 
 ```
+
+### _Special Name method_
+use the `__str__` special method    
+and the `__add__` special method  
+second arg in an attribute definition is ussually labeled as `other`   
+
+
+```{python}
+class Vector(object):
+    def __init__(self, lis):
+        self.coords = lis
+
+
+    def length(self):
+        return sum([x**2 for x in self.coords])**.5
+    
+    def __str__(self):
+        return 'Vector' + str(self.coords)
+    def __add__(self, other):
+        return Vector(list(map(lambda x, y: x+y, self.coords, other.coords)))
+    
+# Then we print the Vector object:
+vec_1 = Vector([1,2,3])
+print(vec_1)
+```
+
+#### _Exercise_  
+- Now our Vector class looks like this:  
+
+```
+class Vector(object):
+    def __init__(self, lis):
+        self.coords = lis
+
+    def length(self):
+        return sum([x**2 for x in self.coords])**.5
+
+    def __add__(self, other):
+        return Vector(map(lambda x, y: x+y,
+                          self.coords, other.coords))
+
+    def __str__(self):
+        return 'Vector'+str(self.coords)
+
+```
+
+- Add two more methods to the class:  
+`__eq__(vec)`: returns `True` if this vector equals `vec`.
+ - `u == v` calls `u.__eq__(v)`.  
+- `__mul__(vec)`: returns the dot product of this vector and `vec`. The dot product is defined by: (`x`, `y`, …) `*` (`x’`, `y’`, …) = `xx’ + yy’ +` …   
+ - `u * v` calls `u.__mul__(v)`  
+ 
+- Then evaluate the following expressions ( equality and $cos(\theta)$):  
+
+```{python}
+class Vector(object):
+    def __init__(self, lis):
+        self.coords = lis
+
+    def length(self):
+        return sum([x**2 for x in self.coords])**.5
+
+    def __add__(self, other):
+        return Vector(list(map(lambda x, y: x+y, self.coords, other.coords)))
+
+    def __str__(self):
+        return 'Vector'+str(self.coords)
+    
+    def __eq__(self, other):
+        return list(self.coords) == list(other.coords)
+        
+    
+    def __mul__(self, other):
+        return sum(list(map(lambda x,y: x*y, self.coords, other.coords)))
+u = Vector([1,1,0])
+v = Vector([0,1,1])
+print(u == v)                      
+print((u*v) / (u.length()*v.length()))
+```
+
+### _Inhereitance_
+inherited classes do not need an init statement
+
+```{python}
+class Book(object):
+    def __init__(self, name, author = None):
+        self.name = name
+        self.author = author
+    
+    def __str__(self):
+        return '<%s> by %s' % (self.name, self.author)
+class EBook(Book):
+    def __init__(self, name, author = None):
+        Book.__init__(self, name, author)
+```
+ create a mutating method  
+```{python}
+class Book(object):
+    def __init__(self, name, author = None):
+        self.name = name
+        self.author = author
+    def __str__(self):
+        return '<%s> by %s' %(self.name, self.author)
+    def rename(self, newname):
+        if not isinstance(newname, str):
+            raise TypeError('please enter a valid str value for new name')
+        self.name = newname
+
+book_1 = Book('The little SAS book', 'Lora D. Delwiche')
+print("The name of book_1 is originally %s" % book_1)
+book_1.rename('The SAS book')
+print("The name of book_1 is now %s" % book_1)
+```
+### _Class Method_
+
+uses the class itself as an argument in a method to return some object  
+```{python}
+class Date(object):
+
+    def __init__(self, day = 0, month = 0, year = 0):
+        self.day = day
+        self.month = month
+        self.year = year
+        
+    
+    @classmethod
+    def from_string(cls, date_as_string):
+        '''
+        This function takes a string as input and returns a Date object.
+        The input string needs to follow the format of 'dd-mm-yyyy'
+        '''
+        day, month, year = list(map(int, date_as_string.split('-')))
+        date1 = cls(day, month, year)
+        return date1
+        
+# usage
+date2 = Date.from_string('23-08-1990')
+date2.year
+```
+- We've implemented date string parsing in one place and it's reusable now.  
+- @classmethod is a special syntax sugar called [decorator](https://realpython.com/blog/python/primer-on-python-decorators/) in Python.   
+- Decorator takes a function as an input and returns the modified function as the output. i.e. convert the `from_string` function to a class method.  
+- cls is an object that holds **class itself**, not an instance of the class. It's pretty cool because if we inherit our Date class, all children will have from_string defined also.  
+
+
 ## Regular Expressions
 https://learnbyexample.github.io/python-regex-cheatsheet/
 
