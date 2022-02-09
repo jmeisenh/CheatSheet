@@ -607,10 +607,424 @@ def gen(L):
         yield i ** 2
 # gives us a generator object
 ```
-we now have a generator and can use the `next` function to return a recursive result  
-  
+we now have a generator and can use the `next` function to return a recursive result   
+
+
+
+## Web Scraping
+
+example for the following sections:  
+```
+<html>
+    <head>
+        <title>Hi</title>
+    </head>
+    <body>
+        <a href="https://www.crummy.com/software/BeautifulSoup/">Hello, BeautifulSoup!</a>
+    </body>
+</html>
+```
+
+with regular expressions, parse a file, hi.html and look for all expresions preceeded by `<title> any of letters <title>`
+```
+import re
+hi_path = 'data/hi.html'
+with open(hi_path, 'r') as f:
+    hi = f.read()
+    print(re.findall('<title>(.*)</title>', hi))
+```
+with beautiful soup
+```
+from bs4 import BeautifulSoup
+with open(hi_path, 'r') as f:
+    hi = f.read()
+    hi = BeautifulSoup(hi, 'html.parser')
+    print(hi.title) # find the title tag
+    print(hi.title.string)  # find the value of tag
+```
+outputs a beautiful soup object
+
+### Names, Values, and Attributes
+
+BeautifulSoup can extract the `name`, `value`, and `attributes` of tags. The corresponding attributes are:  
+- `name`
+- `string`
+- `attrs`
+
+```
+print("The name of a tags is: ", hi.a.name)
+print("The value of a tags is: ", hi.a.string)
+print("The attribute of a tags is: ", hi.a.attrs)
+```
+### get_text() & get()
+`get_text() method will extract the values of the current tag and all its child tags
+```
+print(hi.html.get_text())
+```
+outputs:  `Hi`  
+
+
+`Hello, BeautifulSoup!`
+
+- The `get()` method is used to extract the value of a specific attribute of a tag. For example, we can get the `href` of the `a` tag using the following code.  
+
+- This is the same as running `hi.a.attrs` first and then finding the value of key `href` from the `attrs` dictionary.  
+```
+print(hi.a.get('href'))
+```
+output: `https://www.crummy.com/software/BeautifulSoup/`
+
+example for the following sections:  
+```
+<html>
+    <head>
+        <title>Article</title>
+    </head>
+    <body>
+        <h1 id='one'>This is an h1 tag.</h1>
+        <p>This is a paragraph, standard size font.</p>
+        <h2>This is an h2 tag, smaller font.</h2>
+        <p><a href='https://www.google.com'>This is a link to google.</a></p>
+        <h3><a href='https://www.yelp.com/'>This is an h3 tag, even smaller.</a></h3>
+        <p>And a normal p tag.</p>
+    </body>
+</html>
+```
+create a BeautifulSoup object from the article.html  
+```
+article_path = 'data/article.html'
+with open(article_path, 'r') as f:
+    article = f.read()
+    article = BeautifulSoup(article, 'html.parser')
+```
+### _find()_
+- `find()` returns the first `p` tag, which is equivalent to `article.p`:  
+```
+print(article.find('p'))
+```
+outputs: <p>This is a paragraph, standard size font.</p>    
+
+- `find_all()` returns all descendant `p` tags as a resultset which is a subclass of list:
+```
+print(article.find_all('p'))
+```
+output: [<p>This is a paragraph, standard size font.</p>, <p><a href="https://www.google.com">This is a link to google.</a></p>, <p>And a normal p tag.</p>]  
+
+- To find the tags that have specific attributes, you can pass a dictionary to the `attrs` argument with the key being the attribute name and the value being the value of the attribute:  
+```
+print(article.find_all('h1', attrs  = {'id':'one'}))
+```
+output: `[<h1 id="one">This is an h1 tag.</h1>]`
+
+example:
+The tags whose attribute id == 'one'   
+```
+print(article.find_all(lambda tag: tag.get('id') == 'one'))
+```
+output: `[<h1 id="one">This is an h1 tag.</h1>]`  
+
+### _Web Scraping Example Books to Scrape_  
+The general workflow of a web scraping project is the following:
+1. Identify which fields we want to scrape. If this means we need to visit different URLs to get to the final page with our relevant information, how do we get those URLs?  
+    - For this project, we're interested in the book title, UPC, price, genre, average rating, whether it's in stock, and how many books available.  
+2. Find the unique attributes that will locate the tags of the elements that we're interested in.  
+    - What elements are we interested in on the home page? How do we get every element from each search page? What elements do we want on the book pages?  
+3. If there are multiple relevant pages in the project, test on the first page to make sure your code is extracting the correct elements.  
+    - On the first results page, we can try to get all of the `href` attributes from each book product. We should get 20 total because there are 20 books per page.  
+4. Once we know that our code is extracting the correct data, we can generalize the code to apply the scraping operations to every page.
+5. The final data (the book information) should be stored in a `dict`. This will make saving the data easier.  
+6. Once all the `dict` objects are populated, we can save the data locally as a JSON or CSV file (or other formats such as saving to SQL database or pickle file).  
+```
+
+from bs4 import BeautifulSoup
+# request source code format, get request
+import requests
+# user agent is the software used to acess the site
+# google, what is my user agent and copy/paste
+headers = {'User-Agent':
+           'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36'
+}
+# check the response, 200 is good to go
+response = requests.get('https://books.toscrape.com/', headers = headers)
+text = BeautifulSoup(response.text, 'html.parser')
+```
+We can see that each book product has a `div` tag with `class` attribute "image_container." This tag has a child `a` tag that has an `href` attribute. The `href` attribute value is the URL to each of our book pages.  
+```
+\# We can check the length of the object that is returned to
+\# (loosely) confirm that we are getting the correct content
+len(text.find_all('div', attrs = {'class': 'image_container'}))
+
+```
+```
+
+\# get the child a tags and subsequent href values
+\# start with the location of the div tags
+book_divs = text.find_all('div', attrs = {'class': 'image_container'})
+\# use list comprehension to iterate over each tage to find the child a tag and get the href attribute
+book_urls = [tag.find('a').get('href') for tag in book_divs]
+print(book_urls[:5])
+\# results are missing the domain
+```
+```
+\#concat the domain url to book_urls
+complete_book_urls = [f'https://books.toscrape.com/{end_part}' for end_part in book_urls]
+print(complete_book_urls[:5])
+
+```
+Now we have complete URLs that we can pass to our requests.get() function to retrieve the source code for these book pages. How do we get the URLs for all The Books on the 50 pages of book results?  
+ Step 3: Find the URL Pattern  
+If we click on the "next" button on the bottom right of the page, we'll see a small change in the URL in our address bar.  
+
+- The original URL is:                           https://books.toscrape.com/  
+- After we click the next button once, we get:   https://books.toscrape.com/catalogue/page-2.html  
+- If we click the next button again, we get:     https://books.toscrape.com/catalogue/page-3.html  
+
+Hopefully, you can see the pattern here. After the first page, we have an additional "catalogue/page-X.html" part added to the URL. In fact, if we add this part to the first URL, we should get the first page if we change it to "page-1."  
+
+Try it out: https://books.toscrape.com/catalogue/page-1.html  
+
+If we are visiting multiple pages, it is a requirement that the URL changes as well. If we click the "next" button and we see that the URL does **not** change, we would probably need to use another web scraping tool called Selenium which is able to scrape dynamic web elements.  
+
+Our goal now is to generate a URL for **every results page**. Since we have identified the pattern, and we can see how many pages there are in total at the bottom of the screen, this should be a simple operation using list comprehension.  
+```
+results_pages = [f'https://books.toscrape.com/catalogue/page-{i}.html' for i in range(1,51)]
+print(results_pages[:5])
+```
+Now that we have all of the URLs for the different results pages, and we have the code to find all the book page URLs for any given page, let's now move on to getting the data from each book page.  
+
+Let's create another BeautifulSoup object using the source code from a book page. We can use the first book on the first page as an example for testing.  
+```
+response = requests.get('https://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html',
+                        headers = headers)
+text = BeautifulSoup(response.text, 'html.parser')
+```
+
+
+Remember, the fields we are interested in scraping are:  
+
+- title
+- price
+- average rating
+- genre
+- UPC
+- how many books available
+- whether the book is in stock  
+
+```
+# Book title
+title = text.find('h1').string
+print(title)
+
+# The above only works if this is the first or only h1 tag 
+# in the entire source code. We can be safer by including
+# the parent div tag with it's identifying attribute.
+title = text.find('div', attrs = {'class': 'col-sm-6 product_main'}).find('h1').string
+print(title)
+```
+```
+# Book price
+price_in_pounds = text.find('p', attrs = {'class':'price_color'}).string
+print(price_in_pounds)
+
+# Note that there is a strange character before the pounds symbol.
+# We will discuss how to handle this later.
+```
+```
+# Average rating
+# This one is a little tricky. Where can we find the
+# number of stars for the average rating?
+
+# What is this anonymous function doing?
+avg_rating_tag = text.find(lambda tag: 'star-rating' in tag.get('class') if tag.get('class') else False)
+avg_rating = avg_rating_tag.get('class')
+print(avg_rating)
+
+avg_rating = avg_rating[1]
+print(avg_rating)
+
+# Note that this is still in string format. We will handle this later.
+```
+```
+# Genre
+# Where is the genre of the book located on the page?
+
+li_tag = text.find('ul', attrs = {'class':'breadcrumb'}).find_all('li')[2]
+genre = li_tag.find('a').string
+print(genre)
+```
+```
+# UPC
+# What is the benefit of scraping the UPC code?
+
+# Why is there no tbody tag between the 'table' and 'tr' tags?
+# chrome will sometimes add a tbody tag in the inspect view for tables, it is not actually in the source code
+tr_tag = text.find('table', attrs = {'class':'table table-striped'}).find_all('tr')[0]
+upc = tr_tag.find('td').string
+print(upc)
+```
+```
+# How many books are available?
+# There are two places where this information is available,
+# the tag is easier to indetify in the area by the book title.
+
+num_books_available = text.find('p', attrs = {'class':'instock availability'}).get_text()
+print(num_books_available)
+```
+_Step 5: Bringing the Code Together_  
+
+We now have all of the code necessary to scrape all the book page information for every book listed on every results page. Let's think about how our code should traverse these different levels.  
+
+1. Generate a list of results page URLs.  
+2. Create an empty list to hold the book page URLs.  
+3. Get the source code for every results page and scrape all of the book page URLs, add these URLs to the URL list (after adding the domain to each URL).  
+4. After we have all the book page URLs, get the source code for each book page and scrape the relevant information.  
+5. Store the information in an appropriate data structure.  
+6. We either save these data structures in a list, or we can write the book information to a CSV file (or use a number of other options for persisting the data).  
+
+```
+from bs4 import BeautifulSoup
+import requests
+
+headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.104 Safari/537.36'
+            }
+
+# Generate the results page URLs
+results_pages = [f'https://books.toscrape.com/catalogue/page-{i}.html' for i in range(1,51)]
+
+# Create empty list to hold book page URLs
+book_page_urls = []
+
+# For each results page, scrape the URLs for each book page
+for url in results_pages:
+    response = requests.get(url, headers=headers)
+    text = BeautifulSoup(response.text, 'html.parser')
+    
+    if response.status_code != 200:
+        raise Exception(f'The status code is not 200! It is {response.status_code}.')
+
+    # Get the book page URLs and add the domain, then add to book page URL list
+    book_divs = text.find_all('div', attrs={'class': 'image_container'})
+    book_urls = [tag.find('a').get('href') for tag in book_divs]
+    complete_book_urls = [f'https://books.toscrape.com/catalogue/{end_part}' for end_part in book_urls]
+    # What is the difference between append and extend?
+    book_page_urls.extend(complete_book_urls)
+```
+
+
+**Note**: There is another way to approach this process. We could scrape the book page URLs on one results page and then visit every book page to get the book information before moving on to the next results page. Either way is fine, but I prefer to get all the links first and then visit them later.  
+
+
+
+Let's now visit each book page and use the code that we tested earlier to get all of the book information.
+
+```
+# Create an empty list to hold our book information
+book_list = []
+
+# Let's just get the first 100 so this doesn't take very long
+for url in book_page_urls[:100]:
+    # We'll store our book information in dicitonaries so
+    # we should create a new dict for every iteration
+    book_dict = {}
+    
+    response = requests.get(url, headers = headers)
+    text = BeautifulSoup(response.text, 'html.parser')
+    
+    if response.status_code != 200:
+        raise Exception(f'The status code is not 200! It is {response.status_code}.')
+    
+    # Get title
+    title = text.find('div', attrs = {'class': 'col-sm-6 product_main'}).find('h1').string
+    # Get price
+    price_in_pounds = text.find('p', attrs = {'class':'price_color'}).string
+    # Get average rating
+    avg_rating_tag = text.find(lambda tag: 'star-rating' in tag.get('class') if tag.get('class') else False)
+    avg_rating = avg_rating_tag.get('class')[1]
+    # Get genre
+    li_tag = text.find('ul', attrs={'class':'breadcrumb'}).find_all('li')[2]
+    genre = li_tag.find('a').string
+    # Get UPC
+    tr_tag = text.find('table', attrs = {'class':'table table-striped'}).find_all('tr')[0]
+    upc = tr_tag.find('td').string
+    # Get number of books available
+    num_books_available = text.find('p', attrs = {'class':'instock availability'}).get_text()
+    
+    # Store info in the dictionary
+    book_dict['title'] = title
+    book_dict['price_in_pounds'] = price_in_pounds
+    book_dict['avg_rating'] = avg_rating
+    book_dict['genre'] = genre
+    book_dict['upc'] = upc
+    book_dict['num_books_available'] = num_books_available
+    
+    # Add dictionary to list
+    book_list.append(book_dict)
+book_list[:5]
+```
+_Step 6: Persist the Data_  
+Now that we have all of our book information, we need to decide on a way to save our data. There are a few different ways we can save this data:  
+
+1. Save to CSV  
+2. Save to JSON  
+3. Save to pickle  
+
+There are advantages and disadvantages for each format. Let's talk about them.  
+
+_CSV_  
+Saving data as a CSV file is probably the most common strategy. CSV (Comma Separated Value) files are a very standard file format (think Excel spreadsheet). We can even load them directly into a pandas DataFrame.  
+
+We can use the `csv` module to help us save the data to CSV format. Here is the [documentation](https://docs.python.org/3/library/csv.html).  
+```
+import csv
+
+# Create a new CSV file
+with open('books.csv', 'w', encoding = 'utf-8', newline='') as csvfile:
+    # Create the CSV writer object
+    book_writer = csv.writer(csvfile)
+    # Write the initial header row
+    book_writer.writerow(['title', 'price_in_pounds', 'avg_rating', 'genre', 'upc', 'num_books_available'])
+    
+    # Iterate over the list of dicts and write the values to CSV
+    for book_dict in book_list:
+        book_writer.writerow(book_dict.values())
+```
+_JSON_
+JSON (JavaScript Object Notation) is another file format we can use. You mostly encounter JSON data when working with JavaScript or retrieving data from an API. JSON files look like a list of dictionaries. Often these dictionaries will have nested dictionaries as values. It's good to know how to work with this file format. Here is the [documentation](https://docs.python.org/3/library/json.html).  
+
+```
+import json
+
+# This will create a string version of the JSON
+# Note the change in encoding for the pound symbol
+json.dumps(book_list)
+
+# This will save the JSON to a file
+with open('books.json', 'w', encoding = 'utf-8') as jsonfile:
+    json.dump(book_list, jsonfile, indent=4)
+    
+# To load the JSON back, use the json.load() function
+with open('books.json', 'r', encoding = 'utf-8') as jsonfile:
+    loaded_books = json.load(jsonfile)
+```
+_Pickle_
+Pickle is a way of saving any type of Python object to a file. We can then load this file back into an environment to regain access to the exact same object (in the same state). This is very useful when working with objects that took a long time to create (like a trained machine learning model) or when saving objects in Python that aren't as obvious to convert into another format. Here is the [documentation](https://docs.python.org/3/library/pickle.html).  
+```
+import pickle
+
+# This will save the object as a pickle
+# Note the wb mode here
+with open('books.pickle', 'wb') as picklefile:
+    pickle.dump(book_list, picklefile)
+
+# This will load the pickle file
+# Note the rb mode here
+with open('books.pickle', 'rb') as picklefile:
+    loaded_books = pickle.load(picklefile)
+```
+
 
 ## Arrays  
+The type ndarray is flexible because it supports a great variety of primitive data types: subject to the homogeneity condition, which means every element in ndarray has the same type.  
 
 ```{python}
 import numpy as np
@@ -624,6 +1038,8 @@ higher_dim
 ### Array Functions
 ```{python}
 np.arange(10)
+np.arange(2,10) #start, #stop
+np.arange(2,10,3) #start, #stop, #step
 np.linspace(0,10, 51) #(start, end, no of elements)
 np.ones((3,2)) #(array of ones of dimension 3x2)
 np.zeros((4,3,2)) #array of zeroes of dimension 4x3x2)
@@ -631,6 +1047,8 @@ high_x1 = np.array([[1,2,3],[4,5,6]])
 high_x1.shape
 x = np.arange(8)
 x.reshape([2,4], order='F') #reshapes array to 2x4 fills by columns
+x.astype(float) # change datatype of array elements
+
 ```
 ## Matrix
 ```{python}
@@ -934,6 +1352,85 @@ date2.year
 ## Regular Expressions
 https://learnbyexample.github.io/python-regex-cheatsheet/
 
+### _Meta Characters_  
+`.^$*+?{}[]\|()`  
+
+
+### _Import and basic methods_  
+```
+import re
+raw_string = 'Hi, how are you today?, Hi'
+re.search('Hi', raw_string)
+print(s.start()) # the starting position of of the matched string
+print(s.end())   # the ending position index of the matched string
+print(s.span())  # a tuple containing the (start, end) positions of the matched string
+print(s.group()) # the matched string
+# split by common seperators
+print(re.split(re.split('[\n ,.-]+', s))) #Split the string into a list by the pattern. 
+# find all letters
+print(re.findall('[a-zA-Z]+', s)) # Find all substrings where the pattern matches, and return them as a list.
+```
+
+### _dot_
+
+`.` refers to any single character  
+`a.` matches any 2 characters that start with a  
+```
+print(re.search('a.', 'aa') != None)
+print(re.search('a.', 'ab') != None)
+print(re.search('a.', 'a1') != None)
+print(re.search('a.b', 'a+b') != None)
+print(re.search('a.b', 'a+x+b') != None)
+print(re.search('../../201.', 'From 06/01/2015') != None)
+s = re.search('(..)/(..)/(201.)', 'From 06/01/2015')
+print(s.group(1))
+```
+### _Question mark, plus, asterisk, and {}_
+
+\? matches the preceding expression either once or zero times.  
+
+\+ matches the preceding expression character at least once.  
+
+\* matches the preceding expression character arbitrary times.  
+
+\{m,n\} matches the preceding expression at least m times and at most n times.  
+
+For example, ba\?b matches bab and bb.  
+
+### _caret / dollar sign_  
+
+^ refers to the beginning of a text, while $ refers to the ending of a text.  
+
+For example, ^a matches any text that begins with character a.  
+
+a$ matches any text ending with character a.  
+
+### _bracket_
+
+
+\[\] is used to specify a set of characters that you wish to match. For example, [123abc] will match any of the characters 1, 2, 3, a, b, or c ; this is the same as [1-3a-c], which uses a range to express the same set of characters. Further more [a-z] matches all lower letters, while [0-9] matches all numbers.  
+Special characters lose their special meaning inside sets. For example, [(+\*)] will match any of the literal characters '(', '+', '*', or ')'.  
+Characters that are not within a range can be matched by complementing the set. If the first character of the set is '^', all the characters that are not in the set will be matched.  
+
+### _vertical bar_
+
+
+| is a logical operator. For examples, a|b matches a or b, which is similar to [ab]. abc|123 matches abc or 123, while [abc123] matches any single characters in a, b, c, 1, 2, 3.  
+
+### _Special sequence in regular expression_
+There are some special sequences that have special meaning in regular expression.  
+
+\\d: Matches any decimal digit; this is equivalent to the class [0-9].  
+
+\\D: Matches any non-digit character; this is equivalent to the class [^0-9].  
+
+\\w: Matches any alphanumeric character; this is equivalent to the class [a-zA-Z0-9_].  
+
+\\W: Matches any non-alphanumeric character; this is equivalent to the class [^a-zA-Z0-9_].  
+
+\\s: Matches any whitespace character; this is equivalent to the class [ \t\n\r\f\v].  
+
+\\S: Matches any non-whitespace character; this is equivalent to the class [^ \t\n\r\f\v].  
 
 ## Files  
 
@@ -1077,6 +1574,7 @@ obj3.to_dict() # and back to dictionary
 #### Creating a dataframe  
 ```{python}
 # From Dictionary
+import pandas as pd
 data = {'commodity': ['Gold', 'Gold', 'Silver', 'Silver'],
         'year': [2013, 2014, 2014, 2015],
         'production_Moz': [107.6, 109.7, 868.3, 886.7]} 
@@ -1092,20 +1590,34 @@ df_2=pd.DataFrame([[107.6, 'Gold', 2013],
                     columns=['production_Moz','commodity','year'])
 df_2
 ```
-
-#### DF Values
+can also create a dataframe with a nested list  
 ```{python}
+df_2 = pd.DataFrame([[107.6, 'Gold', 2013],
+                   [109.7, 'Gold', 2014],
+                   [868.3, 'Silver', 2014],
+                   [886.7, 'Silver', 2015]], 
+                    columns = ['production_Moz','commodity','year'])
+df_2
+```
+
+#### DF Methods
+```
 df.values
 df.index
 df=df.set_index('commodity') # sets index to commodity column
-df=df.reset_index()
+df=df.reset_index() # has a drop argument, defaults to false
+
 df.columns
 df.index
+df.tolist() # creates a list of column names
+# can appply the string sub module to use string methods
+#df.columns.str.replace()
 
 ```
 
 #### DF slicing
 ```{python}
+# First index is column, second index is a row
 # how to get columns
 df.commodity
 df['commodity']
@@ -1116,15 +1628,86 @@ df['commodity'][0] # returns comodity column row 0
 df[['commodity', 'year']]
 df.loc[df['commodity'] == 'Gold', :]
 df.loc[:, df.loc[0] == '2013']
-
+#df.loc[row,col]
+# returns all rows for the columns in which row 'one' is a value.
+# df1.loc[:, df1.loc['One'] ==  #value]
 ```
 #### DF Functions
 ```{python, eval = FALSE}
 df.sort_values('value') # column to sort on
-df.concat(df1, df2)
+df.concat(df1, df2) #always combines on index
 pd.merge() # df1, df2, how(left, inner), on(column to merge on)
+# if cols dont have the same name  use 'left_on' and 'right_on' to indicate how to perform the merge.
+# df.rename({'oldname':'newname'}, axis =1)
 
 ```
+#### _Data Merging_
+```{python}
+df1 = pd.DataFrame(np.arange(9).reshape((3, 3)), 
+                   columns = ['a', 'b', 'c'],
+                   index = ['one', 'two', 'three'])
+df2 = pd.DataFrame(np.arange(6).reshape((3, 2)), 
+                   columns = ['d','e'],
+                   index = ['three', 'two','one'])
+print(df1)
+print(df2)
+```
+Since the two data frames have the same number of rows, it is natural to combine them "horizontally".  
+Note the concatenation takes place on the name of the index and not the order.  
+Merges based on index  
+```{python}
+pd.concat([df1, df2], axis = 1, sort = False)
+```
+hstack will merge without matching indices  
+```{python}
+np.hstack((df1.values, df2.values))
+```
+example if indices dont match and you use concat, populates with Nan values  
+
+```{python}
+df1 = pd.DataFrame(np.arange(9).reshape((3, 3)), 
+                   columns = ['a', 'b', 'c'],
+                   index = ['One', 'two', 'three'])
+df2 = pd.DataFrame(np.arange(6).reshape((3, 2)), 
+                   columns = ['d','e'],
+                   index = ['three', 'two','one'])
+print(df1,'\n\n',df2)
+print(pd.concat([df1, df2], axis = 1, sort = False))
+```
+can use an inner join  
+```{python}
+pd.concat([df1, df2], axis = 1, join = 'inner')
+```
+
+#### _Apply_  
+`apply` applies a function on 1D arrays of columns and rows  
+```
+df1.apply(lambda x: max(x), axis = 0) # 0 stands for apply to each column
+```
+will return max value for each column  
+
+If you just want to apply the function to a single column, you can extract that specific series first and then call the map() method just like the map operator in Python.  
+```
+df1.a.map(lambda x: x+1)
+```
+### _additional techniques_
+how to group columns with multiple substrings in a cell  
+```
+# strings seperated by |
+df_genre.genres = df_genre.genres.apply(lambda x: x.split('|'))
+# turns genre column into a list of strings
+index=0
+# save [index, genre] in a nested list
+list_ = []
+for item in df_genre.genres:
+    list_.extend(map(lambda x: [index, x], item))
+    index += 1
+genre = pd.DataFrame(list_, columns = ['index', 'genres'])
+genre.head() 
+#gives a dataframe 
+```
+
+
 #### Group
 ```{python, eval=FALSE}
 df.groupby('colname')
@@ -1157,10 +1740,21 @@ df.dropna(axis=0, how='any') # drops rows with NA values
 df.fillna(0) # fills NA values
 df['one'].fillna(df_miss['one'].mean()) # fills all NAs in 'one' column with the mean
 df.interpolate() # fills NA values with a linear regression of surrounding values
+# create a boolean mask for missing values
+# mask = df_miss.isnull().any(axis = 1)
+# df_miss.loc[~mask,:] will return only non NAN values the tilda operator is negation
 ```
+
+
+
+
+
 ## MatplotLib
 ```{python, eval = FALSE}
-import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
+from matplotlib import pyplot as plt
+plt.style.use('ggplot')
 x=[5,5,5,10,10,30,30,20,25,40]
 plt.hist(x)
 plt.show()
@@ -1175,6 +1769,35 @@ plt.barh(x,y);
 plt.scatter(x,y);
 
 ```
+
+### _Outliers_
+to remove outliers more than n std deviations out  
+`scatter_df = scatter_df.loc[scatter_df.apply(lambda x: np.abs(x - x.mean()) / x.std() < n).all(axis = 1)]`
+
+
+### _Histogram_
+```{python}
+import pandas as pd
+import numpy as np
+from matplotlib import pyplot as plt
+df = pd.read_csv('https://s3.amazonaws.com/nycdsabt01/movie_metadata.csv')
+plt.hist(df['imdb_score'], bins = 20, color = "#5ee3ff")
+
+```
+### _Scatterplot_
+```{python}
+plt.scatter(df['budget'], df['gross'])
+plt.xlabel('Budget')
+plt.ylabel('Gross Income')
+
+```
+### _Barplot_
+barplot with a groupby  
+```{python}
+plt.figure(figsize = (12,6))
+df.groupby('country')['imdb_score'].median().sort_values(ascending=False).plot.bar(color = 'b')
+```
+
 ### Plotting Functions
 ```{python, eval = FALSE}
 
