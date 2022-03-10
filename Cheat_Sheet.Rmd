@@ -3153,7 +3153,9 @@ legend("topleft", c("Regression Line", "Conf. Band", "Pred. Band"),
        lty = c(2, 1, 1), col = c("black", "blue", "red"))
 ```
 
-####The Box-Cox Transformation  
+
+#### The Box-Cox Transformation  
+
 
 ```{r}
 library(car)
@@ -3174,8 +3176,10 @@ summary(model.bc) #Assessing the output of the new model.
 
 plot(model.bc) #Assessing the assumptions of the new model.
 ```
-## Multiple Linear Regression
-$Y \approx \beta_0 + \beta_1X_1 + \beta_2X_2 +...+ \beta_pX_p$
+
+## Multiple Linear Regression  
+
+$Y \approx \beta_0 + \beta_1X_1 + \beta_2X_2 +...+ \beta_pX_p$  
 in order to regress $Y$ onto $X_i$, we need to estimate $(p+1)$ variables  
 
 
@@ -3185,14 +3189,14 @@ the difference between observed response and actual value is the *residual*
 or error  
 $e_i = y_i - \hat{y_i}$
 
-**RSS** is the residual sum of squares, which is the sum of the square of all residuals
+**RSS** is the residual sum of squares, which is the sum of the square of all residuals  
 $\sum_{i =1}^{n}e_i^2$
 
 can use alternate notation:  
 denote X as the n by (p+1) matrix with each row as an observation in our dataset; note that the first column will, by default, be a vector of 1's as a placeholder for the $\beta_0$ intercept term.  
 Denote y as the n by 1 vector with each entry representing the response values in our dataset  
-can rewrite RSS as:
-$RSS(\beta) = (y-X\beta)^T(y-X\beta)$  
+can rewrite RSS as:  
+$RSS(\beta) = (y-X\beta)^T(y-X\beta)$    
 this is a quadratic function with (p+1) parameters  
 
 The point of regression is to find the minimum **RSS** so we can take the derivative and solve for beta:  
@@ -3210,7 +3214,7 @@ $\beta = (X^TX)^{-1}X^Ty$
 + Can check by bivariate analysis (graph the independent variables against eachother)
 + After MLR fit, inspect variance inflation for each predictor
 
-**Why Colinearity is bad**
+**Why Colinearity is bad**  
 + creates redundancies   
 + difficult to isolate influence on Y from two dependent variables  
 + standard error of estimates will be inflated  
@@ -3218,9 +3222,10 @@ $\beta = (X^TX)^{-1}X^Ty$
 
 ### Variance Inflation Factor
 for a 2 predictor model  
-$VIF_{x_1x_2} = \frac{1}{1-p_{1,2}^2}$
+$VIF_{x_1x_2} = \frac{1}{1-p_{1,2}^2}$  
 where p is the dependence. to put it another way  
-if we have 3 variables $x_1, x_2, x_3$ that are linearly related to eachother, we can use a linear model $linear(x_1 \approx x_2, x_3)$ where we find an $R^2$ value (the coefficient of determination) for $x_2 and x_3$ influence on $x_1$ and then $VIF = \frac{1}{1-R^2}$  
+if we have 3 variables $x_1, x_2, x_3$ that are linearly related to eachother, we can use a linear model $linear(x_1 \approx x_2, x_3)$ where we find an $R^2$ value (the coefficient of determination) for $x_2 and x_3$ influence on $x_1$ and then  
+$VIF = \frac{1}{1-R^2}$  
 predictors that have a VIF of 5 or greater need to be dealt with and possibly dropped form the model
 
 ### The Overall F-Test
@@ -3228,7 +3233,7 @@ Used to determine if **any** variable provides us with information
 + Null Hypothesis $H_0: \beta_1 = \beta_2 = ... = \beta_p = 0$  
 + Alt hypothesis $H_A:$ At least one $\beta$ us not equal to zero
 
-$F^* \frac{\frac{(TSS - RSS)}{p}}{\frac{RSS}{n-p-1}}\approx F_{p,n-p-1}$
+$F^* \frac{\frac{(TSS - RSS)}{p}}{\frac{RSS}{n-p-1}}\approx F_{p,n-p-1}$  
 TSS is the RSS of the null model (which is a straight line of the average of y)  
 p is the number of total variables  
 
@@ -3241,22 +3246,22 @@ Can ask is a subset of the variables provide information
 ### Step-wise Feature Selection
 If we have 100 variables that truely have no association with the response variable, repeatedly performing an F test on a subset of variable swill produce a type I error 5% of the time leading to false correlation  
 
-**Akaike Information Criterion**
-$AIC = -2ln(L) + 2p$
-L is the 'likelyhood'
-p is the number of estimated parameters
-Smaller AIC are better fits
-
-**Bayesian Information Criterion**
-$BIC = -2ln(L) + p * ln(n)$
+**Akaike Information Criterion**  
+$AIC = -2ln(L) + 2p$  
 L is the 'likelyhood'  
 p is the number of estimated parameters  
-n is the number of observations
+Smaller AIC are better fits  
+
+**Bayesian Information Criterion**  
+$BIC = -2ln(L) + p * ln(n)$  
+L is the 'likelyhood'    
+p is the number of estimated parameters   
+n is the number of observations  
 
 BIC model is penalized more on complexity of model
 
 Choose AIC if the primary goal of MLR is prediction
-Choose BIC if the goal of MLR is description
+Choose BIC if the goal of MLR is description  
 
 **Procedures**
 + if we have p parameters then there are $2^p$ models we could create.  
@@ -3272,24 +3277,25 @@ Choose BIC if the goal of MLR is description
 **Both Selection**
 + Begin with either a model that only has an intercept term or a model that includes all parameter terms, then sequentially add or remove the predictor that that has the most/least impact on the model, respectively.  
 
-### Evaluation Prediction and Testing
+### Evaluation Prediction and Testing  
+
 **Residual Standard Error** is the standard deviation of the residuals about the regression surface
-$\hat{\sigma} = RSE = \sqrt{\frac{RSS}{n-p-1}}$
+$\hat{\sigma} = RSE = \sqrt{\frac{RSS}{n-p-1}}$  
 **Coefficient of Determination** proportion of total sample variability in the dependent variable that is explained by the regression model  
-$R^2 = \frac{TSS-RSS}{TSS} = 1- \frac{RSS}{TSS} $
+$R^2 = \frac{TSS-RSS}{TSS} = 1-\frac{RSS}{TSS}$  
 + For MLR each time a predictor is added to the model $R^2$ increases, even if it is just modeling noise, produces artificially high $R^2$  
 + $R^2$ does not take into account model complexity, could result in overfitting 
 **Adjusted R^2**
-$R_{adj}^2 = 1- \frac{\frac{RSS}{n-p-1}}{\frac{TSS}{n-1}}$
+$R_{adj}^2 = 1- \frac{\frac{RSS}{n-p-1}}{\frac{TSS}{n-1}}$  
 + It can be shown that the addition of predictor variables to a model only leads to an increase in R² adjusted if the corresponding F-test exceeds 1 (and is therefore statistically significant)  
 
-**Prediction**
-Once we have the $\beta$'s calculated we simply plug back into the linear equation to get $\hat{y}$
+**Prediction**  
+Once we have the $\beta$'s calculated we simply plug back into the linear equation to get   $\hat{y}$  
 
-**Categorical Features**
-say we have a variable that takes a one of three states NY, FL, or CA 
+**Categorical Features**  
+say we have a variable that takes a one of three states NY, FL, or CA  
 use **dummification** or **One Hot Encoding**  
-create a new column for each value
+create a new column for each value  
 $$
 X_{NY} = \begin{cases}
   0 & i^{th} obs. \ne NY\\ 
@@ -3308,14 +3314,14 @@ actually only need n-1 columns. In our example we only need two additional colum
 
 #### Example
 Suppose we want to predict the Price of gas using a simple model with just the State dummy variables; we will choose NY to be our baseline:  
-$Price = \beta_0 + \beta_{FL}X_{FL} + \beta_{CA}X_{CA}$
-in this model:
+$Price = \beta_0 + \beta_{FL}X_{FL} + \beta_{CA}X_{CA}$  
+in this model:  
 + $B_0$ is the average gas price in NY  
 + $\beta_{FL}$ is the average gas price difference between florida and NY  
-+ $\beta_{CA}$ is the average gas price difference between California and NY
++ $\beta_{CA}$ is the average gas price difference between California and NY  
 
-#### Code Example
-**Develop a predictive model for life expectancy**
+#### Code Example  
+**Develop a predictive model for life expectancy**  
 ```{r}
 states = as.data.frame(state.x77)
 colnames(states)[4] = "Life.Exp"
@@ -3433,6 +3439,504 @@ predict(forwardAIC, newdata, interval = "prediction")
 
 
 ```
+### Extending Model Flexibility
+```{r}
+tests = read.table('2.a_Test_Scores.txt')
+tests$Gender = as.factor((tests$Gender))
+```
+**perform numerical EDA**
+```{r}
+sd(tests$Test.Score)
+sd(tests$Hours.Studied)
+cor(tests$Hours.Studied, tests$Test.Score)
+```
+**perform graphical EDA**
+```{r}
+plot(tests$Hours.Studied, tests$Test.Score)
+```
+
+**fit a linear model**  
+```{r}
+model.simple = lm(Test.Score ~ Hours.Studied, data = tests)
+summary(model.simple)
+influencePlot(model.simple)
+```
+**add confidence and prediction bands**
+```{r}
+newdata = data.frame(Hours.Studied = seq(1, 3, length = 100))
+conf.band = predict(model.simple, newdata, interval = "confidence")
+pred.band = predict(model.simple, newdata, interval = "prediction")
+
+plot(tests$Hours.Studied, tests$Test.Score,
+     xlab = "Hours Studied", ylab = "Test Score",
+     main = "Simple Linear Regression Model\nTests Dataset")
+abline(model.simple, lty = 2)
+lines(newdata$Hours.Studied, conf.band[, 2], col = "blue") #Plotting the lower confidence band.
+lines(newdata$Hours.Studied, conf.band[, 3], col = "blue") #Plotting the upper confidence band.
+lines(newdata$Hours.Studied, pred.band[, 2], col = "red") #Plotting the lower prediction band.
+lines(newdata$Hours.Studied, pred.band[, 3], col = "red") #Plotting the upper prediction band.
+legend("topleft", c("Regression Line", "Conf. Band", "Pred. Band"),
+       lty = c(2, 1, 1), col = c("black", "blue", "red"))
+```
+
+
+**adding a quadratic term**
+```{r}
+
+model.quadratic = lm(Test.Score ~ Hours.Studied + I(Hours.Studied^2), data = tests)
+
+summary(model.quadratic) 
+plot(model.quadratic)
+influencePlot(model.quadratic)
+```
+**predict and create confidence bands**
+```{r}
+conf.band = predict(model.quadratic, newdata, interval = "confidence")
+pred.band = predict(model.quadratic, newdata, interval = "prediction")
+
+plot(tests$Hours.Studied, tests$Test.Score,
+     xlab = "Hours Studied", ylab = "Test Score",
+     main = "Quadratic Regression Model\nTests Dataset")
+lines(tests$Hours.Studied[order(tests$Hours.Studied)],
+      model.quadratic$fitted.values[order(tests$Hours.Studied)], lty = 2)
+lines(newdata$Hours.Studied, conf.band[, 2], col = "blue") #Plotting the lower confidence band.
+lines(newdata$Hours.Studied, conf.band[, 3], col = "blue") #Plotting the upper confidence band.
+lines(newdata$Hours.Studied, pred.band[, 2], col = "red") #Plotting the lower prediction band.
+lines(newdata$Hours.Studied, pred.band[, 3], col = "red") #Plotting the upper prediction band.
+legend("topleft", c("Regression Line", "Conf. Band", "Pred. Band"),
+       lty = c(2, 1, 1), col = c("black", "blue", "red"))
+
+```
+
+**add a factor**
+```{r}
+model.factor = lm(Test.Score ~ Hours.Studied + Gender, data = tests)
+```
+Gender has been automatically dummified into 'GenderMale'
+This model trains a different y-intercept for each gender, not slope
+**ascess**
+```{r}
+summary(model.factor) #Investigating the model and assessing some diagnostics.
+plot(model.factor)
+influencePlot(model.factor)
+```
+**predict and plot**
+```{r}
+col.vec = c(rep("pink", 250), rep("blue", 250))
+
+plot(tests$Hours.Studied, tests$Test.Score, col = col.vec,
+     xlab = "Hours Studied", ylab = "Test Score",
+     main = "Linear Regression Model w/ Factor\nTests Dataset")
+abline(model.factor$coefficients[1], #Intercept for females.
+       model.factor$coefficients[2], #Slope for females.
+       lwd = 3, lty = 2, col = "pink")
+abline(model.factor$coefficients[1] + model.factor$coefficients[3], #Intercept for males.
+       model.factor$coefficients[2], #Slope for males.
+       lwd = 3, lty = 2, col = "blue")
+legend("topleft", c("Female Regression", "Male Regression"),
+       lwd = 3, lty = 2, col = c("pink", "blue"))
+```
+**To train a new slope for each gender**
+```{r}
+model.factor = lm(Test.Score ~ Gender*Hours.Studied + Gender, data = tests)
+```
+
+```{r}
+summary(model.factor) #Investigating the model and assessing some diagnostics.
+plot(model.factor)
+influencePlot(model.factor)
+```
+**predict and plot**
+```{r}
+col.vec = c(rep("pink", 250), rep("blue", 250))
+
+plot(tests$Hours.Studied, tests$Test.Score, col = col.vec,
+     xlab = "Hours Studied", ylab = "Test Score",
+     main = "Linear Regression Model w/ Factor\nTests Dataset")
+abline(model.factor$coefficients[1], #Intercept for females.
+       model.factor$coefficients[2], #Slope for females.
+       lwd = 3, lty = 2, col = "pink")
+abline(model.factor$coefficients[1] + model.factor$coefficients[3], #Intercept for males.
+       model.factor$coefficients[2], #Slope for males.
+       lwd = 3, lty = 2, col = "blue")
+legend("topleft", c("Female Regression", "Male Regression"),
+       lwd = 3, lty = 2, col = c("pink", "blue"))
+```
+
+## Logistic Regression  
+
+
+**The Goal is to predict a categorical variable**  
+
+### Sigmoid Curves  
+
++ Is an S-Shaped curve between two values 0 and 1 (1 being the default value)  
++ Interpret the curve as a probability to be 0 or 1  
+
+$p = \frac{e^{}X\beta}{1+e^{}X\beta} = \frac{1}{1+ e^{-X\beta}}$  
+where $X\beta$ is the product of the input matrix and coefficient vector  
+can calculate the **odds** is the probability of success over the probability of not success  
+$Odds = \frac{p}{1-p}$ 
+
+$X\beta = \ln{\frac{p}{1-p}}$  
+the linear output of the model is the **log odds**
+
+$\beta_0$ will shift the graft horizontaly  
+$\beta_1$ will alter the slope of the sigmoid, large $\beta_1$'s will create a sharp rise in the curve  
+
+### Likelyhood  
+Instead of trying to minimize the sum or squared error through linear regression we will try to find the maximum likelihood estimation  
+
++ Our dataset consists of actual observed outcomes; for the data we intend to use for logistic regression, the outcomes are one of two categories:  
+- Success, which we will label '1'  
+- Failure, which we will label as '0'  
++ Using the logistic function we just derived, we can nd the probability of success by passing our observations through the function:  
+
+$p(x) = \frac{e^{}X\beta}{1+e^{}X\beta} = \frac{1}{1+ e^{-X\beta}}$  
+
++ we can calculate the probability of failure by calculating $1-p(x)$
+
++ Since the observations are assumed to be independent of one another, we can calculate the probability of our observed data by multiplying these probabilities together:  
+
+$l(\beta_0, \beta_1, ..., \beta_p) = \prod_{i:y_i=1}p(x)\prod_{j:y_j=0}(1-p(x_j))$ 
+
+- The first term is the multiply the probabilities for each term that is a success  
+- the second term is the multiplication of all values for each failure term  
+
++ This equation represents the joint probability of successes and failures within our dataset; notice that the resulting equation involves the unknown parameters.  
+
+**The Best model maximizes likelyhood**
++ The parameter estimates $(\beta_0, \beta_1, ...etc)$ that yield the highest likelyhood are called MLE (maximum likelyhood estimates)  
+
++ to make the math easier rwe frequently take the log of the likelyhood remeber:
+- $log{(x * y)} = \log{x} + \log{y}$
++ frequently we only have a minimize function to work with in our codeing so instead of maximizing likelyhood we want to minimize $-log(likelyhood)$  
+
+**after succesfully run MLE the regression model is given by:  
+$\ln{\frac{\hat{p}X}{1-\hat{p}X}} = \hat{\beta_0}+ \hat{\beta_1}X_1+ ...+ \hat{\beta_p}X_p = X\hat{\beta}$  
+
+exponentiating both sides gives us:  
+$\frac{\hat{p}X}{1-\hat{p}X} =e^{\hat{\beta_0}+ \hat{\beta_1}X_1 + ... + \hat{\beta_p}X_p}= e^{X\hat{\beta}}$  
+
++ The left hand side of the equation is the fitted odds of success  
++ The right hand side of the equation is transformed from an additive relationship on the log-odds scale to a multiplicative relationship on the odds scale.  
+
++ for a one unit increase in $X_i$ the log odds of success are increased (or decreased) by multiplying $\beta_i$, holding all other variable constant
+
+### Prediction  
+
+We need to find a cut off value for our model so that:  
+
+$$
+\hat{y_i} = \begin{cases}
+  Success(1) & \hat{p_i} \ge c\\ 
+  Failure(0) & \hat{p_i} \le c
+\end{cases}
+
+$$  
++ The threshold 'c' is decided based on the model itself, a common value for c is 0.5  
++ Take into account:  
+- The randomness of data  
+- How likely we are to see a success/failure in the population of interest
+- The costs of incorrectly predicting a success/failure  
+
+### Hypothesis Testing
+**Wald Test**  
+Wald tests are analogous to T-Tests in linear regression. It tests the normality of the MLEs.  
+
++ For logistic regression we imply tat each coefficient estimate has a sampling distribution that is approximately normal. Can test this by calculating the z statistic:  
+
+$z^* = \frac{\hat{\beta_i}-\beta_i} {SE(\hat{\beta_i})} \approx N(0,1)$    
++ The standard error is the estimated standard deviation of the sampling distribution of the coefficient estimate, and will be calculated for us by software.  
++ Null hypothesis: $H_0: \beta_i = 0$  
++ Alternative Hypothesis $H_a:\beta_i \ne 0$  
+If the null hypothesis is true (very small p value):  
++ The log odds of success are unaffected by the value of $x_i$  
++ In other words, knowing the value of $X_i$ has no bearing on the prediction of our success  
+
+### Confidence Interval  
+
+confidence interval for log odds:  
+
+$\hat{\beta_i} \pm 2 * SE(\hat{\beta_i})$  
+
+95% confidence interval for odds is:  
+
+$e^{\hat{\beta_i}\pm 2 * SE(\hat{\beta_i})}$  
+
+
+### Deviance And Goodness of Fit
+we replace the concept of residual sum of squares with the concept of deviance $G^2$  
+
++ The deviance, in part, is analogous to the idea of the coefficient of determination used in linear regression, and allows us to compare across various models.  
+The Deivance is given by:  
+
+$G^2 = -2ln(l_M) \approx X_{n-p}^2$  
+
++ The deviance associated with a given logistic regression model M is based on comparing the maximum log-likelihood of model M against the saturated model S.  
+
++ S represents a model that has a parameter t per observation in our dataset; i.e., this model severely overfits the data at hand.  
+
+
++ The null hypothesis for the deviance test is:  
+
+$H_0: error = 0$ (the model is a perfect fit)  
+
+**This overall goodness of fit test is similar to the overall F-Test we saw in MLR, but the hypothesis are switched**
+
+**Comparing models**
+Say we have a full logistic regression model with p predictors and a reduces model with a subset of p to compare: (sometimes called Residual Deviance)  
+
+$(G_{reduced}^2 - G_{Full}^2) \approx X_{df_{reduced}-df_{full}}^2$  
+
+The test statistic calculated from the difference between the deviance of two nested logistic regression models performs the following hypothesis test:  
+
+$H_0$ The reduced model is sufficient 
+
+**Null Deviance**  
++ calculated based on comparing the deviance of the saturated model versus the model with no predictors (just a $\beta_0$ term)  
+
+The signicance of a single term can be tested using the drop in deviance test; however, this is not the same as the Wald test as you would expect from what we saw in multiple linear regression.
+
+### McFadden's Psuedo R Squared  
+$R_{deviance}^2 = 1- \frac{G_M^2}{G_{Null}^2}$  
+$R_{dev}^2$ is bound between 0 and 1 a higher value means a stronger fit  
+
+### Model Fitting and Evaluation  
+
+Analysis proceeds in a similar fashion as in multiple linear regression analysis;however, since it is difficult to assess model t from scatter plots or residual analysis, model comparisons comprise most of the exploration.  
++ Measures of AIC and BIC can be used to compare across models  
++ Can still use stepwise procedures to find a suitable model  
+
++ Confusion Matrix  
+- Accuracy (The most common method)  
+$\frac{TP + TN}{TP + FP + TN + FN}$   
+- Sensitivity (or recall)   
+
+$\frac{TP}{TP + FN}$  
+- Specificity   
+
+$\frac{TN}{TN + FP}$  
+- Precision  
+
+$\frac{TP}{TP + FP}$  
+- F-Score  
+
+$\frac{2 * precision * recall}{precision + recall}$  
+
+- Kappa - adjusted accuracy by accounting for possibility of prediction by chance  
+$\kappa = \frac{pr.actual - pr.expected}{1-pr.expected}$  
+
++ ROC and AUC  
+
+
+**ROC Receiver Operating Characteristic**  
+
++ an ROC graph is a curve of 1-specificity on the X-axis and Sensitivity on the y axis for different threshold values  
+
+### Example
+Variables in the dataset:
+- Admit: A binary variable indicating whether or not a student was admitted to the graduate school.  
+- GRE: A continuous variable indicating a student's score on the GRE.  
+- GPA: A contunuous variable indicating a student's undergraduate grade point average.  
+- Rank: A categorical variable indicating the level of prestige of a school; 1 indicates the highest prestige, 4 indicates the lowest prestige.  
+
+```{r}
+GradSchools = read.table("Graduate_Schools.txt")
+
+head(GradSchools)
+```
+
+```{r}
+summary(GradSchools) #Looking at the five number summary information.
+sapply(GradSchools, sd) #Looking at the individual standard deviations.
+sapply(GradSchools, class) #Looking at the variable classes.
+```
+**check to see if we have all 4 permuatations for the confusion matrix**
+```{r}
+table(GradSchools$admit)/nrow(GradSchools) #Manually calculating the proportions.
+
+table(GradSchools$admit, GradSchools$rank) #Checking to see that we have data
+                                           #available in all combinations of
+                                           #the categorical variables.
+```
+
+**Graphical EDA**
+```{r}
+plot(GradSchools, col = GradSchools$admit + 2)
+```
+**convert Grad school rank to factor**
+```{r}
+GradSchools$rank = as.factor(GradSchools$rank)
+```
+
+**Create a logistic Model**  
+
+Fitting the logistic regression with all variables; the family parameter  
+specifies the error distribution and link function to be used. For logistic  
+regression, this is binomial.  
+```{r}
+logit.overall = glm(admit ~ gre + gpa + rank,
+                    family = "binomial",
+                    data = GradSchools)
+```
+**Plot Residuals**  
+
+Residual plot for logistic regression with an added loess smoother; we would  
+hope that, on average, the residual values are 0.  
+```{r}
+scatter.smooth(logit.overall$fit,
+               residuals(logit.overall, type = "deviance"),
+               lpars = list(col = "red"),
+               xlab = "Fitted Probabilities",
+               ylab = "Deviance Residual Values",
+               main = "Residual Plot for\nLogistic Regression of Admission Data")
+abline(h = 0, lty = 2)
+```
+**Influence plot of model**
+```{r}
+library(car)
+influencePlot(logit.overall)
+```
+
+**Investiagte Overall Fit of Model on log odds scale**
+```{r}
+summary(logit.overall)
+```
+Coefficient interpretations on the log odds scale:  
+- Intercept: The log odds of a student getting admitted to a graduate school  
+            when they attended a top tier undergraduate school and received a  
+            0 on the GRE and a 0 as their GPA is approximately -3.990.  
+- GRE: For every additional point a student scores on the GRE, their log odds  
+      of being admitted to graduate school increase by approximately 0.002,  
+      holding all other variables constant.  
+- GPA: For every additional point a student raises their GPA, their log odds of  
+      being admitted to graduate school increase by approximately 0.804, holding  
+      all other variables constant.  
+- Rank: The change in log odds associated with attending an undergraduate school  
+       with prestige of rank 2, 3, and 4, as compared to a school with prestige  
+       rank 1, is approximately -0.675, -1.340, and -1.552, respectively, holding  
+       all other variables constant. 
+
+**Investiagte Overall Fit of Model on odds scale**  
+```{r}
+exp(logit.overall$coefficients)
+```
+Coefficient interpretations on the odds scale:  
+- Intercept: The odds of a student getting admitted to a graduate school  
+            when they attended a top tier undergraduate school and received a  
+            0 on the GRE and a 0 as their GPA is approximately 0.019.  
+- GRE: For every additional point a student scores on the GRE, their odds  
+      of being admitted to graduate school multiply by approximately 1.002,  
+     holding all other variables constant.  
+- GPA: For every additional point a student raises their GPA, their odds of  
+      being admitted to graduate school multiply by approximately 2.235, holding  
+      all other variables constant.  
+- Rank: The multiplicative change in odds associated with attending an undergraduate school  
+       with prestige of rank 2, 3, and 4, as compared to a school with prestige  
+       rank 1, is approximately 0.509, 0.262, and 0.212, respectively, holding  
+       all other variables constant.  
+
+**Investigate Relationship of Odds and log odds**  
+
+For logistic regression objects, the confint() function defaults to using the log likelihood to generate confidence intervals; this is similar to inverting the likelihood ratio test.
+```{r}
+cbind("Log Odds" = logit.overall$coefficients,
+      "Odds" = exp(logit.overall$coefficients))
+confint(logit.overall)
+```
+**Generate Confidence Intervals**
+```{r}
+confint.default(logit.overall)
+```
+**Generate confidence intervals on the odds scale**
+```{r}
+exp(confint(logit.overall))
+exp(confint.default(logit.overall))
+```
+**perform drop in deviance test**
+to see if a variable (in this case rank) changes the residuals, drop it  
+```{r}
+logit.norank = glm(admit ~ gre + gpa,
+                   family = "binomial",
+                   data = GradSchools)
+```
+
+**Check the deviances against each other**
+```{r}
+reduced.deviance = logit.norank$deviance #Comparing the deviance of the reduced
+reduced.df = logit.norank$df.residual    #model (the one without rank) to...
+
+full.deviance = logit.overall$deviance #...the deviance of the full model (the
+full.df = logit.overall$df.residual    #one with the rank terms).
+
+pchisq(reduced.deviance - full.deviance,
+       reduced.df - full.df,
+       lower.tail = FALSE)
+```
+Above: we can see The p-value is extremely small (<.0005); we have evidence to conclude that the model with the factors for rank is preferable to the model without the factors for rank.  
+More simply, we can use the anova() function and set the test to "Chisq".  
+```{r}
+anova(logit.norank, logit.overall, test = "Chisq")
+```
+**cehck predicitons**
+How does the probability of admission change across ranks for a student  
+who has an average GRE and an average GPA?  
+This method gives log odds  
+```{r}
+newdata = with(GradSchools, data.frame(gre = mean(gre),
+                                       gpa = mean(gpa),
+                                       rank = factor(1:4)))
+predict(logit.overall, newdata)
+```
+to get actual probabilities set type to 'response'  
+```{r}
+predict(logit.overall, newdata, type = "response")
+```
+make it easier to see the effect of the rank variable  
+```{r}
+cbind(newdata, "P_Admit" = predict(logit.overall, newdata, type = "response"))
+```
+convert the fitted probabilities to binary based on a cut off value of .5 with the round function    
+```{r}
+admitted.predicted = round(logit.overall$fitted.values)
+table(truth = GradSchools$admit, prediction = admitted.predicted)
+```
+It seems like this model made a lot of mistakes (116 out of 400)! This is quite  
+dreadful in this case. Let's do a little bit more exploring. We never looked at  
+the overall test of deviance:  
+**check deviance**
+```{r}
+pchisq(logit.overall$deviance, logit.overall$df.residual, lower.tail = FALSE)
+```
+The p-value for the overall test of deviance is <.05, indicating that this model is not a good overall fit!  
+
+**Check McFadden's Psuedo $R^2$
+```{r}
+1 - logit.overall$deviance/logit.overall$null.deviance
+```
+Only about 8.29% of the variability in admission appears to be explained by  
+the predictors in our model; while the model is valid, it seems as though it  
+isn't extremely informative.  
+
+What have we found out? The overall model we created doesn't give us much  
+predictive power in determining whether a student will be admitted to  
+graduate school.  
+```{r}
+table(GradSchools$admit) #Our data contains 273 unadmitted students and 127
+                         #admitted students.
+table(admitted.predicted) #The model we created predicts that 351 students will
+                          #not be admitted, and only 49 will be admitted.
+table(truth = GradSchools$admit, prediction = admitted.predicted)
+```
+The table of the truth against the prediction shows that we only have an accuracy  
+of (254 + 30)/400 = 71%; yet, if we were to simply predict "unadmitted" for  
+everyone uniformly, we would have an accuracy of 2  73/400 = 68.25%! No wonder  
+why the overall test of deviance was insignificant -- predicting only the  
+intercept of the baseline probability was just as sufficient!  
+
+
+
 
 ## Shiny
 
